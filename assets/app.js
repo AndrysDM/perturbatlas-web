@@ -297,10 +297,10 @@ function renderExperiments() {
       const category = item.category || (item.n_targets > 1 ? 'Multi' : 'Sin');
       const probability = item.probability === null ? '—' : fmt(item.probability, 3);
       return `<tr>
-        <td class="mono">${esc(item.filename)}</td>
+        <td class="mono"><span class="filename" title="${esc(item.filename)}">${esc(item.filename)}</span></td>
         <td><strong>${esc(item.target || '—')}</strong></td>
         <td>${esc(item.condition || '—')}</td>
-        <td>${esc(item.cell_line || '—')}</td>
+        <td><span class="cell-line" title="${esc(item.cell_line || '')}">${esc(item.cell_line || '—')}</span></td>
         <td>${categoryBadge(category)}</td>
         <td>${stateBadge(item.state, item.reason)}</td>
         <td class="num">${probability}</td>
