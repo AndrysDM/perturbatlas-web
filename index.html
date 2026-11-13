@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PerturbAtlas × TCGA</title>
+  <meta name="description" content="Explorador de experimentos de perturbación génica de PerturbAtlas integrados con la clasificación tumoral de TCGA.">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="home">
+  <header class="topbar">
+    <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Inicio</a>
+      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="papers.html" data-nav="papers">Publicaciones</a>
+      <a href="methodology.html" data-nav="methodology">Metodología</a>
+    </nav>
+    <div class="spacer"></div>
+    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Atlas de perturbaciones</span>
+      <h1 id="hero-title">Cargando…</h1>
+      <p class="lead" id="hero-lead">Explorador de experimentos de perturbación génica de PerturbAtlas integrados con la clasificación tumoral de TCGA.</p>
+    </section>
+
+    <section class="kpis" id="kpis" aria-live="polite"></section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Resumen por tipo de gen</h2>
+        <span class="hint">Clasificación TCGA (T / N / NT / O)</span>
+      </div>
+      <div class="card" id="type-summary"></div>
+    </section>
+
+    <div class="grid-2 section">
+      <div class="card">
+        <h2>Categorías de los experimentos</h2>
+        <p class="note">Experimentos con una única diana T, N o NT; el resto son multi-diana o sin análisis.</p>
+        <div class="bars" id="bars-categories"></div>
+      </div>
+      <div class="card">
+        <h2>Estados de la diana</h2>
+        <p class="note">Resultado de la transición evaluada en el experimento.</p>
+        <div class="bars" id="bars-states"></div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-head"><h2>Explorar</h2></div>
+      <div class="grid-2">
+        <a class="card" href="experiments.html">
+          <h2>Experimentos</h2>
+          <p class="note">Tabla completa con búsqueda, filtros, probabilidad de transición, estado de la diana y publicación asociada.</p>
+        </a>
+        <a class="card" href="papers.html">
+          <h2>Publicaciones</h2>
+          <p class="note">Fichas de los artículos originales con su resumen y los experimentos que cubren.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Datos derivados de PerturbAtlas y TCGA. Documento generado automáticamente;
+    los detalles metodológicos están en la sección <a href="methodology.html">Metodología</a>.
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

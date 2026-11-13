@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Metodología · PerturbAtlas × TCGA</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="methodology">
+  <header class="topbar">
+    <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Inicio</a>
+      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="papers.html" data-nav="papers">Publicaciones</a>
+      <a href="methodology.html" data-nav="methodology">Metodología</a>
+    </nav>
+    <div class="spacer"></div>
+    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Metodología</span>
+      <h1>Cómo se leen los datos</h1>
+      <p class="lead">Resumen del esquema de clasificación génica y del análisis de experimentos que alimenta este explorador.</p>
+    </section>
+
+    <section class="section card">
+      <h2>1. Clasificación de genes</h2>
+      <p>Cada gen se describe con dos frecuencias calculadas sobre las muestras de TCGA: la <strong>frecuencia tumoral</strong> (proporción de muestras tumorales en las que el gen está alterado) y la <strong>frecuencia normal</strong>. A partir de ambas se asigna una categoría:</p>
+      <div class="detail-grid">
+        <div class="detail"><div class="k">T</div><div class="v">Alterado principalmente en tumores</div></div>
+        <div class="detail"><div class="k">N</div><div class="v">Alterado principalmente en muestras normales</div></div>
+        <div class="detail"><div class="k">NT</div><div class="v">Alterado en ambos contextos, con zonas exclusivas</div></div>
+        <div class="detail"><div class="k">O</div><div class="v">Sin patrón diferencial claro</div></div>
+      </div>
+      <p class="note">Los genes T y N poseen una única zona exclusiva (q1 para T, q− para N). Los genes NT poseen dos zonas exclusivas (q1 y q−) y son los únicos que pueden cruzar entre ellas.</p>
+    </section>
+
+    <section class="section card">
+      <h2>2. Análisis del experimento</h2>
+      <p>Para cada experimento con una única diana se evalúa la transición de estado de expresión inducida por la perturbación. Solo se consideran transiciones cuyo <strong>origen</strong> es q0 o q1: el experimento es tumoral y no puede partir de q−.</p>
+      <table>
+        <thead><tr><th>Categoría</th><th>Dirección</th><th>Transición evaluada</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge T">T</span></td><td>Hacia q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activado</span></td></tr>
+          <tr><td><span class="badge T">T</span></td><td>Contraria</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">desactivado</span></td></tr>
+          <tr><td><span class="badge N">N</span></td><td>Hacia q−</td><td class="mono">q0 → q−</td><td><span class="badge activado">activado</span></td></tr>
+          <tr><td><span class="badge N">N</span></td><td>Contraria</td><td>—</td><td><span class="badge sin_transicion_valida">sin transición válida</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Hacia q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activado</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Alejándose de q1</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">desactivado</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Alejándose de q1</td><td class="mono">q1 → q−</td><td><span class="badge desactivado">desactivado</span></td></tr>
+        </tbody>
+      </table>
+      <p class="note">En las dianas NT que se alejan de q1 se evalúan dos candidatas y se conserva la de mayor probabilidad. En los genes N, el sentido contrario exigiría origen q− y se marca <span class="badge sin_transicion_valida">sin transición válida</span>.</p>
+    </section>
+
+    <section class="section card">
+      <h2>3. Umbral y transición evaluada</h2>
+      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado es <span class="badge sin_cambio">sin cambio</span>. La columna <strong>transición</strong> indica el resultado y la columna <strong>transición evaluada</strong> indica qué probabilidad se comparó, de modo que un “sin cambio” queda siempre contextualizado.</p>
+      <p class="note">La probabilidad se consulta en el modelo de transición construido a partir de los pares de muestras tumorales/normales de TCGA.</p>
+    </section>
+
+    <section class="section card">
+      <h2>4. Recuentos de genes y H de Loevinger</h2>
+      <p>Para cada experimento se cuenta el estado de los demás genes de la misma categoría que la diana, separándolos en dos grupos según su frecuencia sea <strong>menor</strong> o <strong>mayor</strong> que la de la diana, más el grupo de frecuencia <strong>igual</strong>. En cada grupo se indica el número de genes activados, desactivados y sin cambio.</p>
+      <p>En las dianas T se añade el coeficiente <strong>H de Loevinger</strong> medio de la diana, calculado a partir de la matriz de coactivación tumoral; los valores negativos se truncan a 0.</p>
+    </section>
+
+    <section class="section card">
+      <h2>5. Fuentes</h2>
+      <ul>
+        <li><strong>PerturbAtlas</strong>: experimentos de perturbación (KD, KO, OE), dianas, líneas celulares y archivos DEG.</li>
+        <li><strong>TCGA</strong>: matrices de expresión y frecuencias de alteración tumoral/normal.</li>
+        <li><strong>ENA, GEO, ArrayExpress y Europe PMC</strong>: identificación de la publicación original de cada experimento y recuperación de su resumen.</li>
+      </ul>
+      <p class="note">Los resúmenes de los artículos se han redactado a partir de los abstracts indexados en Europe PMC.</p>
+    </section>
+  </main>
+
+  <footer>
+    Datos derivados de PerturbAtlas y TCGA. Documento generado automáticamente.
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

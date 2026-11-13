@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experimentos · PerturbAtlas × TCGA</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="experiments">
+  <header class="topbar">
+    <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Inicio</a>
+      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="papers.html" data-nav="papers">Publicaciones</a>
+      <a href="methodology.html" data-nav="methodology">Metodología</a>
+    </nav>
+    <div class="spacer"></div>
+    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Experimentos</span>
+      <h1>Experimentos de perturbación</h1>
+      <p class="lead" id="experiments-lead">Cada fila corresponde a un experimento de PerturbAtlas, con la diana, su clasificación y el resultado del análisis de transición.</p>
+    </section>
+
+    <div class="toolbar">
+      <input id="search" class="input" type="search" placeholder="Buscar diana, archivo, línea o paper…" aria-label="Buscar">
+      <select id="filter-category" class="select" aria-label="Categoría"></select>
+      <select id="filter-condition" class="select" aria-label="Condición"></select>
+      <select id="filter-state" class="select" aria-label="Estado"></select>
+      <label class="check"><input type="checkbox" id="only-analyzed"> Solo analizados</label>
+      <label class="check"><input type="checkbox" id="only-paper"> Con paper</label>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Archivo</th>
+            <th>Diana</th>
+            <th>Cond.</th>
+            <th>Línea celular</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th class="num">P</th>
+            <th>Transición</th>
+            <th>Paper</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="pager">
+      <span id="page-info"></span>
+      <span class="buttons">
+        <button id="prev" type="button">← Anterior</button>
+        <button id="next" type="button">Siguiente →</button>
+      </span>
+    </div>
+  </main>
+
+  <footer>
+    Datos derivados de PerturbAtlas y TCGA. Los detalles metodológicos están en
+    <a href="methodology.html">Metodología</a>.
+  </footer>
+
+  <dialog id="detail">
+    <div class="dialog-head">
+      <div>
+        <h3 id="detail-title">Experimento</h3>
+        <div class="meta" id="detail-subtitle"></div>
+      </div>
+      <button class="icon-btn" id="detail-close" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="dialog-body" id="detail-body"></div>
+  </dialog>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

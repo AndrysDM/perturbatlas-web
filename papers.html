@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publicaciones · PerturbAtlas × TCGA</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="papers">
+  <header class="topbar">
+    <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Inicio</a>
+      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="papers.html" data-nav="papers">Publicaciones</a>
+      <a href="methodology.html" data-nav="methodology">Metodología</a>
+    </nav>
+    <div class="spacer"></div>
+    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Publicaciones</span>
+      <h1>Artículos originales</h1>
+      <p class="lead" id="papers-lead">Cada publicación enlaza el experimento de PerturbAtlas con el artículo donde se describen los datos, con un resumen breve.</p>
+    </section>
+
+    <div class="toolbar">
+      <input id="paper-search" class="input" type="search" placeholder="Buscar por título, autor, revista, PMID o diana…" aria-label="Buscar publicación">
+    </div>
+
+    <div class="cards" id="paper-list"></div>
+    <div class="pager">
+      <span id="paper-page-info"></span>
+      <span class="buttons">
+        <button id="paper-prev" type="button">← Anterior</button>
+        <button id="paper-next" type="button">Siguiente →</button>
+      </span>
+    </div>
+  </main>
+
+  <footer>
+    Datos derivados de PerturbAtlas y TCGA. Enlaces a PubMed, DOI y ENA/GEO en cada ficha.
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

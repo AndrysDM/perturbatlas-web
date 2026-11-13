@@ -1,0 +1,186 @@
+{
+  "cancer": "prad",
+  "label": "PRAD",
+  "title": "Adenocarcinoma de próstata",
+  "generated": "2026-11-13",
+  "experiments_total": 195,
+  "studies": 95,
+  "papers": 89,
+  "analyzed": 69,
+  "with_paper": 191,
+  "categories": {
+    "Sin": 122,
+    "T": 57,
+    "Multi": 4,
+    "N": 6,
+    "NT": 6
+  },
+  "states": {
+    "sin_analisis": 126,
+    "desactivado": 7,
+    "ausente": 34,
+    "sin_cambio": 18,
+    "activado": 7,
+    "sin_transicion_valida": 3
+  },
+  "conditions": {
+    "OE": 24,
+    "KD": 151,
+    "KO": 19,
+    "OE|KD": 1
+  },
+  "type_summary": {
+    "T": {
+      "experimentos": 58,
+      "genes_unicos_en_experimentos": 26,
+      "genes_en_targets_freq": 26,
+      "total_genes_df_results": 5822,
+      "stats_frecuencia_tumoral": {
+        "media": 0.17064899028826877,
+        "mediana": 0.15931863727454904,
+        "std": 0.05998298910987875,
+        "min": 0.1002004008016032,
+        "max": 0.3186372745490982
+      },
+      "stats_frecuencia_normal": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "prob_calculada": 31,
+      "errores": {
+        "gen_ausente_en_xlsx": 27,
+        "tipo_sin_transicion": 1
+      }
+    },
+    "N": {
+      "experimentos": 10,
+      "genes_unicos_en_experimentos": 6,
+      "genes_en_targets_freq": 6,
+      "total_genes_df_results": 781,
+      "stats_frecuencia_tumoral": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "stats_frecuencia_normal": {
+        "media": 0.10256410256410249,
+        "mediana": 0.0961538461538461,
+        "std": 0.049653632643684865,
+        "min": 0.0576923076923076,
+        "max": 0.1538461538461538
+      },
+      "prob_calculada": 4,
+      "errores": {
+        "archivo_xlsx_invalido": 4,
+        "gen_ausente_en_xlsx": 2
+      }
+    },
+    "NT": {
+      "experimentos": 6,
+      "genes_unicos_en_experimentos": 2,
+      "genes_en_targets_freq": 2,
+      "total_genes_df_results": 316,
+      "stats_frecuencia_tumoral": {
+        "media": 0.30260521042084165,
+        "mediana": 0.30260521042084165,
+        "std": 0.2635708643300558,
+        "min": 0.1162324649298597,
+        "max": 0.4889779559118236
+      },
+      "stats_frecuencia_normal": {
+        "media": 0.13461538461538455,
+        "mediana": 0.13461538461538455,
+        "std": 0.02719641466102109,
+        "min": 0.1153846153846153,
+        "max": 0.1538461538461538
+      },
+      "prob_calculada": 6,
+      "errores": {
+        "gen_ausente_en_xlsx": 4
+      }
+    },
+    "Multi_mixto": {
+      "experimentos": 3,
+      "genes_unicos_en_experimentos": 5,
+      "genes_en_targets_freq": null,
+      "total_genes_df_results": null,
+      "stats_frecuencia_tumoral": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "stats_frecuencia_normal": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "prob_calculada": 4,
+      "errores": {
+        "gen_ausente_en_xlsx": 3,
+        "tipo_sin_transicion": 2
+      }
+    },
+    "Sin_clasificar": {
+      "experimentos": 17,
+      "filenames": [
+        "Perturb_15448_MIR214__KO.xlsx",
+        "Perturb_1327_COX2-_KD.xlsx",
+        "Perturb_15435_WHSC1-_KD.xlsx",
+        "Perturb_15440_OC2+_OE.xlsx",
+        "Perturb_15466_OC2+_OE.xlsx",
+        "Perturb_15452_circCSNK1G3-_KD.xlsx",
+        "Perturb_15434_KMT9A-_KD.xlsx",
+        "Perturb_15413_KDM3B)-_KD.xlsx",
+        "Perturb_15458_TIP5-_KD.xlsx",
+        "Perturb_15521_proL1+_OE.xlsx",
+        "Perturb_15571_circCSPP1+_OE.xlsx",
+        "Perturb_15432_CSN5-_KD.xlsx",
+        "Perturb_15460_CSN5-_KD.xlsx",
+        "Perturb_15396_CSN5-_KD.xlsx",
+        "Perturb_15530_YAP-_KD.xlsx",
+        "Perturb_15533_YAP-_KD.xlsx",
+        "Perturb_15535_Ash1l-_KD.xlsx"
+      ]
+    },
+    "archivos_xlsx_corruptos": [
+      "Perturb_15448_MIR214__KO.xlsx",
+      "Perturb_15449_OVOL1+_OE.xlsx",
+      "Perturb_15450_OVOL2+_OE.xlsx",
+      "Perturb_15467_TCEAL1-_KD.xlsx",
+      "Perturb_15468_TCEAL1-_KD.xlsx",
+      "Perturb_15497_SPOP+_OE.xlsx",
+      "Perturb_15500_HNF1B(_1)-_KD.xlsx",
+      "Perturb_15501_HNF1B(_2)-_KD.xlsx"
+    ],
+    "total_metadata": 195,
+    "total_targets": 195,
+    "T_genes_repetidos": {
+      "SLFN11": 8,
+      "KLF5": 6,
+      "KDM3B": 4,
+      "RB1": 4,
+      "ERG": 4,
+      "REST": 3,
+      "AR": 2,
+      "POM121": 2,
+      "ECI2": 2,
+      "TLR3": 2,
+      "SIM2": 2,
+      "CDK7": 2,
+      "BCOR": 2,
+      "TET2": 2,
+      "MED25": 2,
+      "TRIB1": 2
+    }
+  },
+  "threshold": 0.6
+}
