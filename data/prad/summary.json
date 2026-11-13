@@ -9,10 +9,11 @@
   "analyzed": 69,
   "with_paper": 191,
   "categories": {
-    "Sin": 122,
+    "N": 10,
+    "O": 101,
+    "Sin": 17,
     "T": 57,
     "Multi": 4,
-    "N": 6,
     "NT": 6
   },
   "states": {
@@ -180,6 +181,9 @@
       "TET2": 2,
       "MED25": 2,
       "TRIB1": 2
+    },
+    "O": {
+      "experimentos": 101
     }
   },
   "threshold": 0.6

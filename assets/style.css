@@ -218,6 +218,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .badge.T { background: var(--t-soft); color: var(--t); }
 .badge.N { background: var(--n-soft); color: var(--n); }
 .badge.NT { background: var(--nt-soft); color: var(--nt); }
+.badge.O { background: var(--o-soft); color: var(--o); }
 .badge.Multi { background: var(--o-soft); color: var(--o); }
 .badge.Sin { background: var(--o-soft); color: var(--o); }
 .badge.activado { background: var(--ok-soft); color: var(--ok); }

@@ -15,7 +15,7 @@ const state = {
   paperPageSize: 10,
 };
 
-const CATEGORY_LABEL = { T: 'T', N: 'N', NT: 'NT', Multi: 'Multi-diana', Sin: 'Sin análisis' };
+const CATEGORY_LABEL = { T: 'T', N: 'N', NT: 'NT', O: 'O', Multi: 'Multi-diana', Sin: 'Sin clasificar' };
 const STATE_LABEL = {
   activado: 'activado',
   desactivado: 'desactivado',
@@ -35,7 +35,7 @@ const TRANSITION_LABEL = {
   sin_transicion_valida: 'sin transición válida',
   ausente: 'ausente',
 };
-const CATEGORY_COLOR = { T: '#0284c7', N: '#d97706', NT: '#7c3aed', Multi: '#64748b', Sin: '#94a3b8' };
+const CATEGORY_COLOR = { T: '#0284c7', N: '#d97706', NT: '#7c3aed', O: '#64748b', Multi: '#64748b', Sin: '#94a3b8' };
 const STATE_COLOR = {
   activado: '#059669',
   desactivado: '#dc2626',
@@ -44,7 +44,7 @@ const STATE_COLOR = {
   ausente: '#94a3b8',
   sin_analisis: '#94a3b8',
 };
-const CATEGORY_ORDER = ['T', 'N', 'NT', 'Multi', 'Sin'];
+const CATEGORY_ORDER = ['T', 'N', 'NT', 'O', 'Multi', 'Sin'];
 const STATE_ORDER = ['activado', 'desactivado', 'sin_cambio', 'sin_transicion_valida', 'ausente', 'sin_analisis'];
 
 function esc(value) {
@@ -71,9 +71,11 @@ function transitionLabel(value) {
   return TRANSITION_LABEL[value] || String(value).replaceAll('_', ' ');
 }
 
-function stateBadge(value) {
+function stateBadge(value, title = '') {
   if (!value) return '<span class="badge muted">—</span>';
-  return `<span class="badge ${esc(value)}">${esc(STATE_LABEL[value] || value)}</span>`;
+  const label = STATE_LABEL[value] || value;
+  const tooltip = title ? ` title="${esc(title)}"` : '';
+  return `<span class="badge ${esc(value)}"${tooltip}>${esc(label)}</span>`;
 }
 
 function categoryBadge(value) {
@@ -293,7 +295,7 @@ function renderExperiments() {
         <td>${esc(item.condition || '—')}</td>
         <td>${esc(item.cell_line || '—')}</td>
         <td>${categoryBadge(category)}</td>
-        <td>${stateBadge(item.state)}</td>
+        <td>${stateBadge(item.state, item.reason)}</td>
         <td class="num">${probability}</td>
         <td class="mono">${esc(transitionLabel(item.transition))}</td>
         <td>${paperBadge(item.paper)}</td>
@@ -347,7 +349,11 @@ function openDetail(item) {
         ${detailItem('H de Loevinger', fmt(item.h_loevinger, 3))}
         ${detailItem('Motivo', esc(item.motivo || '—'))}
       </div>`
-    : `<p class="note">Este experimento no tiene análisis de diana única (multi-diana o categoría sin transición).</p>`;
+    : `<div class="detail-grid">
+        ${detailItem('Categoría', categoryBadge(item.category))}
+        ${detailItem('Tipo de diana', esc(item.target_type || '—'))}
+        ${detailItem('Motivo', esc(item.reason || 'Sin análisis de diana única.'))}
+      </div>`;
 
   let nt = '';
   if (item.nt_candidates && item.nt_candidates.length) {
@@ -409,6 +415,16 @@ async function loadPapers() {
 }
 
 function renderPapers() {
+  if (!state.papers.length) {
+    document.getElementById('paper-list').innerHTML =
+      `<div class="card"><p class="note">Las publicaciones de ${esc(state.cancer.label)} todavía no están curadas. Los experimentos sí incluyen su análisis y su metadata.</p></div>`;
+    document.getElementById('paper-page-info').textContent = '0 publicaciones';
+    document.getElementById('paper-prev').disabled = true;
+    document.getElementById('paper-next').disabled = true;
+    document.getElementById('papers-lead').textContent =
+      `${state.cancer.label}: publicaciones pendientes de curación.`;
+    return;
+  }
   const query = document.getElementById('paper-search').value.trim().toLowerCase();
   state.paperRows = state.papers.filter(paper => {
     if (!query) return true;

@@ -1,0 +1,167 @@
+{
+  "cancer": "luad",
+  "label": "LUAD",
+  "title": "Adenocarcinoma de pulmón",
+  "generated": "2026-11-13",
+  "experiments_total": 61,
+  "studies": 37,
+  "papers": 31,
+  "analyzed": 37,
+  "with_paper": 50,
+  "categories": {
+    "T": 42,
+    "O": 5,
+    "Sin": 12,
+    "Multi": 2
+  },
+  "states": {
+    "sin_cambio": 8,
+    "sin_analisis": 24,
+    "ausente": 21,
+    "desactivado": 4,
+    "activado": 4
+  },
+  "conditions": {
+    "KD": 47,
+    "OE": 6,
+    "KO": 8
+  },
+  "type_summary": {
+    "T": {
+      "experimentos": 42,
+      "genes_unicos_en_experimentos": 30,
+      "genes_en_targets_freq": 30,
+      "total_genes_df_results": 16650,
+      "stats_frecuencia_tumoral": {
+        "media": 0.4095950155763239,
+        "mediana": 0.3439252336448597,
+        "std": 0.22600582420914178,
+        "min": 0.1009345794392523,
+        "max": 0.8485981308411215
+      },
+      "stats_frecuencia_normal": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "prob_calculada": 16,
+      "errores": {
+        "archivo_xlsx_invalido": 5,
+        "gen_ausente_en_xlsx": 13,
+        "tipo_sin_transicion": 8
+      }
+    },
+    "N": {
+      "experimentos": 0,
+      "genes_unicos_en_experimentos": 0,
+      "genes_en_targets_freq": 0,
+      "total_genes_df_results": 105,
+      "stats_frecuencia_tumoral": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "stats_frecuencia_normal": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "prob_calculada": 0,
+      "errores": {}
+    },
+    "NT": {
+      "experimentos": 2,
+      "genes_unicos_en_experimentos": 1,
+      "genes_en_targets_freq": 1,
+      "total_genes_df_results": 387,
+      "stats_frecuencia_tumoral": {
+        "media": 0.7271028037383177,
+        "mediana": 0.7271028037383177,
+        "std": null,
+        "min": 0.7271028037383177,
+        "max": 0.7271028037383177
+      },
+      "stats_frecuencia_normal": {
+        "media": 0.1016949152542373,
+        "mediana": 0.1016949152542373,
+        "std": null,
+        "min": 0.1016949152542373,
+        "max": 0.1016949152542373
+      },
+      "prob_calculada": 3,
+      "errores": {
+        "gen_ausente_en_xlsx": 1,
+        "sin_ensembl_valido": 2
+      }
+    },
+    "Multi_mixto": {
+      "experimentos": 0,
+      "genes_unicos_en_experimentos": 0,
+      "genes_en_targets_freq": null,
+      "total_genes_df_results": null,
+      "stats_frecuencia_tumoral": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "stats_frecuencia_normal": {
+        "media": null,
+        "mediana": null,
+        "std": null,
+        "min": null,
+        "max": null
+      },
+      "prob_calculada": 0,
+      "errores": {}
+    },
+    "Sin_clasificar": {
+      "experimentos": 12,
+      "filenames": [
+        "Perturb_11524_NRF2-_KD.xlsx",
+        "Perturb_11533_ATAC1-_KD.xlsx",
+        "Perturb_11528_ATAC1-_KD.xlsx",
+        "Perturb_11534_THOR-_KD.xlsx",
+        "Perturb_11531_THOR(_2)-_KD.xlsx",
+        "Perturb_11530_THOR(_1)-_KD.xlsx",
+        "Perturb_11573_AC093323.3-_KD.xlsx",
+        "Perturb_11506_tsRNA-5001a-_KD.xlsx",
+        "Perturb_11508_circZFR-_KD.xlsx",
+        "Perturb_11498_AS-tDR-007333+_OE.xlsx",
+        "Perturb_6377_lncRNAHUMT(_1)-_KD.xlsx",
+        "Perturb_6378_lncRNAHUMT(_2)-_KD.xlsx"
+      ]
+    },
+    "archivos_xlsx_corruptos": [
+      "Perturb_11501_EHF-_KD.xlsx",
+      "Perturb_11516_L1CAM-_KD.xlsx",
+      "Perturb_11517_L1CAM-_KD.xlsx",
+      "Perturb_11522_RNF20-_KD.xlsx",
+      "Perturb_11537_RNF20-_KD.xlsx",
+      "Perturb_9004_C19orf12-_KD.xlsx",
+      "Perturb_9005_GATA6-_KD.xlsx"
+    ],
+    "total_metadata": 61,
+    "total_targets": 61,
+    "T_genes_repetidos": {
+      "CHUK": 6,
+      "BUD23": 3,
+      "L1CAM": 2,
+      "TP53": 2,
+      "CFTR": 2,
+      "NGFR": 2,
+      "TOLLIP": 2
+    },
+    "O": {
+      "experimentos": 5
+    }
+  },
+  "threshold": 0.6
+}
