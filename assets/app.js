@@ -46,6 +46,13 @@ const STATE_COLOR = {
 };
 const CATEGORY_ORDER = ['T', 'N', 'NT', 'O', 'Multi', 'Sin'];
 const STATE_ORDER = ['activado', 'desactivado', 'sin_cambio', 'sin_transicion_valida', 'ausente', 'sin_analisis'];
+const SOURCE_LABEL = {
+  ena: 'ENA (PubMed del estudio)',
+  geo: 'GEO (PubMed de la serie)',
+  biostudies: 'BioStudies / ArrayExpress',
+  accession: 'Europe PMC (acceso)',
+  manual: 'Revisión manual',
+};
 
 function esc(value) {
   return String(value ?? '')
@@ -384,6 +391,7 @@ function openDetail(item) {
         <h3 style="margin:0 0 6px">${esc(item.paper.title || 'Sin título')}</h3>
         <div class="meta">${esc(item.paper.authors || '')}${item.paper.journal ? ` · ${esc(item.paper.journal)}` : ''}${item.paper.year ? ` (${item.paper.year})` : ''}</div>
         <div style="margin-top:8px">${links.join(' · ')}</div>
+        <div class="note" style="margin-top:6px">Fuente del enlace: ${esc(SOURCE_LABEL[item.paper.source] || item.paper.source || '—')}</div>
         ${item.paper.summary ? `<p style="margin:12px 0 0">${esc(item.paper.summary)}</p>` : ''}
       </div>`;
   } else {
@@ -454,6 +462,7 @@ function renderPapers() {
         <h3>${esc(paper.title || 'Sin título')}</h3>
         <div class="meta">${esc(paper.authors || '')}${paper.journal ? ` · ${esc(paper.journal)}` : ''}${paper.year ? ` (${paper.year})` : ''}</div>
         <div>${links.join(' · ')}</div>
+        <div class="note">Fuente del enlace: ${esc(SOURCE_LABEL[paper.source] || paper.source || '—')}</div>
         ${paper.summary ? `<p style="margin:0">${esc(paper.summary)}</p>` : '<p class="note">Sin resumen.</p>'}
         <div class="chips">${chips}${extra}</div>
         <div class="note">${paper.n_experiments} experimento${paper.n_experiments === 1 ? '' : 's'} · ${(paper.studies || []).join(', ')}</div>

@@ -5,7 +5,7 @@
       "label": "BRCA",
       "title": "Cáncer de mama",
       "experiments": 625,
-      "papers": 0,
+      "papers": 174,
       "analyzed": 270,
       "generated": "2026-11-13"
     },
@@ -14,7 +14,7 @@
       "label": "LUAD",
       "title": "Adenocarcinoma de pulmón",
       "experiments": 61,
-      "papers": 31,
+      "papers": 34,
       "analyzed": 37,
       "generated": "2026-11-13"
     },

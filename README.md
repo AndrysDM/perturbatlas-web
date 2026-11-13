@@ -10,8 +10,8 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 - `experiments.html` — tabla completa con búsqueda, filtros por categoría,
   condición y estado, y ficha de detalle. Los experimentos sin análisis indican el
   motivo (gen O, multi-diana, diana sin clasificar o DEG no disponible).
-- `papers.html` — publicaciones originales con su resumen y los experimentos que
-  cubren.
+- `papers.html` — publicaciones originales con su resumen, la fuente del enlace y
+  los experimentos que cubren.
 - `methodology.html` — esquema de clasificación y reglas de análisis.
 
 ## Datos
@@ -25,12 +25,25 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 | Cáncer | Experimentos | Estudios | Analizados | Publicaciones |
 |---|---:|---:|---:|---:|
 | PRAD | 195 | 95 | 69 | 89 |
-| LUAD | 61 | 37 | 37 | 31 (sin resúmenes) |
-| BRCA | 625 | 233 | 270 | pendientes |
+| LUAD | 61 | 37 | 37 | 34 |
+| BRCA | 625 | 233 | 270 | 174 |
 
-En PRAD las publicaciones están curadas con resumen. En LUAD están enlazadas pero
-sin resumen; en BRCA la curación de publicaciones está pendiente. El análisis de
-experimentos y los motivos de “sin análisis” están completos en los tres.
+Los estudios sin publicación quedan marcados como “sin paper”; no se inventa
+ninguna referencia.
+
+## Verificación de publicaciones
+
+Cada enlace procede de una fuente primaria y se guarda con su origen:
+
+- `ena` — PubMed asociado al estudio en ENA;
+- `geo` — PubMed vinculado a la serie GEO (NCBI);
+- `biostudies` — título de publicación depositado en BioStudies/ArrayExpress;
+- `title` — búsqueda por título en Europe PMC, aceptada solo si coincide;
+- `manual` — corrección con PMID verificado.
+
+Los informes de verificación están en el repositorio de análisis:
+`informe/papers/verificacion_prad.md`, `verificacion_luad.md` y
+`verificacion_brca.md`.
 
 ## Publicación
 
