@@ -59,7 +59,7 @@
 
     <section class="section card">
       <h2>3. Umbral y transición evaluada</h2>
-      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado es <span class="badge sin_cambio">sin cambio</span>. La columna <strong>transición</strong> indica el resultado y la columna <strong>transición evaluada</strong> indica qué probabilidad se comparó, de modo que un “sin cambio” queda siempre contextualizado.</p>
+      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado es <span class="badge sin_cambio">sin cambio</span>. La columna <strong>transición</strong> indica el resultado y la columna <strong>transición evaluada</strong> indica qué dirección se comparó. La etiqueta refleja el signo del log2fold: un descenso en un gen <em>above</em> se evalúa como <span class="mono">q1→q0</span>. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
       <p class="note">La probabilidad se consulta en el modelo de transición construido a partir de los pares de muestras tumorales/normales de TCGA.</p>
     </section>
 
