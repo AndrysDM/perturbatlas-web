@@ -36,6 +36,8 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 - Umbrales de activación: 10 % en T y 5 % en N, aplicados con `ceil`. Los
   porcentajes se guardan aunque no lleguen al umbral, para ver los casos
   “casi activados”.
+- “Casi activado”: porcentaje mayor o igual al 80 % del umbral y menor que el
+  umbral. En la página Genes el margen se puede cambiar a 80, 90 o 95 %.
 
 ## Cobertura
 

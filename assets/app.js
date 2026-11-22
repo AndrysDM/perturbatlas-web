@@ -434,12 +434,12 @@ function geneThresholds() {
   };
 }
 
-function nearGene(gene) {
+function nearGene(gene, margin = 0.8) {
   const thresholds = geneThresholds();
-  return (gene.pct_t_below > 0 && gene.pct_t_below < thresholds.t)
-      || (gene.pct_t_above > 0 && gene.pct_t_above < thresholds.t)
-      || (gene.pct_n_below > 0 && gene.pct_n_below < thresholds.n)
-      || (gene.pct_n_above > 0 && gene.pct_n_above < thresholds.n);
+  return (gene.pct_t_below >= margin * thresholds.t && gene.pct_t_below < thresholds.t)
+      || (gene.pct_t_above >= margin * thresholds.t && gene.pct_t_above < thresholds.t)
+      || (gene.pct_n_below >= margin * thresholds.n && gene.pct_n_below < thresholds.n)
+      || (gene.pct_n_above >= margin * thresholds.n && gene.pct_n_above < thresholds.n);
 }
 
 async function loadGenes() {
@@ -466,6 +466,9 @@ async function loadGenes() {
   document.getElementById('gene-near').addEventListener('change', () => {
     state.genePage = 1; applyGeneFilters();
   });
+  document.getElementById('gene-margin').addEventListener('change', () => {
+    state.genePage = 1; applyGeneFilters();
+  });
   document.getElementById('gene-prev').addEventListener('click', () => {
     state.genePage -= 1; renderGenes();
   });
@@ -488,6 +491,15 @@ async function loadGenes() {
   document.getElementById('genes-lead').textContent =
     `${state.cancer.label}: ${fmt(state.genes.length, 0)} genes clasificados (T ${fmt(counts.T || 0, 0)}, N ${fmt(counts.N || 0, 0)}, NT ${fmt(counts.NT || 0, 0)}, O ${fmt(counts.O || 0, 0)}).`;
 
+  const params = new URLSearchParams(location.search);
+  if (params.get('near') === '1') {
+    document.getElementById('gene-near').checked = true;
+  }
+  const marginParam = params.get('margin');
+  if (marginParam && ['0.8', '0.9', '0.95'].includes(marginParam)) {
+    document.getElementById('gene-margin').value = marginParam;
+  }
+
   applyGeneFilters();
 
   const geneParam = new URLSearchParams(location.search).get('gene');
@@ -503,12 +515,13 @@ function applyGeneFilters() {
   const type = document.getElementById('gene-type').value;
   const sort = document.getElementById('gene-sort').value;
   const near = document.getElementById('gene-near').checked;
+  const margin = parseFloat(document.getElementById('gene-margin').value || '0.8');
   const order = { T: 0, N: 1, NT: 2, O: 3 };
 
   state.geneRows = state.genes.filter(gene => {
     if (category && gene.category !== category) return false;
     if (type && gene.type !== type) return false;
-    if (near && !nearGene(gene)) return false;
+    if (near && !nearGene(gene, margin)) return false;
     if (!query) return true;
     return [gene.symbol, gene.ensembl, gene.type].join(' ').toLowerCase().includes(query);
   });

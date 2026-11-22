@@ -81,8 +81,9 @@
       Se guardan aunque no alcancen el umbral de activación (10 % en T, 5 % en N), para
       identificar los casos “casi activados”.</p>
       <p class="note">El umbral se aplica con <span class="mono">ceil</span>: por ejemplo,
-      50 de 499 muestras tumorales (10,02 %) y 3 de 52 normales (5,77 %) en PRAD. La página
-      <a href="genes.html">Genes</a> muestra estos valores por gen.</p>
+      50 de 499 muestras tumorales (10,02 %) y 3 de 52 normales (5,77 %) en PRAD. Se
+      considera “casi activado” cuando el porcentaje alcanza al menos el <strong>80 %</strong>
+      del umbral (configurable al 80/90/95 % en la página <a href="genes.html">Genes</a>).</p>
     </section>
 
     <section class="section card">
