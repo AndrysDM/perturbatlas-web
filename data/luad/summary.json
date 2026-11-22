@@ -2,7 +2,7 @@
   "cancer": "luad",
   "label": "LUAD",
   "title": "Adenocarcinoma de pulmón",
-  "generated": "2026-11-14",
+  "generated": "2026-11-22",
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,
@@ -163,5 +163,154 @@
       "experimentos": 5
     }
   },
+  "expression": {
+    "parametros": {
+      "pseudocount": 0.1,
+      "tolerance": 0.1,
+      "min_tumor_pct": 0.1,
+      "min_normal_pct": 0.05,
+      "num_tumor": 535,
+      "num_normal": 59,
+      "min_tumor_samples": 54,
+      "min_normal_samples": 3,
+      "umbral_efectivo_t": 0.10093457943925234,
+      "umbral_efectivo_n": 0.05084745762711865
+    },
+    "por_categoria": {
+      "T": {
+        "n": 16650,
+        "media": 0.282691207560041,
+        "mediana": 0.3908979369510637,
+        "min": -6.4856794239217805,
+        "max": 5.382328650740738,
+        "q1": -0.07226739100760021,
+        "q3": 0.7363043476668423
+      },
+      "N": {
+        "n": 105,
+        "media": -1.5822890057917571,
+        "mediana": -1.5388820848488347,
+        "min": -4.254247442310916,
+        "max": -0.2088677270311652,
+        "q1": -1.9966907979031392,
+        "q3": -1.0139659333703617
+      },
+      "NT": {
+        "n": 387,
+        "media": -1.316460166025711,
+        "mediana": -1.8877371591067622,
+        "min": -8.206800260028768,
+        "max": 4.6774795323274265,
+        "q1": -2.607943506458746,
+        "q3": 0.6842117951632982
+      },
+      "O": {
+        "n": 43341,
+        "media": 0.025685646069744446,
+        "mediana": 0.025803786987612775,
+        "min": -3.4667610199523295,
+        "max": 3.3665333961498516,
+        "q1": -6.406853007629837e-16,
+        "q3": 0.13110272404973805
+      }
+    },
+    "casi_activados": {
+      "T": {
+        "t_below": {
+          "n_casi": 6167,
+          "max_pct_no_activado": 0.09906542056074766,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "t_above": {
+          "n_casi": 3455,
+          "max_pct_no_activado": 0.09906542056074766,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "n_below": {
+          "n_casi": 228,
+          "max_pct_no_activado": 0.03389830508474576,
+          "umbral_efectivo": 0.05084745762711865
+        },
+        "n_above": {
+          "n_casi": 238,
+          "max_pct_no_activado": 0.03389830508474576,
+          "umbral_efectivo": 0.05084745762711865
+        }
+      },
+      "N": {
+        "t_below": {
+          "n_casi": 29,
+          "max_pct_no_activado": 0.09532710280373832,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "t_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "n_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05084745762711865
+        },
+        "n_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05084745762711865
+        }
+      },
+      "NT": {
+        "t_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "t_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "n_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05084745762711865
+        },
+        "n_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05084745762711865
+        }
+      },
+      "O": {
+        "t_below": {
+          "n_casi": 3030,
+          "max_pct_no_activado": 0.09906542056074766,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "t_above": {
+          "n_casi": 37263,
+          "max_pct_no_activado": 0.09906542056074766,
+          "umbral_efectivo": 0.10093457943925234
+        },
+        "n_below": {
+          "n_casi": 14,
+          "max_pct_no_activado": 0.03389830508474576,
+          "umbral_efectivo": 0.05084745762711865
+        },
+        "n_above": {
+          "n_casi": 340,
+          "max_pct_no_activado": 0.03389830508474576,
+          "umbral_efectivo": 0.05084745762711865
+        }
+      }
+    }
+  },
+  "genes": {
+    "T": 16650,
+    "N": 105,
+    "NT": 387,
+    "O": 43341
+  },
+  "genes_total": 60483,
   "threshold": 0.6
 }

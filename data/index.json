@@ -7,7 +7,7 @@
       "experiments": 625,
       "papers": 174,
       "analyzed": 270,
-      "generated": "2026-11-14"
+      "generated": "2026-11-22"
     },
     {
       "id": "luad",
@@ -16,7 +16,7 @@
       "experiments": 61,
       "papers": 34,
       "analyzed": 37,
-      "generated": "2026-11-14"
+      "generated": "2026-11-22"
     },
     {
       "id": "prad",
@@ -25,7 +25,7 @@
       "experiments": 195,
       "papers": 89,
       "analyzed": 69,
-      "generated": "2026-11-14"
+      "generated": "2026-11-22"
     }
   ]
 }

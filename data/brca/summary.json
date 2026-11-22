@@ -2,7 +2,7 @@
   "cancer": "brca",
   "label": "BRCA",
   "title": "Cáncer de mama",
-  "generated": "2026-11-14",
+  "generated": "2026-11-22",
   "experiments_total": 625,
   "studies": 233,
   "papers": 174,
@@ -285,5 +285,154 @@
       "experimentos": 241
     }
   },
+  "expression": {
+    "parametros": {
+      "pseudocount": 0.1,
+      "tolerance": 0.1,
+      "min_tumor_pct": 0.1,
+      "min_normal_pct": 0.05,
+      "num_tumor": 1096,
+      "num_normal": 112,
+      "min_tumor_samples": 110,
+      "min_normal_samples": 6,
+      "umbral_efectivo_t": 0.10036496350364964,
+      "umbral_efectivo_n": 0.05357142857142857
+    },
+    "por_categoria": {
+      "T": {
+        "n": 7861,
+        "media": 0.2069994919800202,
+        "mediana": 0.38458682675401856,
+        "min": -5.001593937850812,
+        "max": 6.132311142592501,
+        "q1": -0.2048239411046316,
+        "q3": 0.7466768393804403
+      },
+      "N": {
+        "n": 166,
+        "media": -1.794855570142275,
+        "mediana": -1.7613328943033397,
+        "min": -6.241260148006584,
+        "max": 1.1853534714533644,
+        "q1": -2.5520353694488045,
+        "q3": -1.0358556531287921
+      },
+      "NT": {
+        "n": 284,
+        "media": -1.1517848141169762,
+        "mediana": -1.8033591463501852,
+        "min": -5.999288331224402,
+        "max": 5.49640372301935,
+        "q1": -2.9069031736269486,
+        "q3": 1.1690071383608758
+      },
+      "O": {
+        "n": 52172,
+        "media": -0.07600386534263391,
+        "mediana": 0.0013111506578537722,
+        "min": -4.464402874583771,
+        "max": 3.397373303511176,
+        "q1": -0.10630276613771422,
+        "q3": 0.04766265666660151
+      }
+    },
+    "casi_activados": {
+      "T": {
+        "t_below": {
+          "n_casi": 2688,
+          "max_pct_no_activado": 0.09945255474452555,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "t_above": {
+          "n_casi": 1696,
+          "max_pct_no_activado": 0.09945255474452555,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "n_below": {
+          "n_casi": 729,
+          "max_pct_no_activado": 0.044642857142857144,
+          "umbral_efectivo": 0.05357142857142857
+        },
+        "n_above": {
+          "n_casi": 277,
+          "max_pct_no_activado": 0.044642857142857144,
+          "umbral_efectivo": 0.05357142857142857
+        }
+      },
+      "N": {
+        "t_below": {
+          "n_casi": 54,
+          "max_pct_no_activado": 0.09945255474452555,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "t_above": {
+          "n_casi": 15,
+          "max_pct_no_activado": 0.08576642335766424,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "n_below": {
+          "n_casi": 1,
+          "max_pct_no_activado": 0.008928571428571428,
+          "umbral_efectivo": 0.05357142857142857
+        },
+        "n_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05357142857142857
+        }
+      },
+      "NT": {
+        "t_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "t_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "n_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05357142857142857
+        },
+        "n_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.05357142857142857
+        }
+      },
+      "O": {
+        "t_below": {
+          "n_casi": 6410,
+          "max_pct_no_activado": 0.09945255474452555,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "t_above": {
+          "n_casi": 47310,
+          "max_pct_no_activado": 0.09945255474452555,
+          "umbral_efectivo": 0.10036496350364964
+        },
+        "n_below": {
+          "n_casi": 477,
+          "max_pct_no_activado": 0.044642857142857144,
+          "umbral_efectivo": 0.05357142857142857
+        },
+        "n_above": {
+          "n_casi": 820,
+          "max_pct_no_activado": 0.044642857142857144,
+          "umbral_efectivo": 0.05357142857142857
+        }
+      }
+    }
+  },
+  "genes": {
+    "T": 7861,
+    "N": 166,
+    "NT": 284,
+    "O": 52172
+  },
+  "genes_total": 60483,
   "threshold": 0.6
 }

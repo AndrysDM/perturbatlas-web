@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Genes · PerturbAtlas × TCGA</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+</head>
+<body data-page="genes">
+  <header class="topbar">
+    <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
+    <nav class="nav">
+      <a href="index.html" data-nav="home">Inicio</a>
+      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="genes.html" data-nav="genes">Genes</a>
+      <a href="papers.html" data-nav="papers">Publicaciones</a>
+      <a href="methodology.html" data-nav="methodology">Metodología</a>
+    </nav>
+    <div class="spacer"></div>
+    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Genes</span>
+      <h1>Métricas de expresión</h1>
+      <p class="lead" id="genes-lead">Expresión diferencial y porcentajes de muestras fuera del rango normal, por gen y tipo.</p>
+    </section>
+
+    <div class="toolbar">
+      <input id="gene-search" class="input" type="search" placeholder="Buscar símbolo, Ensembl o tipo…" aria-label="Buscar gen">
+      <select id="gene-category" class="select" aria-label="Categoría"></select>
+      <select id="gene-type" class="select" aria-label="Tipo"></select>
+      <select id="gene-sort" class="select" aria-label="Orden">
+        <option value="category">Por categoría</option>
+        <option value="absfc">|log2FC| mayor</option>
+        <option value="fcdesc">log2FC mayor</option>
+        <option value="fcasc">log2FC menor</option>
+        <option value="symbol">Símbolo</option>
+      </select>
+      <label class="check"><input type="checkbox" id="gene-near"> Solo casi activados</label>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gen</th>
+            <th>Tipo</th>
+            <th>Categoría</th>
+            <th class="num">log2FC T/N</th>
+            <th class="num">% T↓</th>
+            <th class="num">% T↑</th>
+            <th class="num">% N↓</th>
+            <th class="num">% N↑</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="gene-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="pager">
+      <span id="gene-page-info"></span>
+      <span class="buttons">
+        <button id="gene-prev" type="button">← Anterior</button>
+        <button id="gene-next" type="button">Siguiente →</button>
+      </span>
+    </div>
+  </main>
+
+  <footer>
+    Datos derivados de PerturbAtlas y TCGA. Métricas descritas en
+    <a href="methodology.html">Metodología</a>.
+  </footer>
+
+  <dialog id="gene-detail">
+    <div class="dialog-head">
+      <div>
+        <h3 id="gene-detail-title">Gen</h3>
+        <div class="meta" id="gene-detail-subtitle"></div>
+      </div>
+      <button class="icon-btn" id="gene-detail-close" type="button" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="dialog-body" id="gene-detail-body"></div>
+  </dialog>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

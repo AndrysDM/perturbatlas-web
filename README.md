@@ -5,20 +5,37 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 
 ## Páginas
 
-- `index.html` — resumen por cáncer: experimentos, estudios y publicaciones; tabla
-  por tipo de gen (T / N / NT / O) y distribución de categorías y estados.
+- `index.html` — resumen por cáncer: experimentos, estudios, publicaciones y genes;
+  tabla por tipo de gen (T / N / NT / O) y distribución de categorías y estados.
 - `experiments.html` — tabla completa con búsqueda, filtros por categoría,
   condición y estado, y ficha de detalle. Los experimentos sin análisis indican el
   motivo (gen O, multi-diana, diana sin clasificar o DEG no disponible).
+- `genes.html` — métricas de expresión por gen: `log2FC T/N`, medias geométricas,
+  mínimos/máximos y porcentajes de muestras fuera del rango normal/tumoral, con
+  búsqueda, filtros y ficha de detalle.
 - `papers.html` — publicaciones originales con su resumen, la fuente del enlace y
   los experimentos que cubren.
-- `methodology.html` — esquema de clasificación y reglas de análisis.
+- `methodology.html` — esquema de clasificación, reglas de análisis y métricas.
 
 ## Datos
 
 - `data/index.json` — catálogo de cánceres disponibles.
-- `data/prad/`, `data/luad/`, `data/brca/` — `experiments.json`, `papers.json` y
-  `summary.json` por cáncer.
+- `data/<cancer>/experiments.json`, `papers.json`, `summary.json`.
+- `data/<cancer>/genes_T.json`, `genes_N.json`, `genes_NT.json`, `genes_O.json`
+  — tabla de genes por categoría en formato columnar.
+
+## Métricas de expresión
+
+- `log2FC T/N = log2(media geométrica T / media geométrica N)`, sumando **0.1** a
+  la FPKM de cada muestra.
+- Porcentajes brutos de muestras fuera del rango:
+  - T↓: T < mín(N) − 0.1
+  - T↑: T > máx(N) + 0.1
+  - N↓: N < mín(T) − 0.1
+  - N↑: N > máx(T) + 0.1
+- Umbrales de activación: 10 % en T y 5 % en N, aplicados con `ceil`. Los
+  porcentajes se guardan aunque no lleguen al umbral, para ver los casos
+  “casi activados”.
 
 ## Cobertura
 
@@ -28,22 +45,11 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 | LUAD | 61 | 37 | 37 | 34 |
 | BRCA | 625 | 233 | 270 | 174 |
 
-Los estudios sin publicación quedan marcados como “sin paper”; no se inventa
-ninguna referencia.
-
 ## Verificación de publicaciones
 
-Cada enlace procede de una fuente primaria y se guarda con su origen:
-
-- `ena` — PubMed asociado al estudio en ENA;
-- `geo` — PubMed vinculado a la serie GEO (NCBI);
-- `biostudies` — título de publicación depositado en BioStudies/ArrayExpress;
-- `title` — búsqueda por título en Europe PMC, aceptada solo si coincide;
-- `manual` — corrección con PMID verificado.
-
-Los informes de verificación están en el repositorio de análisis:
-`informe/papers/verificacion_prad.md`, `verificacion_luad.md` y
-`verificacion_brca.md`.
+Cada enlace procede de una fuente primaria y se guarda con su origen (`ena`,
+`geo`, `biostudies`, `title` o `manual`). Los informes están en el repositorio de
+análisis: `informe/papers/verificacion_*.md`.
 
 ## Publicación
 
@@ -54,6 +60,7 @@ GitHub Pages sirve la raíz de la rama `main`.
 Desde el repositorio de análisis:
 
 ```bash
+python pipeline/steps/step1_build_matrices_and_classify.py
 python pipeline/web/build_site.py --all
 ```
 

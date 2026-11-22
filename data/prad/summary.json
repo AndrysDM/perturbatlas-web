@@ -2,7 +2,7 @@
   "cancer": "prad",
   "label": "PRAD",
   "title": "Adenocarcinoma de próstata",
-  "generated": "2026-11-14",
+  "generated": "2026-11-22",
   "experiments_total": 195,
   "studies": 95,
   "papers": 89,
@@ -186,5 +186,154 @@
       "experimentos": 101
     }
   },
+  "expression": {
+    "parametros": {
+      "pseudocount": 0.1,
+      "tolerance": 0.1,
+      "min_tumor_pct": 0.1,
+      "min_normal_pct": 0.05,
+      "num_tumor": 499,
+      "num_normal": 52,
+      "min_tumor_samples": 50,
+      "min_normal_samples": 3,
+      "umbral_efectivo_t": 0.10020040080160321,
+      "umbral_efectivo_n": 0.057692307692307696
+    },
+    "por_categoria": {
+      "T": {
+        "n": 5822,
+        "media": 0.2514726023817066,
+        "mediana": 0.3376631461203621,
+        "min": -3.0976908919751116,
+        "max": 4.446876242077721,
+        "q1": -0.07108590669173231,
+        "q3": 0.6074691062457086
+      },
+      "N": {
+        "n": 781,
+        "media": -0.5448190411971487,
+        "mediana": -0.6241584780628946,
+        "min": -4.507982531432995,
+        "max": 3.1999663591334495,
+        "q1": -1.1018621152515988,
+        "q3": -0.1381082941257563
+      },
+      "NT": {
+        "n": 316,
+        "media": -0.1654551990006201,
+        "mediana": -0.5055605589443586,
+        "min": -2.497224265174975,
+        "max": 2.8494994498229937,
+        "q1": -1.1584775388766075,
+        "q3": 0.8013011194188344
+      },
+      "O": {
+        "n": 53564,
+        "media": 0.006367876199518281,
+        "mediana": 0.007206090734569083,
+        "min": -2.7018120251866042,
+        "max": 4.435052289890371,
+        "q1": -0.026347193772542674,
+        "q3": 0.07534386065323537
+      }
+    },
+    "casi_activados": {
+      "T": {
+        "t_below": {
+          "n_casi": 2416,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "t_above": {
+          "n_casi": 1215,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "n_below": {
+          "n_casi": 258,
+          "max_pct_no_activado": 0.038461538461538464,
+          "umbral_efectivo": 0.057692307692307696
+        },
+        "n_above": {
+          "n_casi": 247,
+          "max_pct_no_activado": 0.038461538461538464,
+          "umbral_efectivo": 0.057692307692307696
+        }
+      },
+      "N": {
+        "t_below": {
+          "n_casi": 249,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "t_above": {
+          "n_casi": 170,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "n_below": {
+          "n_casi": 3,
+          "max_pct_no_activado": 0.019230769230769232,
+          "umbral_efectivo": 0.057692307692307696
+        },
+        "n_above": {
+          "n_casi": 7,
+          "max_pct_no_activado": 0.019230769230769232,
+          "umbral_efectivo": 0.057692307692307696
+        }
+      },
+      "NT": {
+        "t_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "t_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "n_below": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.057692307692307696
+        },
+        "n_above": {
+          "n_casi": 0,
+          "max_pct_no_activado": 0.0,
+          "umbral_efectivo": 0.057692307692307696
+        }
+      },
+      "O": {
+        "t_below": {
+          "n_casi": 8211,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "t_above": {
+          "n_casi": 41575,
+          "max_pct_no_activado": 0.09819639278557114,
+          "umbral_efectivo": 0.10020040080160321
+        },
+        "n_below": {
+          "n_casi": 334,
+          "max_pct_no_activado": 0.038461538461538464,
+          "umbral_efectivo": 0.057692307692307696
+        },
+        "n_above": {
+          "n_casi": 1510,
+          "max_pct_no_activado": 0.038461538461538464,
+          "umbral_efectivo": 0.057692307692307696
+        }
+      }
+    }
+  },
+  "genes": {
+    "T": 5822,
+    "N": 781,
+    "NT": 316,
+    "O": 53564
+  },
+  "genes_total": 60483,
   "threshold": 0.6
 }

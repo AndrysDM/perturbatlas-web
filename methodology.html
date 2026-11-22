@@ -13,6 +13,7 @@
     <nav class="nav">
       <a href="index.html" data-nav="home">Inicio</a>
       <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="genes.html" data-nav="genes">Genes</a>
       <a href="papers.html" data-nav="papers">Publicaciones</a>
       <a href="methodology.html" data-nav="methodology">Metodología</a>
     </nav>
@@ -70,7 +71,22 @@
     </section>
 
     <section class="section card">
-      <h2>5. Fuentes</h2>
+      <h2>5. Métricas de expresión</h2>
+      <p>Para cada gen se calcula la expresión diferencial como
+      <span class="mono">log2(media geométrica T / media geométrica N)</span>, sumando
+      <strong>0.1</strong> a la FPKM de cada muestra antes de la media geométrica.</p>
+      <p>También se guardan los porcentajes brutos de muestras fuera del rango:
+      <strong>T↓</strong> (T &lt; mín(N) − 0,1), <strong>T↑</strong> (T &gt; máx(N) + 0,1),
+      <strong>N↓</strong> (N &lt; mín(T) − 0,1) y <strong>N↑</strong> (N &gt; máx(T) + 0,1).
+      Se guardan aunque no alcancen el umbral de activación (10 % en T, 5 % en N), para
+      identificar los casos “casi activados”.</p>
+      <p class="note">El umbral se aplica con <span class="mono">ceil</span>: por ejemplo,
+      50 de 499 muestras tumorales (10,02 %) y 3 de 52 normales (5,77 %) en PRAD. La página
+      <a href="genes.html">Genes</a> muestra estos valores por gen.</p>
+    </section>
+
+    <section class="section card">
+      <h2>6. Fuentes</h2>
       <ul>
         <li><strong>PerturbAtlas</strong>: experimentos de perturbación (KD, KO, OE), dianas, líneas celulares y archivos DEG.</li>
         <li><strong>TCGA</strong>: matrices de expresión y frecuencias de alteración tumoral/normal.</li>
