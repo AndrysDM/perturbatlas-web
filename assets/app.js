@@ -434,12 +434,22 @@ function geneThresholds() {
   };
 }
 
+function geneCounts() {
+  const params = (state.geneSummary || {}).parametros || {};
+  return {
+    t: Number(params.min_tumor_samples || 0),
+    n: Number(params.min_normal_samples || 0),
+  };
+}
+
 function nearGene(gene, margin = 0.8) {
-  const thresholds = geneThresholds();
-  return (gene.pct_t_below >= margin * thresholds.t && gene.pct_t_below < thresholds.t)
-      || (gene.pct_t_above >= margin * thresholds.t && gene.pct_t_above < thresholds.t)
-      || (gene.pct_n_below >= margin * thresholds.n && gene.pct_n_below < thresholds.n)
-      || (gene.pct_n_above >= margin * thresholds.n && gene.pct_n_above < thresholds.n);
+  const limits = geneCounts();
+  if (!limits.t || !limits.n) return false;
+  const near = (count, limit) => count >= margin * limit && count < limit;
+  return near(gene.n_t_below, limits.t)
+      || near(gene.n_t_above, limits.t)
+      || near(gene.n_n_below, limits.n)
+      || near(gene.n_n_above, limits.n);
 }
 
 async function loadGenes() {
@@ -538,13 +548,12 @@ function applyGeneFilters() {
   renderGenes();
 }
 
-function pctCell(value, threshold) {
+function pctCell(value, count, limit, margin) {
   if (value === null || value === undefined) return '<td class="num">—</td>';
-  const numeric = Number(value);
   let classes = '';
-  if (numeric >= threshold) classes = 'pct-active';
-  else if (numeric >= threshold * 0.8) classes = 'pct-near';
-  return `<td class="num ${classes}">${pct(numeric)}</td>`;
+  if (count >= limit) classes = 'pct-active';
+  else if (count >= margin * limit && count < limit) classes = 'pct-near';
+  return `<td class="num ${classes}">${pct(value)}</td>`;
 }
 
 function renderGenes() {
@@ -553,7 +562,8 @@ function renderGenes() {
   state.genePage = Math.min(Math.max(1, state.genePage), pages);
   const start = (state.genePage - 1) * state.genePageSize;
   const slice = state.geneRows.slice(start, start + state.genePageSize);
-  const thresholds = geneThresholds();
+  const limits = geneCounts();
+  const margin = parseFloat(document.getElementById('gene-margin').value || '0.8');
   const tbody = document.getElementById('gene-rows');
 
   if (!slice.length) {
@@ -564,10 +574,10 @@ function renderGenes() {
         <td><span class="gene-type" title="${esc(gene.type)}">${esc(gene.type)}</span></td>
         <td>${categoryBadge(gene.category)}</td>
         <td class="num">${fmt(gene.log2fc, 3)}</td>
-        ${pctCell(gene.pct_t_below, thresholds.t)}
-        ${pctCell(gene.pct_t_above, thresholds.t)}
-        ${pctCell(gene.pct_n_below, thresholds.n)}
-        ${pctCell(gene.pct_n_above, thresholds.n)}
+        ${pctCell(gene.pct_t_below, gene.n_t_below, limits.t, margin)}
+        ${pctCell(gene.pct_t_above, gene.n_t_above, limits.t, margin)}
+        ${pctCell(gene.pct_n_below, gene.n_n_below, limits.n, margin)}
+        ${pctCell(gene.pct_n_above, gene.n_n_above, limits.n, margin)}
         <td><button class="btn" type="button" data-gene="${esc(gene.ensembl)}">Ver</button></td>
       </tr>`).join('');
   }
@@ -583,20 +593,24 @@ function openGene(gene) {
   const dialog = document.getElementById('gene-detail');
   const params = (state.geneSummary || {}).parametros || {};
   const thresholds = geneThresholds();
+  const limits = geneCounts();
+  const margin = parseFloat(document.getElementById('gene-margin').value || '0.8');
   document.getElementById('gene-detail-title').textContent = gene.symbol;
   document.getElementById('gene-detail-subtitle').textContent = `${gene.ensembl} · ${gene.type}`;
 
   const conditions = [
-    ['T↓ (por debajo del mínimo normal)', gene.n_t_below, gene.pct_t_below, thresholds.t],
-    ['T↑ (por encima del máximo normal)', gene.n_t_above, gene.pct_t_above, thresholds.t],
-    ['N↓ (por debajo del mínimo tumoral)', gene.n_n_below, gene.pct_n_below, thresholds.n],
-    ['N↑ (por encima del máximo tumoral)', gene.n_n_above, gene.pct_n_above, thresholds.n],
+    ['T↓ (por debajo del mínimo normal)', gene.n_t_below, gene.pct_t_below, thresholds.t, limits.t],
+    ['T↑ (por encima del máximo normal)', gene.n_t_above, gene.pct_t_above, thresholds.t, limits.t],
+    ['N↓ (por debajo del mínimo tumoral)', gene.n_n_below, gene.pct_n_below, thresholds.n, limits.n],
+    ['N↑ (por encima del máximo tumoral)', gene.n_n_above, gene.pct_n_above, thresholds.n, limits.n],
   ];
-  const rows = conditions.map(([label, count, value, threshold]) => {
-    const active = Number(value) >= threshold;
+  const rows = conditions.map(([label, count, value, threshold, limit]) => {
+    const active = count >= limit;
+    const near = count >= margin * limit && count < limit;
     const status = active
       ? '<span class="badge activado">activado</span>'
-      : (Number(value) > 0 ? '<span class="badge sin_cambio">casi</span>' : '<span class="badge muted">—</span>');
+      : near ? '<span class="badge sin_cambio">casi</span>'
+      : (count > 0 ? '<span class="badge muted">subumbral</span>' : '<span class="badge muted">—</span>');
     return `<tr><td>${esc(label)}</td><td class="num">${fmt(count, 0)}</td>
       <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
   }).join('');
