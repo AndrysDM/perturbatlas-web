@@ -6,7 +6,7 @@
       "title": "Cáncer de mama",
       "experiments": 625,
       "papers": 174,
-      "analyzed": 270,
+      "analyzed": 303,
       "generated": "2026-11-22"
     },
     {
@@ -15,7 +15,7 @@
       "title": "Adenocarcinoma de pulmón",
       "experiments": 61,
       "papers": 34,
-      "analyzed": 37,
+      "analyzed": 40,
       "generated": "2026-11-22"
     },
     {
@@ -24,7 +24,7 @@
       "title": "Adenocarcinoma de próstata",
       "experiments": 195,
       "papers": 89,
-      "analyzed": 69,
+      "analyzed": 79,
       "generated": "2026-11-22"
     }
   ]

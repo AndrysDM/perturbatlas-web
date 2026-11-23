@@ -6,18 +6,18 @@
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,
-  "analyzed": 37,
+  "analyzed": 40,
   "with_paper": 58,
   "categories": {
-    "T": 42,
+    "T": 45,
     "O": 5,
-    "Sin": 12,
+    "Sin": 9,
     "Multi": 2
   },
   "states": {
     "sin_cambio": 8,
-    "sin_analisis": 24,
-    "ausente": 21,
+    "sin_analisis": 21,
+    "ausente": 24,
     "desactivado": 4,
     "activado": 4
   },
@@ -28,14 +28,14 @@
   },
   "type_summary": {
     "T": {
-      "experimentos": 42,
-      "genes_unicos_en_experimentos": 30,
-      "genes_en_targets_freq": 30,
+      "experimentos": 45,
+      "genes_unicos_en_experimentos": 32,
+      "genes_en_targets_freq": 32,
       "total_genes_df_results": 16650,
       "stats_frecuencia_tumoral": {
-        "media": 0.4095950155763239,
-        "mediana": 0.3439252336448597,
-        "std": 0.22600582420914178,
+        "media": 0.40169392523364483,
+        "mediana": 0.3289719626168224,
+        "std": 0.22079483516807252,
         "min": 0.1009345794392523,
         "max": 0.8485981308411215
       },
@@ -49,7 +49,7 @@
       "prob_calculada": 16,
       "errores": {
         "archivo_xlsx_invalido": 5,
-        "gen_ausente_en_xlsx": 13,
+        "gen_ausente_en_xlsx": 16,
         "tipo_sin_transicion": 8
       }
     },
@@ -123,11 +123,8 @@
       "errores": {}
     },
     "Sin_clasificar": {
-      "experimentos": 12,
+      "experimentos": 9,
       "filenames": [
-        "Perturb_11524_NRF2-_KD.xlsx",
-        "Perturb_11533_ATAC1-_KD.xlsx",
-        "Perturb_11528_ATAC1-_KD.xlsx",
         "Perturb_11534_THOR-_KD.xlsx",
         "Perturb_11531_THOR(_2)-_KD.xlsx",
         "Perturb_11530_THOR(_1)-_KD.xlsx",
@@ -154,10 +151,11 @@
       "CHUK": 6,
       "BUD23": 3,
       "L1CAM": 2,
+      "NGFR": 2,
+      "TOLLIP": 2,
       "TP53": 2,
       "CFTR": 2,
-      "NGFR": 2,
-      "TOLLIP": 2
+      "ATAC1": 2
     },
     "O": {
       "experimentos": 5
