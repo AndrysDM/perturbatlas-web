@@ -414,8 +414,66 @@ function openDetail(item) {
       ${detailItem('Nº de dianas', fmt(item.n_targets, 0))}
     </div>`;
 
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${nt}${counts}${paper}`;
+  const targetGenes = (item.target_genes && item.target_genes.length)
+    ? `<div class="subhead">Diana: información de expresión</div>${renderTargetGenes(item.target_genes)}`
+    : '';
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${paper}`;
   dialog.showModal();
+}
+
+function renderTargetGenes(targets) {
+  return targets.map(target => {
+    const tThreshold = target.n_tumor
+      ? target.min_tumor_samples / target.n_tumor : 0.1;
+    const nThreshold = target.n_normal
+      ? target.min_normal_samples / target.n_normal : 0.05;
+    const margin = 0.8;
+    const conditions = [
+      ['T↓ (por debajo del mínimo normal)', target.n_t_below, target.pct_t_below,
+       tThreshold, target.min_tumor_samples],
+      ['T↑ (por encima del máximo normal)', target.n_t_above, target.pct_t_above,
+       tThreshold, target.min_tumor_samples],
+      ['N↓ (por debajo del mínimo tumoral)', target.n_n_below, target.pct_n_below,
+       nThreshold, target.min_normal_samples],
+      ['N↑ (por encima del máximo tumoral)', target.n_n_above, target.pct_n_above,
+       nThreshold, target.min_normal_samples],
+    ];
+    const rows = conditions.map(([label, count, value, threshold, minSamples]) => {
+      const active = count >= minSamples;
+      const near = count >= margin * minSamples && count < minSamples;
+      const status = active
+        ? '<span class="badge activado">activado</span>'
+        : near ? '<span class="badge sin_cambio">casi</span>'
+        : (count > 0 ? '<span class="badge muted">subumbral</span>' : '<span class="badge muted">—</span>');
+      return `<tr><td>${esc(label)}</td><td class="num">${fmt(count, 0)}</td>
+        <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
+    }).join('');
+
+    return `<div class="card" style="box-shadow:none;margin-bottom:12px">
+      <div class="section-head" style="margin-bottom:10px">
+        <h3 style="margin:0">${esc(target.symbol)} <span class="note mono">${esc(target.ensembl)}</span></h3>
+        <a class="btn" href="genes.html?cancer=${esc(state.cancer.id)}&gene=${esc(target.ensembl)}">Ver en Genes</a>
+      </div>
+      <div class="detail-grid">
+        ${detailItem('Tipo', esc(target.type || '—'))}
+        ${detailItem('Categoría', categoryBadge(target.category))}
+        ${detailItem('log2FC T/N', fmt(target.log2fc, 3))}
+        ${detailItem('Media geométrica T', fmt(target.geo_t, 3))}
+        ${detailItem('Media geométrica N', fmt(target.geo_n, 3))}
+        ${detailItem('Mín. T / Máx. T', `${fmt(target.t_min, 3)} / ${fmt(target.t_max, 3)}`)}
+        ${detailItem('Mín. N / Máx. N', `${fmt(target.n_min, 3)} / ${fmt(target.n_max, 3)}`)}
+      </div>
+      <div class="subhead">Muestras fuera del rango</div>
+      <div class="table-wrap" style="box-shadow:none;border:0">
+        <table>
+          <thead><tr><th>Condición</th><th class="num">Muestras</th><th class="num">%</th><th class="num">Umbral</th><th>Estado</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p class="note">Umbral efectivo T: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} de ${fmt(target.n_tumor, 0)} muestras).
+      Umbral efectivo N: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} de ${fmt(target.n_normal, 0)} muestras).</p>
+    </div>`;
+  }).join('');
 }
 
 function rowsToObjects(data) {

@@ -8,8 +8,10 @@ con la clasificación tumoral de **TCGA**. Cubre **PRAD**, **LUAD** y **BRCA**.
 - `index.html` — resumen por cáncer: experimentos, estudios, publicaciones y genes;
   tabla por tipo de gen (T / N / NT / O) y distribución de categorías y estados.
 - `experiments.html` — tabla completa con búsqueda, filtros por categoría,
-  condición y estado, y ficha de detalle. Los experimentos sin análisis indican el
-  motivo (gen O, multi-diana, diana sin clasificar o DEG no disponible).
+  condición y estado, y ficha de detalle. La ficha incluye, para cada diana
+  resuelta, su información de expresión (log2FC, medias geométricas,
+  mínimos/máximos y porcentajes fuera de rango). Los experimentos sin análisis
+  indican el motivo (gen O, multi-diana, diana sin clasificar o DEG no disponible).
 - `genes.html` — métricas de expresión por gen: `log2FC T/N`, medias geométricas,
   mínimos/máximos y porcentajes de muestras fuera del rango normal/tumoral, con
   búsqueda, filtros y ficha de detalle.
