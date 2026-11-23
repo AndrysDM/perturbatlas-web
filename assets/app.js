@@ -359,6 +359,19 @@ function countTable(block) {
   </div>`;
 }
 
+function targetEffectBadge(item) {
+  if (item.lfc === null || item.lfc === undefined || !item.condition) {
+    return '<span class="badge muted">no consta</span>';
+  }
+  const condition = String(item.condition).toUpperCase();
+  const down = condition.includes('KD') || condition.includes('KO');
+  const up = condition.includes('OE');
+  if (!down && !up) return '<span class="badge muted">no consta</span>';
+  const coherent = down ? item.lfc < 0 : item.lfc > 0;
+  return `<span class="badge ${coherent ? 'activado' : 'desactivado'}">${coherent ? 'coherente' : 'no coherente'}</span>
+    <span class="note">LFC = ${fmt(item.lfc, 3)}</span>`;
+}
+
 function renderExperimentSummary(item) {
   const summary = item.experiment_summary;
   if (!summary) return '';
@@ -381,11 +394,15 @@ function renderExperimentSummary(item) {
         <span class="badge ${effectiveClass}">${esc(EFFECTIVE_LABEL[effective] || effective)}</span>
       </div>
       <div class="summary-row">
+        <span class="summary-label">Efecto medido en la diana</span>
+        ${targetEffectBadge(item)}
+      </div>
+      <div class="summary-row">
         <span class="summary-label">Resultado</span>
         <span class="badge ${favourableClass}">${esc(FAVOURABLE_LABEL[favourable] || favourable)}</span>
         ${specific}
       </div>
-      <p class="summary-note">Resumen generado a partir del ${source}. Las frases entre comillas son literales. «No consta» significa que el artículo no lo detalla; «favorable» indica que el artículo reporta un efecto claro de la perturbación, no que el efecto sea terapéuticamente bueno.</p>
+      <p class="summary-note">Resumen generado a partir del ${source}. Las frases entre comillas son literales. «No consta» significa que el artículo no lo detalla; «favorable» indica que el artículo reporta un efecto claro de la perturbación, no que el efecto sea terapéuticamente bueno. El efecto medido usa el LFC de la diana: KD/KO → descenso, OE → aumento.</p>
     </div>`;
 }
 
