@@ -88,13 +88,43 @@
     </section>
 
     <section class="section card">
-      <h2>6. Fuentes</h2>
+      <h2>6. Resúmenes por experimento</h2>
+      <p>Cada experimento tiene un resumen centrado en dos preguntas: si la
+      <strong>perturbación de la diana</strong> fue efectiva y si el
+      <strong>resultado</strong> fue favorable, según los autores. El texto se
+      construye a partir del <strong>abstract</strong> y, cuando está disponible, del
+      <strong>texto completo</strong> del artículo (PMC, vía NCBI E-utilities).</p>
+      <p>Se buscan frases que mencionen la diana y se aplican patrones explícitos:
+      para la perturbación, <span class="mono">knockdown/knockout/overexpression</span>
+      confirmado por <span class="mono">qPCR</span>, <span class="mono">western blot</span>,
+      eficiencia de silenciamiento o reducción de la expresión; para el resultado,
+      una perturbación de la diana acompañada de un efecto fenotípico o molecular
+      (proliferación, apoptosis, crecimiento tumoral, splicing, etc.).</p>
+      <ul>
+        <li><strong>Perturbación</strong>: <em>efectiva</em> si el artículo valida el
+        cambio; <em>no efectiva</em> si reporta ineficiencia o fracaso; <em>no consta</em>
+        si no lo detalla.</li>
+        <li><strong>Resultado</strong>: <em>favorable</em> si el artículo reporta un
+        efecto claro de la perturbación; <em>mixto</em> si combina efectos; <em>sin
+        efecto</em> si no observa cambio; <em>no consta</em> si no lo detalla.</li>
+      </ul>
+      <p class="note">Las etiquetas son una ayuda a la lectura, no una validación
+      experimental: las frases entre comillas son literales y permiten comprobar la
+      evidencia. «Favorable» indica que el experimento produjo un efecto claro, no
+      que el efecto sea terapéuticamente bueno. Un mismo artículo puede cubrir varios
+      experimentos (dianas, líneas o condiciones distintas) y no detallar cada uno por
+      separado.</p>
+    </section>
+
+    <section class="section card">
+      <h2>7. Fuentes</h2>
       <ul>
         <li><strong>PerturbAtlas</strong>: experimentos de perturbación (KD, KO, OE), dianas, líneas celulares y archivos DEG.</li>
         <li><strong>TCGA</strong>: matrices de expresión y frecuencias de alteración tumoral/normal.</li>
         <li><strong>ENA, GEO, ArrayExpress y Europe PMC</strong>: identificación de la publicación original de cada experimento y recuperación de su resumen.</li>
+        <li><strong>PMC / NCBI E-utilities</strong>: texto completo de los artículos de acceso abierto para los resúmenes por experimento.</li>
       </ul>
-      <p class="note">Los resúmenes de los artículos se han redactado a partir de los abstracts indexados en Europe PMC.</p>
+      <p class="note">Los resúmenes de los artículos se han redactado a partir de los abstracts indexados; los resúmenes por experimento añaden la evidencia literal del abstract o del texto completo.</p>
     </section>
   </main>
 

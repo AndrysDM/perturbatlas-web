@@ -58,6 +58,20 @@ const SOURCE_LABEL = {
   accession: 'Europe PMC (acceso)',
   manual: 'Revisión manual',
 };
+const EFFECTIVE_LABEL = { si: 'efectiva', no: 'no efectiva', no_consta: 'no consta' };
+const EFFECTIVE_CLASS = { si: 'activado', no: 'desactivado', no_consta: 'muted' };
+const FAVOURABLE_LABEL = {
+  si: 'favorable',
+  mixto: 'mixto',
+  sin_efecto: 'sin efecto',
+  no_consta: 'no consta',
+};
+const FAVOURABLE_CLASS = {
+  si: 'activado',
+  mixto: 'sin_cambio',
+  sin_efecto: 'desactivado',
+  no_consta: 'muted',
+};
 
 function esc(value) {
   return String(value ?? '')
@@ -345,6 +359,36 @@ function countTable(block) {
   </div>`;
 }
 
+function renderExperimentSummary(item) {
+  const summary = item.experiment_summary;
+  if (!summary) return '';
+  const effective = summary.effective || 'no_consta';
+  const favourable = summary.favourable || 'no_consta';
+  const effectiveClass = EFFECTIVE_CLASS[effective] || 'muted';
+  const favourableClass = FAVOURABLE_CLASS[favourable] || 'muted';
+  const condition = item.condition || '';
+  const specific = summary.condition_specific === false && favourable === 'si'
+    ? `<span class="note">frase del estudio, no específica de ${esc(condition || 'esta condición')}</span>`
+    : '';
+  const source = summary.fulltext
+    ? 'resumen (abstract) y texto completo del artículo'
+    : 'resumen (abstract) del artículo';
+  return `<div class="subhead">Resumen del experimento</div>
+    <div class="card summary-card">
+      <p class="summary-text">${esc(summary.summary || '')}</p>
+      <div class="summary-row">
+        <span class="summary-label">Perturbación de la diana</span>
+        <span class="badge ${effectiveClass}">${esc(EFFECTIVE_LABEL[effective] || effective)}</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Resultado</span>
+        <span class="badge ${favourableClass}">${esc(FAVOURABLE_LABEL[favourable] || favourable)}</span>
+        ${specific}
+      </div>
+      <p class="summary-note">Resumen generado a partir del ${source}. Las frases entre comillas son literales. «No consta» significa que el artículo no lo detalla; «favorable» indica que el artículo reporta un efecto claro de la perturbación, no que el efecto sea terapéuticamente bueno.</p>
+    </div>`;
+}
+
 function openDetail(item) {
   const dialog = document.getElementById('detail');
   document.getElementById('detail-title').textContent = `${item.target || 'Experimento'} · ${item.condition || ''}`.trim();
@@ -417,7 +461,8 @@ function openDetail(item) {
   const targetGenes = (item.target_genes && item.target_genes.length)
     ? `<div class="subhead">Diana: información de expresión</div>${renderTargetGenes(item.target_genes)}`
     : '';
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${paper}`;
+  const experimentSummary = renderExperimentSummary(item);
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${experimentSummary}${paper}`;
   dialog.showModal();
 }
 
