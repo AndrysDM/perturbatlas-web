@@ -3,6 +3,8 @@
 
 const state = {
   cancer: null,
+  lang: 'en',
+  detailItem: null,
   index: null,
   summary: null,
   experiments: [],
@@ -73,6 +75,201 @@ const FAVOURABLE_CLASS = {
   no_consta: 'muted',
 };
 
+const CANCER_TITLES_ES = {
+  'Prostate adenocarcinoma': 'Adenocarcinoma de próstata',
+  'Lung adenocarcinoma': 'Adenocarcinoma de pulmón',
+  'Breast cancer': 'Cáncer de mama',
+};
+
+const ES = {
+  'Home': 'Inicio', 'Experiments': 'Experimentos', 'Genes': 'Genes',
+  'Publications': 'Publicaciones', 'Methodology': 'Metodología',
+  'Select cancer': 'Seleccionar cáncer', 'Select language': 'Seleccionar idioma',
+  'Perturbation atlas': 'Atlas de perturbaciones', 'Loading…': 'Cargando…',
+  'Explorer of PerturbAtlas gene-perturbation experiments integrated with the TCGA tumour classification.':
+    'Explorador de experimentos de perturbación génica de PerturbAtlas integrados con la clasificación tumoral de TCGA.',
+  'Testing the predictions of the theory presented in': 'Comprobación de las predicciones de la teoría expuesta en',
+  'using selected data from': 'utilizando datos seleccionados de',
+  'Summary by gene type': 'Resumen por tipo de gen',
+  'TCGA classification (T / N / NT / O)': 'Clasificación TCGA (T / N / NT / O)',
+  'Experiment categories': 'Categorías de los experimentos',
+  'Experiments with a single T, N or NT target; the rest are multi-target or not analysed.':
+    'Experimentos con una única diana T, N o NT; el resto son multi-diana o sin análisis.',
+  'Target states': 'Estados de la diana',
+  'Observed target state (sign of the log2FC after sign correction).':
+    'Estado observado de la diana (signo del log2FC, tras la corrección de signo).',
+  'Explore': 'Explorar',
+  'Full table with search, filters, transition probability, target state and associated publication.':
+    'Tabla completa con búsqueda, filtros, probabilidad de transición, estado de la diana y publicación asociada.',
+  'Differential expression and percentages of samples outside the normal range, by gene and type.':
+    'Expresión diferencial y porcentajes de muestras fuera del rango normal, por gen y tipo.',
+  'Cards for the original articles with their summary and the experiments they cover.':
+    'Fichas de los artículos originales con su resumen y los experimentos que cubren.',
+  'Data derived from PerturbAtlas and TCGA. Document generated automatically;':
+    'Datos derivados de PerturbAtlas y TCGA. Documento generado automáticamente;',
+  'methodological details are in the': 'los detalles metodológicos están en la',
+  'Data derived from PerturbAtlas and TCGA. Methodological details are in':
+    'Datos derivados de PerturbAtlas y TCGA. Los detalles metodológicos están en',
+  'Data derived from PerturbAtlas and TCGA. Metrics described in':
+    'Datos derivados de PerturbAtlas y TCGA. Métricas descritas en',
+  'Data derived from PerturbAtlas and TCGA. PubMed, DOI and ENA/GEO links in each card.':
+    'Datos derivados de PerturbAtlas y TCGA. Enlaces a PubMed, DOI y ENA/GEO en cada ficha.',
+  'Studies': 'Estudios', 'With analysis': 'Con análisis', 'With paper': 'Con paper',
+  'Type': 'Tipo', 'Unique genes': 'Genes únicos', 'Genes in DEG': 'Genes en DEG',
+  'Tumor freq. (mean)': 'Frec. tumoral (media)', 'Normal freq. (mean)': 'Frec. normal (media)',
+  'Computed prob.': 'Prob. calculada',
+  'The table uses the gene classification; experiments with no DEG file or an unclassified target do not reach the transition analysis.':
+    'La tabla usa la clasificación génica; los experimentos con archivo DEG no disponible o diana no clasificable no llegan al análisis de transición.',
+  'No classification summary.': 'Sin resumen de clasificación.', 'No data.': 'Sin datos.',
+  'Could not load the data': 'No se pudieron cargar los datos',
+  'How to read the data': 'Cómo se leen los datos',
+  'Summary of the gene classification scheme and the experiment analysis behind this explorer.':
+    'Resumen del esquema de clasificación génica y del análisis de experimentos que alimenta este explorador.',
+  'Perturbation experiments': 'Experimentos de perturbación',
+  'Each row is a PerturbAtlas experiment with its target, classification and transition analysis.':
+    'Cada fila corresponde a un experimento de PerturbAtlas, con la diana, su clasificación y el resultado del análisis de transición.',
+  'Search target, file, cell line or paper…': 'Buscar diana, archivo, línea o paper…',
+  'All categories': 'Todas las categorías', 'All conditions': 'Todas las condiciones',
+  'All states': 'Todos los estados', 'All types': 'Todos los tipos',
+  'Analysed only': 'Solo analizados',
+  'File': 'Archivo', 'Target': 'Diana', 'Cell line': 'Línea celular',
+  'Category': 'Categoría', 'State': 'Estado', 'Transition': 'Transición',
+  'Paper': 'Paper', 'View': 'Ver', '← Previous': '← Anterior', 'Next →': 'Siguiente →',
+  'Showing': 'Mostrando', 'of': 'de',
+  'No experiments match the filters.': 'No hay experimentos que coincidan con los filtros.',
+  '0 experiments': '0 experimentos',
+  'Expression metrics': 'Métricas de expresión',
+  'Search symbol, Ensembl or type…': 'Buscar símbolo, Ensembl o tipo…',
+  'By category': 'Por categoría', '|log2FC| highest': '|log2FC| mayor',
+  'log2FC highest': 'log2FC mayor', 'log2FC lowest': 'log2FC menor',
+  'Symbol': 'Símbolo', 'Near-activated only': 'Solo casi activados',
+  'Near: ≥80% of threshold': 'Casi: ≥80 % del umbral',
+  'Near: ≥90% of threshold': 'Casi: ≥90 % del umbral',
+  'Near: ≥95% of threshold': 'Casi: ≥95 % del umbral',
+  'Gene': 'Gen', 'log2FC TCGA (T/N)': 'log2FC TCGA (T/N)',
+  'No genes match.': 'No hay genes que coincidan.', '0 genes': '0 genes',
+  'Original articles': 'Artículos originales',
+  'Each publication links the PerturbAtlas experiment to the article describing the data, with a brief summary.':
+    'Cada publicación enlaza el experimento de PerturbAtlas con el artículo donde se describen los datos, con un resumen breve.',
+  'Search by title, author, journal, PMID or target…': 'Buscar por título, autor, revista, PMID o diana…',
+  'No publications match.': 'No hay publicaciones que coincidan.', '0 publications': '0 publicaciones',
+  'No summary.': 'Sin resumen.', 'more': 'más',
+  'Analysis': 'Análisis', 'Target type': 'Tipo de diana', 'Frequency': 'Frecuencia',
+  'log2FC experiment': 'log2FC experimento', 'Probability': 'Probabilidad',
+  'Note': 'Nota', 'No. of targets': 'Nº de dianas',
+  'Target: expression information': 'Diana: información de expresión', 'View in Genes': 'Ver en Genes',
+  'Geometric mean T': 'Media geométrica T', 'Geometric mean N': 'Media geométrica N',
+  'Min T / Max T': 'Mín. T / Máx. T', 'Min N / Max N': 'Mín. N / Máx. N',
+  'Samples outside the range': 'Muestras fuera del rango', 'Condition': 'Condición',
+  'Samples': 'Muestras', 'Threshold': 'Umbral', 'Status': 'Estado',
+  'T↓ (below the normal minimum)': 'T↓ (por debajo del mínimo normal)',
+  'T↑ (above the normal maximum)': 'T↑ (por encima del máximo normal)',
+  'N↓ (below the tumour minimum)': 'N↓ (por debajo del mínimo tumoral)',
+  'N↑ (above the tumour maximum)': 'N↑ (por encima del máximo tumoral)',
+  'activated': 'activado', 'deactivated': 'desactivado', 'near': 'casi',
+  'subthreshold': 'subumbral', 'Effective T threshold:': 'Umbral efectivo T:',
+  'Effective N threshold:': 'Umbral efectivo N:', 'samples': 'muestras',
+  'Gene counts': 'Recuento de genes', 'Group': 'Grupo',
+  'Lower frequency': 'Frecuencia menor', 'Higher frequency': 'Frecuencia mayor',
+  'Activated': 'Activados', 'Deactivated': 'Desactivados',
+  'Publication': 'Publicación', 'Link source:': 'Fuente del enlace:',
+  'No title': 'Sin título', 'No associated publication found.': 'No se identificó una publicación asociada.',
+  'Experiment summary': 'Resumen del experimento',
+  'Target perturbation': 'Perturbación de la diana',
+  'Measured target effect': 'Efecto medido en la diana', 'Outcome': 'Resultado',
+  'consistent': 'coherente', 'not consistent': 'no coherente',
+  'Cascade · H > 0.5': 'Cascada · H > 0,5', 'Target event': 'Evento de la diana',
+  'target deactivation': 'desactivación de la diana', 'target activation': 'activación de la diana',
+  'N lower / upper': 'N inferior / superior',
+  'Cascade (possible)': 'Cascada (posibles)', 'Cascade (observed)': 'Cascada (observados)',
+  'Cascade (activated)': 'Cascada (activados)', 'Cascade (deactivated)': 'Cascada (desactivados)',
+  'Confirmatory': 'Confirmatorio', 'Specificity': 'Especificidad',
+  'Events in R': 'Eventos en R', 'Rate in R': 'Tasa en R', 'Rate outside': 'Tasa fuera',
+  'Regional rates:': 'Tasas regionales:', 'Sensitivity H=0.3:': 'Sensibilidad H=0,3:',
+  'p confirmatory': 'p confirmatorio', 'p specificity': 'p especificidad',
+  'Multi-target': 'Multidiana', 'Unclassified': 'Sin clasificar',
+  'no change': 'sin cambio', 'no valid transition': 'sin transición válida',
+  'absent': 'ausente', 'no analysis': 'sin análisis',
+  'target changed': 'diana cambiada', 'not changed': 'sin cambio', 'not reported': 'no consta',
+  'successful': 'exitoso', 'mixed': 'mixto', 'no effect': 'sin efecto',
+  'ENA (study PubMed)': 'ENA (PubMed del estudio)', 'GEO (series PubMed)': 'GEO (PubMed de la serie)',
+  'BioStudies / ArrayExpress': 'BioStudies / ArrayExpress',
+  'Europe PMC (accession)': 'Europe PMC (acceso)', 'Manual review': 'Revisión manual',
+  'Candidate transitions': 'Transiciones candidatas', 'Candidate': 'Candidata',
+  'abstract and full text of the article': 'resumen (abstract) y texto completo del artículo',
+  'abstract of the article': 'resumen (abstract) del artículo',
+};
+
+const ES_PATTERNS = [
+  [/^Showing (.+) of (.+)$/, (m, a, b) => `Mostrando ${a} de ${b}`],
+  [/^(.+)\. (\d+) perturbation experiments, (\d+) studies and (\d+) single-target experiments analysed\.$/,
+    (m, title, a, b, c) => `${CANCER_TITLES_ES[title] || title}. ${a} experimentos de perturbación, ${b} estudios y ${c} experimentos con diana única analizados.`],
+  [/^(.+): (\d+) experiments downloaded; (\d+) single-target analyses and (\d+) publications identified\.$/,
+    (m, label, a, b, c) => `${label}: ${a} experimentos descargados; ${b} con diana única analizados y ${c} publicaciones identificadas.`],
+  [/^(.+): ([\d.,]+) genes classified \((.+)\)\.$/,
+    (m, label, n, rest) => `${label}: ${n} genes clasificados (${rest}).`],
+  [/^(.+): (\d+) publications identified\. Each card links the original article and the experiments that use it\.$/,
+    (m, label, n) => `${label}: ${n} publicaciones identificadas. Cada ficha enlaza el artículo original y los experimentos que lo usan.`],
+  [/^(\d+) experiments? · (.+)$/,
+    (m, n, rest) => `${n} ${Number(n) === 1 ? 'experimento' : 'experimentos'} · ${rest}`],
+  [/^Summary generated from the (.+)\. Quoted sentences are literal\..*$/,
+    (m, source) => `Resumen generado a partir del ${ES[source] || source}. Las frases entre comillas son literales. «No consta» significa que el artículo no lo detalla; «exitoso» indica que el artículo reporta un efecto claro de la perturbación, no que el efecto sea terapéuticamente bueno. El efecto medido usa el LFC de la diana: KD/KO → descenso, OE → aumento.`],
+];
+
+function locale() {
+  return state.lang === 'es' ? 'es-ES' : 'en-GB';
+}
+
+function translateDom(root = document.body) {
+  if (state.lang !== 'es') return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  for (const node of nodes) {
+    const value = node.nodeValue;
+    if (!value || !value.trim()) continue;
+    const trimmed = value.trim();
+    let translated = ES[trimmed];
+    if (!translated) {
+      for (const [pattern, replacement] of ES_PATTERNS) {
+        if (pattern.test(trimmed)) {
+          translated = trimmed.replace(pattern, replacement);
+          break;
+        }
+      }
+    }
+    if (translated) node.nodeValue = value.replace(trimmed, translated);
+  }
+  for (const attribute of ['placeholder', 'aria-label', 'title']) {
+    root.querySelectorAll(`[${attribute}]`).forEach(element => {
+      const value = element.getAttribute(attribute);
+      if (value && ES[value]) element.setAttribute(attribute, ES[value]);
+    });
+  }
+}
+
+function initLanguage() {
+  const params = new URLSearchParams(location.search);
+  const stored = localStorage.getItem('lang');
+  const requested = params.get('lang');
+  state.lang = ['en', 'es'].includes(requested) ? requested
+    : (['en', 'es'].includes(stored) ? stored : 'en');
+  localStorage.setItem('lang', state.lang);
+  document.documentElement.lang = state.lang;
+  const select = document.getElementById('lang-select');
+  if (select) {
+    select.value = state.lang;
+    select.addEventListener('change', () => {
+      const url = new URL(location.href);
+      url.searchParams.set('lang', select.value);
+      location.href = url.toString();
+    });
+  }
+  document.querySelectorAll('[data-lang-block]').forEach(block => {
+    block.hidden = block.dataset.langBlock !== state.lang;
+  });
+}
+
 function esc(value) {
   return String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -84,12 +281,12 @@ function esc(value) {
 
 function fmt(value, digits = 3) {
   if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return '—';
-  return Number(value).toLocaleString('en-GB', { maximumFractionDigits: digits });
+  return Number(value).toLocaleString(locale(), { maximumFractionDigits: digits });
 }
 
 function pct(value) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return '—';
-  return (Number(value) * 100).toLocaleString('en-GB', { maximumFractionDigits: 1 }) + '%';
+  return (Number(value) * 100).toLocaleString(locale(), { maximumFractionDigits: 1 }) + '%';
 }
 
 function transitionLabel(value) {
@@ -126,6 +323,7 @@ async function getJson(path) {
 }
 
 async function boot() {
+  initLanguage();
   const params = new URLSearchParams(location.search);
   state.index = await getJson('data/index.json');
   const wanted = params.get('cancer') || state.index.cancers[0].id;
@@ -154,6 +352,7 @@ async function boot() {
   if (page === 'genes') await loadGenes();
   if (page === 'papers') await loadPapers();
   if (page === 'methodology') fillMethodology();
+  translateDom();
 }
 
 function renderHome() {
@@ -206,6 +405,7 @@ function renderHome() {
 
   renderBars('bars-categories', summary.categories || {}, CATEGORY_LABEL, CATEGORY_COLOR, CATEGORY_ORDER);
   renderBars('bars-states', summary.states || {}, STATE_LABEL, STATE_COLOR, STATE_ORDER);
+  translateDom();
 }
 
 function renderBars(targetId, data, labels, colors, order = []) {
@@ -339,6 +539,7 @@ function renderExperiments() {
   document.getElementById('next').disabled = state.page >= pages;
   document.getElementById('experiments-lead').textContent =
     `${state.cancer.label}: ${state.experiments.length} experiments downloaded; ${state.summary.analyzed} single-target analyses and ${state.summary.papers} publications identified.`;
+  translateDom();
 }
 
 function detailItem(label, value) {
@@ -363,9 +564,9 @@ function cascadeSection(item) {
   if (!reach) return '';
   const event = reach.event === 'activation' ? 'target activation' : 'target deactivation';
   const rate = value => (value === null || value === undefined) ? '—'
-    : (Number(value) * 100).toLocaleString('en-GB', { maximumFractionDigits: 2 }) + '%';
+    : (Number(value) * 100).toLocaleString(locale(), { maximumFractionDigits: 2 }) + '%';
   const pval = value => (value === null || value === undefined) ? '—'
-    : Number(value).toLocaleString('en-GB', { maximumSignificantDigits: 3 });
+    : Number(value).toLocaleString(locale(), { maximumSignificantDigits: 3 });
   return `<div class="subhead">Cascade · H &gt; 0.5</div>
     <div class="detail-grid">
       ${detailItem('Target event', esc(event))}
@@ -409,14 +610,19 @@ function renderExperimentSummary(item) {
   const favourableClass = FAVOURABLE_CLASS[favourable] || 'muted';
   const condition = item.condition || '';
   const specific = summary.condition_specific === false && favourable === 'si'
-    ? `<span class="note">study sentence, not specific to the ${esc(condition || 'this condition')}</span>`
+    ? (state.lang === 'es'
+      ? `<span class="note">frase del estudio, no específica de ${esc(condition || 'esta condición')}</span>`
+      : `<span class="note">study sentence, not specific to the ${esc(condition || 'this condition')}</span>`)
     : '';
   const source = summary.fulltext
     ? 'abstract and full text of the article'
     : 'abstract of the article';
+  const summaryText = state.lang === 'es'
+    ? (summary.summary_es || summary.summary || '')
+    : (summary.summary || summary.summary_es || '');
   return `<div class="subhead">Experiment summary</div>
     <div class="card summary-card">
-      <p class="summary-text">${esc(summary.summary || '')}</p>
+      <p class="summary-text">${esc(summaryText)}</p>
       <div class="summary-row">
         <span class="summary-label">Target perturbation</span>
         <span class="badge ${effectiveClass}">${esc(EFFECTIVE_LABEL[effective] || effective)}</span>
@@ -486,7 +692,7 @@ function openDetail(item) {
         <div class="meta">${esc(item.paper.authors || '')}${item.paper.journal ? ` · ${esc(item.paper.journal)}` : ''}${item.paper.year ? ` (${item.paper.year})` : ''}</div>
         <div style="margin-top:8px">${links.join(' · ')}</div>
         <div class="note" style="margin-top:6px">Link source: ${esc(SOURCE_LABEL[item.paper.source] || item.paper.source || '—')}</div>
-        ${item.paper.summary ? `<p style="margin:12px 0 0">${esc(item.paper.summary)}</p>` : ''}
+        ${(() => { const text = state.lang === 'es' ? (item.paper.summary_es || item.paper.summary) : (item.paper.summary || item.paper.summary_es); return text ? `<p style="margin:12px 0 0">${esc(text)}</p>` : ''; })()}
       </div>`;
   } else {
     paper = `<div class="subhead">Publication</div><p class="note">No associated publication found.</p>`;
@@ -503,6 +709,7 @@ function openDetail(item) {
   const cascade = cascadeSection(item);
   const experimentSummary = renderExperimentSummary(item);
   document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
+  translateDom(dialog);
   dialog.showModal();
 }
 
@@ -534,6 +741,10 @@ function renderTargetGenes(targets) {
         <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
     }).join('');
 
+    const thresholdNote = state.lang === 'es'
+      ? `Umbral efectivo T: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} de ${fmt(target.n_tumor, 0)} muestras). Umbral efectivo N: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} de ${fmt(target.n_normal, 0)} muestras).`
+      : `Effective T threshold: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} of ${fmt(target.n_tumor, 0)} samples). Effective N threshold: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} of ${fmt(target.n_normal, 0)} samples).`;
+
     return `<div class="card" style="box-shadow:none;margin-bottom:12px">
       <div class="section-head" style="margin-bottom:10px">
         <h3 style="margin:0">${esc(target.symbol)} <span class="note mono">${esc(target.ensembl)}</span></h3>
@@ -555,8 +766,7 @@ function renderTargetGenes(targets) {
           <tbody>${rows}</tbody>
         </table>
       </div>
-      <p class="note">Effective T threshold: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} de ${fmt(target.n_tumor, 0)} samples).
-      Effective N threshold: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} de ${fmt(target.n_normal, 0)} samples).</p>
+      <p class="note">${thresholdNote}</p>
     </div>`;
   }).join('');
 }
@@ -730,6 +940,7 @@ function renderGenes() {
     : '0 genes';
   document.getElementById('gene-prev').disabled = state.genePage <= 1;
   document.getElementById('gene-next').disabled = state.genePage >= pages;
+  translateDom();
 }
 
 function openGene(gene) {
@@ -758,6 +969,9 @@ function openGene(gene) {
       <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
   }).join('');
 
+  const thresholdNote = state.lang === 'es'
+    ? `Umbral efectivo T: ${pct(thresholds.t)} (${fmt(params.min_tumor_samples, 0)} de ${fmt(params.num_tumor, 0)} muestras). Umbral efectivo N: ${pct(thresholds.n)} (${fmt(params.min_normal_samples, 0)} de ${fmt(params.num_normal, 0)} muestras).`
+    : `Effective T threshold: ${pct(thresholds.t)} (${fmt(params.min_tumor_samples, 0)} of ${fmt(params.num_tumor, 0)} samples). Effective N threshold: ${pct(thresholds.n)} (${fmt(params.min_normal_samples, 0)} of ${fmt(params.num_normal, 0)} samples).`;
   document.getElementById('gene-detail-body').innerHTML = `
     <div class="detail-grid">
       ${detailItem('Category', categoryBadge(gene.category))}
@@ -775,8 +989,8 @@ function openGene(gene) {
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <p class="note">Effective T threshold: ${pct(thresholds.t)} (${fmt(params.min_tumor_samples, 0)} de ${fmt(params.num_tumor, 0)} samples).
-    Effective N threshold: ${pct(thresholds.n)} (${fmt(params.min_normal_samples, 0)} de ${fmt(params.num_normal, 0)} samples).</p>`;
+    <p class="note">${thresholdNote}</p>`;
+  translateDom(dialog);
   dialog.showModal();
 }
 
@@ -805,7 +1019,7 @@ function renderPapers() {
   const query = document.getElementById('paper-search').value.trim().toLowerCase();
   state.paperRows = state.papers.filter(paper => {
     if (!query) return true;
-    const haystack = [paper.title, paper.authors, paper.journal, paper.summary, paper.pmid, paper.doi,
+    const haystack = [paper.title, paper.authors, paper.journal, paper.summary, paper.summary_es, paper.pmid, paper.doi,
       (paper.experiments || []).join(' ')].join(' ').toLowerCase();
     return haystack.includes(query);
   });
@@ -832,7 +1046,7 @@ function renderPapers() {
         <div class="meta">${esc(paper.authors || '')}${paper.journal ? ` · ${esc(paper.journal)}` : ''}${paper.year ? ` (${paper.year})` : ''}</div>
         <div>${links.join(' · ')}</div>
         <div class="note">Link source: ${esc(SOURCE_LABEL[paper.source] || paper.source || '—')}</div>
-        ${paper.summary ? `<p style="margin:0">${esc(paper.summary)}</p>` : '<p class="note">No summary.</p>'}
+        ${(() => { const text = state.lang === 'es' ? (paper.summary_es || paper.summary) : (paper.summary || paper.summary_es); return text ? `<p style="margin:0">${esc(text)}</p>` : '<p class="note">No summary.</p>'; })()}
         <div class="chips">${chips}${extra}</div>
         <div class="note">${paper.n_experiments} experiment${paper.n_experiments === 1 ? '' : 's'} · ${(paper.studies || []).join(', ')}</div>
       </article>`;
@@ -846,15 +1060,19 @@ function renderPapers() {
   document.getElementById('paper-next').disabled = state.paperPage >= pages;
   document.getElementById('papers-lead').textContent =
     `${state.cancer.label}: ${total} publications identified. Each card links the original article and the experiments that use it.`;
+  translateDom();
 }
 
 function fillMethodology() {
-  document.title = `Methodology · ${state.cancer.label} · PerturbAtlas × TCGA`;
+  document.title = state.lang === 'es'
+    ? `Metodología · ${state.cancer.label} · PerturbAtlas × TCGA`
+    : `Methodology · ${state.cancer.label} · PerturbAtlas × TCGA`;
+  translateDom();
 }
 
 boot().catch(error => {
   console.error(error);
   document.querySelectorAll('main').forEach(main => {
-    main.innerHTML = `<div class="card"><h2>No se pudieron cargar los datos</h2><p class="note">${esc(error.message)}</p></div>`;
+    main.innerHTML = `<div class="card"><h2>Could not load the data</h2><p class="note">${esc(error.message)}</p></div>`;
   });
 });
