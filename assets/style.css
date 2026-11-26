@@ -88,6 +88,9 @@ a:hover { text-decoration: underline; }
 
 .spacer { flex: 1; }
 
+/* El selector de idioma está oculto; ?lang=es sigue disponible. */
+#lang-select { display: none; }
+
 .select {
   appearance: none;
   border: 1px solid var(--border);
