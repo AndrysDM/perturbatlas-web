@@ -6,8 +6,8 @@
       "title": "Cáncer de mama",
       "experiments": 625,
       "papers": 174,
-      "analyzed": 303,
-      "generated": "2026-11-23"
+      "analyzed": 301,
+      "generated": "2026-11-25"
     },
     {
       "id": "luad",
@@ -15,8 +15,8 @@
       "title": "Adenocarcinoma de pulmón",
       "experiments": 61,
       "papers": 34,
-      "analyzed": 40,
-      "generated": "2026-11-23"
+      "analyzed": 43,
+      "generated": "2026-11-25"
     },
     {
       "id": "prad",
@@ -24,8 +24,8 @@
       "title": "Adenocarcinoma de próstata",
       "experiments": 195,
       "papers": 89,
-      "analyzed": 79,
-      "generated": "2026-11-23"
+      "analyzed": 78,
+      "generated": "2026-11-25"
     }
   ]
 }

@@ -44,7 +44,7 @@
       <h2>2. Análisis del experimento</h2>
       <p>Para cada experimento con una única diana se evalúa la transición de estado de expresión inducida por la perturbación. Solo se consideran transiciones cuyo <strong>origen</strong> es q0 o q1: el experimento es tumoral y no puede partir de q−.</p>
       <table>
-        <thead><tr><th>Categoría</th><th>Dirección</th><th>Transición evaluada</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Categoría</th><th>Dirección</th><th>Transición</th><th>Estado</th></tr></thead>
         <tbody>
           <tr><td><span class="badge T">T</span></td><td>Hacia q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activado</span></td></tr>
           <tr><td><span class="badge T">T</span></td><td>Contraria</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">desactivado</span></td></tr>
@@ -56,19 +56,19 @@
         </tbody>
       </table>
       <p class="note">En las dianas NT que se alejan de q1 se evalúan dos candidatas y se conserva la de mayor probabilidad. En los genes N, el sentido contrario exigiría origen q− y se marca <span class="badge sin_transicion_valida">sin transición válida</span>.</p>
-      <p class="note">Antes de descartar una diana se normaliza el símbolo (mayúsculas, sufijos de constructo o isoforma) y se resuelve con una tabla de alias contrastados (HER2→ERBB2, HIF2A→EPAS1, BRG1→SMARCA4, TIP5→BAZ2A, etc.). Las dianas no codificantes (miARN, lncARN, circARN) y los constructos sin símbolo canónico quedan como <span class="badge muted">sin clasificar</span> con un motivo específico.</p>
+      <p class="note">Antes de descartar una diana se normaliza el símbolo (mayúsculas, sufijos de constructo o isoforma) y se resuelve con la tabla de alias (HER2→ERBB2, HIF2A→EPAS1, SRA→SRA1, THOR→THORLNC, etc.). Si la diana no lleva signo explícito, se usa la condición del experimento (KD → −, KO → ∗, OE → +); los casos especiales están en <span class="mono">target_overrides.tsv</span>. Las dianas no codificantes o los constructos sin Ensembl quedan como <span class="badge muted">sin clasificar</span> con un motivo específico; las que se resuelven a un gen O se muestran como O.</p>
     </section>
 
     <section class="section card">
-      <h2>3. Umbral y transición evaluada</h2>
-      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado es <span class="badge sin_cambio">sin cambio</span>. La columna <strong>transición</strong> indica el resultado y la columna <strong>transición evaluada</strong> indica qué dirección se comparó. La etiqueta refleja el signo del log2fold: un descenso en un gen <em>above</em> se evalúa como <span class="mono">q1→q0</span>. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
+      <h2>3. Umbral y estado de la diana</h2>
+      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado del <strong>modelo</strong> es <span class="badge sin_cambio">sin cambio</span>. El <strong>estado observado</strong> de la diana (activado/desactivado) se toma del signo del log2FC tras la corrección de signo: positivo = activado, negativo = desactivado. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
       <p class="note">La probabilidad se consulta en el modelo de transición construido a partir de los pares de muestras tumorales/normales de TCGA.</p>
     </section>
 
     <section class="section card">
-      <h2>4. Recuentos de genes y H de Loevinger</h2>
-      <p>Para cada experimento se cuenta el estado de los demás genes de la misma categoría que la diana, separándolos en dos grupos según su frecuencia sea <strong>menor</strong> o <strong>mayor</strong> que la de la diana, más el grupo de frecuencia <strong>igual</strong>. En cada grupo se indica el número de genes activados, desactivados y sin cambio.</p>
-      <p>En las dianas T se añade el coeficiente <strong>H de Loevinger</strong> medio de la diana, calculado a partir de la matriz de coactivación tumoral; los valores negativos se truncan a 0.</p>
+      <h2>4. Recuentos de genes y cascada</h2>
+      <p>Para cada experimento se cuenta el estado de los demás genes de la misma categoría que la diana, separándolos en dos grupos según su frecuencia sea <strong>menor</strong> o <strong>mayor</strong> que la de la diana. En cada grupo se indica el número de genes activados y desactivados; los genes sin cambio y el grupo de frecuencia igual no se muestran.</p>
+      <p>En las dianas T se añaden los conjuntos de <strong>cascada</strong>: <em>posibles</em> (tamaño de <span class="mono">R</span> en la dirección predicha), <em>observados</em> (eventos confirmatorios en <span class="mono">R</span>), <em>activados</em> y <em>desactivados</em> (eventos de cada tipo en <span class="mono">R</span>). Los tests de Fisher y las tasas regionales se describen en la sección 7.</p>
     </section>
 
     <section class="section card">
@@ -89,9 +89,10 @@
 
     <section class="section card">
       <h2>6. Resúmenes por experimento</h2>
-      <p>Cada experimento tiene un resumen centrado en dos preguntas: si la
-      <strong>perturbación de la diana</strong> fue efectiva y si el
-      <strong>resultado</strong> fue favorable, según los autores. El texto se
+      <p>Cada experimento tiene un resumen centrado en las dos preguntas del
+      tutor: <strong>1)</strong> si los niveles o la actividad del target
+      cambiaron apreciablemente (perturbación efectiva) y <strong>2)</strong> si
+      los autores consideran el experimento exitoso (resultado). El texto se
       construye a partir del <strong>abstract</strong> y, cuando está disponible, del
       <strong>texto completo</strong> del artículo (PMC, vía NCBI E-utilities).</p>
       <p>Se buscan frases que mencionen la diana y se aplican patrones explícitos:
@@ -101,12 +102,14 @@
       una perturbación de la diana acompañada de un efecto fenotípico o molecular
       (proliferación, apoptosis, crecimiento tumoral, splicing, etc.).</p>
       <ul>
-        <li><strong>Perturbación</strong>: <em>efectiva</em> si el artículo valida el
-        cambio; <em>no efectiva</em> si reporta ineficiencia o fracaso; <em>no consta</em>
+        <li><strong>Perturbación</strong>: <em>efectiva</em> si el artículo valida
+        el cambio del target (qPCR, western blot, reducción de la expresión o
+        eficiencia de silenciamiento); <em>no efectiva</em> si reporta ineficiencia
+        o fracaso; <em>no consta</em> si no lo detalla.</li>
+        <li><strong>Resultado</strong>: <em>favorable</em> si los autores reportan
+        un efecto claro y consideran el experimento exitoso; <em>mixto</em> si
+        combina efectos; <em>sin efecto</em> si no observa cambio; <em>no consta</em>
         si no lo detalla.</li>
-        <li><strong>Resultado</strong>: <em>favorable</em> si el artículo reporta un
-        efecto claro de la perturbación; <em>mixto</em> si combina efectos; <em>sin
-        efecto</em> si no observa cambio; <em>no consta</em> si no lo detalla.</li>
       </ul>
       <p class="note">Las etiquetas son una ayuda a la lectura, no una validación
       experimental: las frases entre comillas son literales y permiten comprobar la
@@ -117,7 +120,44 @@
     </section>
 
     <section class="section card">
-      <h2>7. Fuentes</h2>
+      <h2>7. Cascada: alcanzabilidad y tests</h2>
+      <p>La hipótesis de cascada se contrasta con los conjuntos alcanzables
+      <span class="mono">R<sub>&lt;</sub></span> y <span class="mono">R<sub>&gt;</sub></span>:
+      genes T con frecuencia menor o mayor que la diana y
+      <span class="mono">H<sub>ij</sub> &gt; 0,5</span> en la dirección predicha
+      (reversa para desactivación, directa para activación). El estado de la diana
+      se toma del signo del <span class="mono">log2FC</span> del experimento, tras
+      corregir el signo cuando el LFC va en contra de la condición (KD/KO hacia
+      arriba u OE hacia abajo).</p>
+      <p>Si la diana se desactiva, el test confirmatorio compara las desactivaciones
+      observadas <span class="mono">D<sub>&lt;</sub></span> dentro y fuera de
+      <span class="mono">R<sub>&lt;</sub></span> (Fisher unilateral); el test de
+      especificidad compara las activaciones <span class="mono">A<sub>&lt;</sub></span>
+      (Fisher bilateral). Si la diana se activa, se usan
+      <span class="mono">A<sub>&gt;</sub></span> y
+      <span class="mono">D<sub>&gt;</sub></span> sobre
+      <span class="mono">R<sub>&gt;</sub></span>. Se reportan las tasas regionales
+      <span class="mono">τD<sub>&lt;</sub></span>,
+      <span class="mono">τA<sub>&lt;</sub></span>,
+      <span class="mono">τD<sub>&gt;</sub></span>,
+      <span class="mono">τA<sub>&gt;</sub></span> y la sensibilidad con
+      <span class="mono">H = 0,3 / 0,5 / 0,7</span>.</p>
+      <p>Las categorías de la ficha son: <strong>cascada (posibles)</strong> = tamaño
+      de <span class="mono">R</span> en la dirección predicha;
+      <strong>cascada (observados)</strong> = eventos confirmatorios en
+      <span class="mono">R</span>; <strong>cascada (activados)</strong> y
+      <strong>cascada (desactivados)</strong> = eventos de cada tipo en
+      <span class="mono">R</span>.</p>
+      <p class="note">La corrección de signo se aplica a los experimentos cuyo LFC
+      de la diana va en dirección opuesta a la condición; la lista se documenta en
+      el informe. Las dianas sin signo explícito toman el signo de la condición.
+      Los alias y los casos corregidos están en
+      <span class="mono">gene_aliases.tsv</span> y
+      <span class="mono">target_overrides.tsv</span>.</p>
+    </section>
+
+    <section class="section card">
+      <h2>8. Fuentes</h2>
       <ul>
         <li><strong>PerturbAtlas</strong>: experimentos de perturbación (KD, KO, OE), dianas, líneas celulares y archivos DEG.</li>
         <li><strong>TCGA</strong>: matrices de expresión y frecuencias de alteración tumoral/normal.</li>

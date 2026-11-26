@@ -2,27 +2,26 @@
   "cancer": "prad",
   "label": "PRAD",
   "title": "Adenocarcinoma de próstata",
-  "generated": "2026-11-23",
+  "generated": "2026-11-25",
   "experiments_total": 195,
   "studies": 95,
   "papers": 89,
-  "analyzed": 79,
+  "analyzed": 78,
   "with_paper": 191,
   "categories": {
     "N": 11,
     "O": 105,
     "Sin": 3,
-    "T": 63,
+    "T": 62,
     "NT": 9,
-    "Multi": 4
+    "Multi": 5
   },
   "states": {
-    "sin_analisis": 116,
-    "desactivado": 7,
-    "ausente": 38,
-    "sin_cambio": 21,
-    "activado": 10,
-    "sin_transicion_valida": 3
+    "sin_analisis": 117,
+    "desactivado": 33,
+    "ausente": 37,
+    "activado": 7,
+    "sin_cambio": 1
   },
   "conditions": {
     "OE": 24,

@@ -2,24 +2,23 @@
   "cancer": "luad",
   "label": "LUAD",
   "title": "Adenocarcinoma de pulmón",
-  "generated": "2026-11-23",
+  "generated": "2026-11-25",
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,
-  "analyzed": 40,
+  "analyzed": 43,
   "with_paper": 58,
   "categories": {
-    "T": 45,
-    "O": 5,
-    "Sin": 9,
-    "Multi": 2
+    "T": 48,
+    "O": 8,
+    "Multi": 2,
+    "Sin": 3
   },
   "states": {
-    "sin_cambio": 8,
-    "sin_analisis": 21,
-    "ausente": 24,
-    "desactivado": 4,
-    "activado": 4
+    "activado": 7,
+    "sin_analisis": 18,
+    "ausente": 17,
+    "desactivado": 19
   },
   "conditions": {
     "KD": 47,
@@ -158,7 +157,7 @@
       "ATAC1": 2
     },
     "O": {
-      "experimentos": 5
+      "experimentos": 8
     }
   },
   "expression": {

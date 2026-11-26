@@ -2,25 +2,25 @@
   "cancer": "brca",
   "label": "BRCA",
   "title": "Cáncer de mama",
-  "generated": "2026-11-23",
+  "generated": "2026-11-25",
   "experiments_total": 625,
   "studies": 233,
   "papers": 174,
-  "analyzed": 303,
+  "analyzed": 301,
   "with_paper": 498,
   "categories": {
-    "T": 296,
-    "NT": 8,
-    "O": 266,
-    "Sin": 50,
-    "Multi": 5
+    "T": 297,
+    "NT": 5,
+    "Multi": 29,
+    "O": 289,
+    "Sin": 5
   },
   "states": {
-    "activado": 20,
-    "desactivado": 37,
-    "sin_cambio": 81,
-    "sin_analisis": 322,
-    "ausente": 165
+    "desactivado": 106,
+    "activado": 33,
+    "sin_analisis": 324,
+    "ausente": 161,
+    "sin_cambio": 1
   },
   "conditions": {
     "KD": 475,
@@ -230,7 +230,7 @@
       "PAK4": 2
     },
     "O": {
-      "experimentos": 266
+      "experimentos": 289
     }
   },
   "expression": {

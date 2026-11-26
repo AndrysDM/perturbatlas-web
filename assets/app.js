@@ -349,14 +349,42 @@ function countTable(block) {
   if (!block) return '<p class="note">Sin recuentos.</p>';
   return `<div class="table-wrap" style="box-shadow:none;border:0">
     <table>
-      <thead><tr><th>Grupo</th><th class="num">n</th><th class="num">Activados</th><th class="num">Desactivados</th><th class="num">Sin cambio</th></tr></thead>
+      <thead><tr><th>Grupo</th><th class="num">n</th><th class="num">Activados</th><th class="num">Desactivados</th></tr></thead>
       <tbody>
-        <tr><td>Frecuencia menor</td><td class="num">${fmt(block.minor.n, 0)}</td><td class="num">${fmt(block.minor.activated, 0)}</td><td class="num">${fmt(block.minor.deactivated, 0)}</td><td class="num">${fmt(block.minor.no_change, 0)}</td></tr>
-        <tr><td>Frecuencia mayor</td><td class="num">${fmt(block.major.n, 0)}</td><td class="num">${fmt(block.major.activated, 0)}</td><td class="num">${fmt(block.major.deactivated, 0)}</td><td class="num">${fmt(block.major.no_change, 0)}</td></tr>
-        <tr><td>Frecuencia igual</td><td class="num">${fmt(block.equal, 0)}</td><td class="num">—</td><td class="num">—</td><td class="num">—</td></tr>
+        <tr><td>Frecuencia menor</td><td class="num">${fmt(block.minor.n, 0)}</td><td class="num">${fmt(block.minor.activated, 0)}</td><td class="num">${fmt(block.minor.deactivated, 0)}</td></tr>
+        <tr><td>Frecuencia mayor</td><td class="num">${fmt(block.major.n, 0)}</td><td class="num">${fmt(block.major.activated, 0)}</td><td class="num">${fmt(block.major.deactivated, 0)}</td></tr>
       </tbody>
     </table>
   </div>`;
+}
+
+function cascadeSection(item) {
+  const reach = item.reachability;
+  if (!reach) return '';
+  const event = reach.event === 'activation' ? 'activación de la diana' : 'desactivación de la diana';
+  const rate = value => (value === null || value === undefined) ? '—'
+    : (Number(value) * 100).toLocaleString('es-ES', { maximumFractionDigits: 2 }) + '%';
+  const pval = value => (value === null || value === undefined) ? '—'
+    : Number(value).toLocaleString('es-ES', { maximumSignificantDigits: 3 });
+  return `<div class="subhead">Cascada · H &gt; 0,5</div>
+    <div class="detail-grid">
+      ${detailItem('Evento de la diana', esc(event))}
+      ${detailItem('N inferior / superior', `${fmt(reach.n_lower, 0)} / ${fmt(reach.n_upper, 0)}`)}
+      ${detailItem('Cascada (posibles)', fmt(reach.cascade_possible, 0))}
+      ${detailItem('Cascada (observados)', fmt(reach.cascade_observed, 0))}
+      ${detailItem('Cascada (activados)', fmt(reach.cascade_activated, 0))}
+      ${detailItem('Cascada (desactivados)', fmt(reach.cascade_deactivated, 0))}
+    </div>
+    <div class="table-wrap" style="box-shadow:none;border:0;margin-top:10px">
+      <table>
+        <thead><tr><th>Test</th><th class="num">n (R)</th><th class="num">Eventos en R</th><th class="num">Tasa en R</th><th class="num">Tasa fuera</th><th class="num">p</th></tr></thead>
+        <tbody>
+          <tr><td>Confirmatorio</td><td class="num">${fmt(reach.confirm_n, 0)}</td><td class="num">${fmt(reach.confirm_x, 0)}</td><td class="num">${rate(reach.confirm_rate_in)}</td><td class="num">${rate(reach.confirm_rate_out)}</td><td class="num">${pval(reach.confirm_p)}</td></tr>
+          <tr><td>Especificidad</td><td class="num">${fmt(reach.specificity_n, 0)}</td><td class="num">${fmt(reach.specificity_x, 0)}</td><td class="num">${rate(reach.specificity_rate_in)}</td><td class="num">${rate(reach.specificity_rate_out)}</td><td class="num">${pval(reach.specificity_p)}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Tasas regionales: τD&lt; = ${rate(reach.tau_d_lower)}, τA&lt; = ${rate(reach.tau_a_lower)}, τD&gt; = ${rate(reach.tau_d_upper)}, τA&gt; = ${rate(reach.tau_a_upper)}. Sensibilidad H=0,3: p confirmatorio = ${pval(reach.p_confirm_030)}, p especificidad = ${pval(reach.p_specificity_030)}; H=0,7: ${pval(reach.p_confirm_070)} / ${pval(reach.p_specificity_070)}.</p>`;
 }
 
 function targetEffectBadge(item) {
@@ -409,25 +437,23 @@ function renderExperimentSummary(item) {
 function openDetail(item) {
   const dialog = document.getElementById('detail');
   document.getElementById('detail-title').textContent = `${item.target || 'Experimento'} · ${item.condition || ''}`.trim();
-  document.getElementById('detail-subtitle').textContent = `${item.filename} · ${item.study || ''}`;
+  document.getElementById('detail-subtitle').textContent = item.filename;
 
   const analysis = item.analysis
     ? `<div class="detail-grid">
         ${detailItem('Categoría', categoryBadge(item.category))}
         ${detailItem('Tipo de diana', esc(item.target_type || '—'))}
         ${detailItem('Frecuencia', item.frequency === null ? '—' : pct(item.frequency))}
-        ${detailItem('log2FC', fmt(item.lfc, 3))}
+        ${detailItem('log2FC experimento', fmt(item.lfc, 3))}
         ${detailItem('Probabilidad', item.probability === null ? '—' : fmt(item.probability, 3))}
         ${detailItem('Transición', `<span class="mono">${esc(transitionLabel(item.transition))}</span>`)}
-        ${detailItem('Transición evaluada', item.evaluated ? `<span class="mono">${esc(transitionLabel(item.evaluated))}</span>` : '—')}
         ${detailItem('Estado', stateBadge(item.state))}
-        ${detailItem('H de Loevinger', fmt(item.h_loevinger, 3))}
-        ${detailItem('Motivo', esc(item.motivo || '—'))}
-      </div>`
+      </div>
+      ${item.motivo === 'gen_ausente_en_xlsx' ? '<p class="note">La diana no está en el DEG de este experimento; se muestra su referencia TCGA.</p>' : ''}`
     : `<div class="detail-grid">
         ${detailItem('Categoría', categoryBadge(item.category))}
         ${detailItem('Tipo de diana', esc(item.target_type || '—'))}
-        ${detailItem('Motivo', esc(item.reason || 'Sin análisis de diana única.'))}
+        ${detailItem('Nota', esc(item.reason || 'Sin análisis de diana única.'))}
       </div>`;
 
   let nt = '';
@@ -468,18 +494,15 @@ function openDetail(item) {
 
   const meta = `<div class="detail-grid">
       ${detailItem('Línea celular', esc(item.cell_line || '—'))}
-      ${detailItem('Tratamiento', esc(item.treatment || '—'))}
-      ${detailItem('Estudio', item.study ? link(`https://www.ebi.ac.uk/ena/browser/view/${item.study}`, item.study) : '—')}
-      ${detailItem('GEO', item.geo ? link(`https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=${item.geo}`, item.geo) : '—')}
-      ${detailItem('ArrayExpress', item.arrayexpress ? link(`https://www.ebi.ac.uk/biostudies/arrayexpress/studies/${item.arrayexpress}`, item.arrayexpress) : '—')}
       ${detailItem('Nº de dianas', fmt(item.n_targets, 0))}
     </div>`;
 
   const targetGenes = (item.target_genes && item.target_genes.length)
     ? `<div class="subhead">Diana: información de expresión</div>${renderTargetGenes(item.target_genes)}`
     : '';
+  const cascade = cascadeSection(item);
   const experimentSummary = renderExperimentSummary(item);
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${experimentSummary}${paper}`;
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
   dialog.showModal();
 }
 
@@ -519,7 +542,7 @@ function renderTargetGenes(targets) {
       <div class="detail-grid">
         ${detailItem('Tipo', esc(target.type || '—'))}
         ${detailItem('Categoría', categoryBadge(target.category))}
-        ${detailItem('log2FC T/N', fmt(target.log2fc, 3))}
+        ${detailItem('log2FC TCGA (T/N)', fmt(target.log2fc, 3))}
         ${detailItem('Media geométrica T', fmt(target.geo_t, 3))}
         ${detailItem('Media geométrica N', fmt(target.geo_n, 3))}
         ${detailItem('Mín. T / Máx. T', `${fmt(target.t_min, 3)} / ${fmt(target.t_max, 3)}`)}
@@ -739,7 +762,7 @@ function openGene(gene) {
     <div class="detail-grid">
       ${detailItem('Categoría', categoryBadge(gene.category))}
       ${detailItem('Tipo', esc(gene.type))}
-      ${detailItem('log2FC T/N', fmt(gene.log2fc, 3))}
+      ${detailItem('log2FC TCGA (T/N)', fmt(gene.log2fc, 3))}
       ${detailItem('Media geométrica T', fmt(gene.geo_t, 3))}
       ${detailItem('Media geométrica N', fmt(gene.geo_n, 3))}
       ${detailItem('Mín. T / Máx. T', `${fmt(gene.t_min, 3)} / ${fmt(gene.t_max, 3)}`)}
