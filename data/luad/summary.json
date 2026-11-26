@@ -6,7 +6,7 @@
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,
-  "analyzed": 43,
+  "analyzed": 48,
   "with_paper": 58,
   "categories": {
     "T": 48,
@@ -16,9 +16,9 @@
   },
   "states": {
     "activado": 7,
-    "sin_analisis": 18,
+    "desactivado": 24,
     "ausente": 17,
-    "desactivado": 19
+    "sin_analisis": 13
   },
   "conditions": {
     "KD": 47,

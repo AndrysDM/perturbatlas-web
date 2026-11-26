@@ -6,7 +6,7 @@
   "experiments_total": 195,
   "studies": 95,
   "papers": 89,
-  "analyzed": 78,
+  "analyzed": 82,
   "with_paper": 191,
   "categories": {
     "N": 11,
@@ -17,10 +17,10 @@
     "Multi": 5
   },
   "states": {
-    "sin_analisis": 117,
-    "desactivado": 33,
+    "activado": 9,
+    "desactivado": 35,
+    "sin_analisis": 113,
     "ausente": 37,
-    "activado": 7,
     "sin_cambio": 1
   },
   "conditions": {

@@ -6,7 +6,7 @@
       "title": "Breast cancer",
       "experiments": 625,
       "papers": 174,
-      "analyzed": 301,
+      "analyzed": 302,
       "generated": "2026-11-26"
     },
     {
@@ -15,7 +15,7 @@
       "title": "Lung adenocarcinoma",
       "experiments": 61,
       "papers": 34,
-      "analyzed": 43,
+      "analyzed": 48,
       "generated": "2026-11-26"
     },
     {
@@ -24,7 +24,7 @@
       "title": "Prostate adenocarcinoma",
       "experiments": 195,
       "papers": 89,
-      "analyzed": 78,
+      "analyzed": 82,
       "generated": "2026-11-26"
     }
   ]
