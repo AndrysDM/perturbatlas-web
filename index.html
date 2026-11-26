@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PerturbAtlas × TCGA</title>
-  <meta name="description" content="Explorador de experimentos de perturbación génica de PerturbAtlas integrados con la clasificación tumoral de TCGA.">
+  <meta name="description" content="Explorer of PerturbAtlas gene-perturbation experiments integrated with the TCGA tumour classification.">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -12,69 +12,69 @@
   <header class="topbar">
     <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
     <nav class="nav">
-      <a href="index.html" data-nav="home">Inicio</a>
-      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="experiments.html" data-nav="experiments">Experiments</a>
       <a href="genes.html" data-nav="genes">Genes</a>
-      <a href="papers.html" data-nav="papers">Publicaciones</a>
-      <a href="methodology.html" data-nav="methodology">Metodología</a>
+      <a href="papers.html" data-nav="papers">Publications</a>
+      <a href="methodology.html" data-nav="methodology">Methodology</a>
     </nav>
     <div class="spacer"></div>
-    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+    <select class="select" id="cancer-select" aria-label="Select cancer"></select>
   </header>
 
   <main>
     <section class="hero">
-      <span class="eyebrow">Atlas de perturbaciones</span>
-      <h1 id="hero-title">Cargando…</h1>
-      <p class="lead" id="hero-lead">Explorador de experimentos de perturbación génica de PerturbAtlas integrados con la clasificación tumoral de TCGA.</p>
-      <p class="note" style="margin-top:8px">Comprobación de las predicciones de la teoría expuesta en <a href="https://doi.org/10.3389/fsysb.2026.1861211" target="_blank" rel="noopener">Frontiers in Systems Biology (2026)</a> utilizando datos seleccionados de <a href="https://perturbatlas.kratoss.site/" target="_blank" rel="noopener">PerturbAtlas</a>.</p>
+      <span class="eyebrow">Perturbation atlas</span>
+      <h1 id="hero-title">Loading…</h1>
+      <p class="lead" id="hero-lead">Explorer of PerturbAtlas gene-perturbation experiments integrated with the TCGA tumour classification.</p>
+      <p class="note" style="margin-top:8px">Testing the predictions of the theory presented in <a href="https://doi.org/10.3389/fsysb.2026.1861211" target="_blank" rel="noopener">Frontiers in Systems Biology (2026)</a> using selected data from <a href="https://perturbatlas.kratoss.site/" target="_blank" rel="noopener">PerturbAtlas</a>.</p>
     </section>
 
     <section class="kpis" id="kpis" aria-live="polite"></section>
 
     <section class="section">
       <div class="section-head">
-        <h2>Resumen por tipo de gen</h2>
-        <span class="hint">Clasificación TCGA (T / N / NT / O)</span>
+        <h2>Summary by gene type</h2>
+        <span class="hint">TCGA classification (T / N / NT / O)</span>
       </div>
       <div class="card" id="type-summary"></div>
     </section>
 
     <div class="grid-2 section">
       <div class="card">
-        <h2>Categorías de los experimentos</h2>
-        <p class="note">Experimentos con una única diana T, N o NT; el resto son multi-diana o sin análisis.</p>
+        <h2>Experiment categories</h2>
+        <p class="note">Experiments with a single T, N or NT target; the rest are multi-target or not analysed.</p>
         <div class="bars" id="bars-categories"></div>
       </div>
       <div class="card">
-        <h2>Estados de la diana</h2>
-        <p class="note">Estado observado de la diana (signo del log2FC, tras la corrección de signo).</p>
+        <h2>Target states</h2>
+        <p class="note">Observed target state (sign of the log2FC after sign correction).</p>
         <div class="bars" id="bars-states"></div>
       </div>
     </div>
 
     <section class="section">
-      <div class="section-head"><h2>Explorar</h2></div>
+      <div class="section-head"><h2>Explore</h2></div>
       <div class="grid-3">
         <a class="card" href="experiments.html">
-          <h2>Experimentos</h2>
-          <p class="note">Tabla completa con búsqueda, filtros, probabilidad de transición, estado de la diana y publicación asociada.</p>
+          <h2>Experiments</h2>
+          <p class="note">Full table with search, filters, transition probability, target state and associated publication.</p>
         </a>
         <a class="card" href="genes.html">
           <h2>Genes</h2>
-          <p class="note">Expresión diferencial y porcentajes de muestras fuera del rango normal, por gen y tipo.</p>
+          <p class="note">Differential expression and percentages of samples outside the normal range, by gene and type.</p>
         </a>
         <a class="card" href="papers.html">
-          <h2>Publicaciones</h2>
-          <p class="note">Fichas de los artículos originales con su resumen y los experimentos que cubren.</p>
+          <h2>Publications</h2>
+          <p class="note">Cards for the original articles with their summary and the experiments they cover.</p>
         </a>
       </div>
     </section>
   </main>
 
   <footer>
-    Datos derivados de PerturbAtlas y TCGA. Documento generado automáticamente;
-    los detalles metodológicos están en la sección <a href="methodology.html">Metodología</a>.
+    Data derived from PerturbAtlas and TCGA. Document generated automatically;
+    methodological details are in the <a href="methodology.html">Methodology</a>.
   </footer>
 
   <script src="assets/app.js"></script>

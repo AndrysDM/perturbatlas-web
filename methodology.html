@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Metodología · PerturbAtlas × TCGA</title>
+  <title>Methodology · PerturbAtlas × TCGA</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -11,165 +11,157 @@
   <header class="topbar">
     <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
     <nav class="nav">
-      <a href="index.html" data-nav="home">Inicio</a>
-      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="experiments.html" data-nav="experiments">Experiments</a>
       <a href="genes.html" data-nav="genes">Genes</a>
-      <a href="papers.html" data-nav="papers">Publicaciones</a>
-      <a href="methodology.html" data-nav="methodology">Metodología</a>
+      <a href="papers.html" data-nav="papers">Publications</a>
+      <a href="methodology.html" data-nav="methodology">Methodology</a>
     </nav>
     <div class="spacer"></div>
-    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+    <select class="select" id="cancer-select" aria-label="Select cancer"></select>
   </header>
 
   <main>
     <section class="hero">
-      <span class="eyebrow">Metodología</span>
-      <h1>Cómo se leen los datos</h1>
-      <p class="lead">Resumen del esquema de clasificación génica y del análisis de experimentos que alimenta este explorador.</p>
+      <span class="eyebrow">Methodology</span>
+      <h1>How to read the data</h1>
+      <p class="lead">Summary of the gene classification scheme and the experiment analysis behind this explorer.</p>
     </section>
 
     <section class="section card">
-      <h2>1. Clasificación de genes</h2>
-      <p>Cada gen se describe con dos frecuencias calculadas sobre las muestras de TCGA: la <strong>frecuencia tumoral</strong> (proporción de muestras tumorales en las que el gen está alterado) y la <strong>frecuencia normal</strong>. A partir de ambas se asigna una categoría:</p>
-      <div class="detail-grid">
-        <div class="detail"><div class="k">T</div><div class="v">Alterado principalmente en tumores</div></div>
-        <div class="detail"><div class="k">N</div><div class="v">Alterado principalmente en muestras normales</div></div>
-        <div class="detail"><div class="k">NT</div><div class="v">Alterado en ambos contextos, con zonas exclusivas</div></div>
-        <div class="detail"><div class="k">O</div><div class="v">Sin patrón diferencial claro</div></div>
+      <h2>1. Gene classification</h2>
+      <p>Each gene is described by two frequencies computed on the TCGA samples: the
+      <strong>tumour frequency</strong> (fraction of tumour samples in which the gene is
+      altered) and the <strong>normal frequency</strong>. A category is assigned from both:</p>
+      <div class="grid-4">
+        <div class="detail"><div class="k">T</div><div class="v">Altered mainly in tumours</div></div>
+        <div class="detail"><div class="k">N</div><div class="v">Altered mainly in normal samples</div></div>
+        <div class="detail"><div class="k">NT</div><div class="v">Altered in both contexts, with exclusive zones</div></div>
+        <div class="detail"><div class="k">O</div><div class="v">No clear differential pattern</div></div>
       </div>
-      <p class="note">Los genes T y N poseen una única zona exclusiva (q1 para T, q− para N). Los genes NT poseen dos zonas exclusivas (q1 y q−) y son los únicos que pueden cruzar entre ellas.</p>
+      <p class="note">T and N genes have a single exclusive zone (q1 for T, q− for N). NT genes have two exclusive zones (q1 and q−) and are the only ones that can cross between them.</p>
     </section>
 
     <section class="section card">
-      <h2>2. Análisis del experimento</h2>
-      <p>Para cada experimento con una única diana se evalúa la transición de estado de expresión inducida por la perturbación. Solo se consideran transiciones cuyo <strong>origen</strong> es q0 o q1: el experimento es tumoral y no puede partir de q−.</p>
+      <h2>2. Experiment analysis</h2>
+      <p>For each experiment with a single target, the expression-state transition induced by the perturbation is evaluated. Only transitions whose <strong>origin</strong> is q0 or q1 are considered: the experiment is tumour-based and cannot start from q−.</p>
       <table>
-        <thead><tr><th>Categoría</th><th>Dirección</th><th>Transición</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Category</th><th>Direction</th><th>Transition</th><th>State</th></tr></thead>
         <tbody>
-          <tr><td><span class="badge T">T</span></td><td>Hacia q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activado</span></td></tr>
-          <tr><td><span class="badge T">T</span></td><td>Contraria</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">desactivado</span></td></tr>
-          <tr><td><span class="badge N">N</span></td><td>Hacia q−</td><td class="mono">q0 → q−</td><td><span class="badge activado">activado</span></td></tr>
-          <tr><td><span class="badge N">N</span></td><td>Contraria</td><td>—</td><td><span class="badge sin_transicion_valida">sin transición válida</span></td></tr>
-          <tr><td><span class="badge NT">NT</span></td><td>Hacia q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activado</span></td></tr>
-          <tr><td><span class="badge NT">NT</span></td><td>Alejándose de q1</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">desactivado</span></td></tr>
-          <tr><td><span class="badge NT">NT</span></td><td>Alejándose de q1</td><td class="mono">q1 → q−</td><td><span class="badge desactivado">desactivado</span></td></tr>
+          <tr><td><span class="badge T">T</span></td><td>Towards q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activated</span></td></tr>
+          <tr><td><span class="badge T">T</span></td><td>Opposite</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">deactivated</span></td></tr>
+          <tr><td><span class="badge N">N</span></td><td>Towards q−</td><td class="mono">q0 → q−</td><td><span class="badge activado">activated</span></td></tr>
+          <tr><td><span class="badge N">N</span></td><td>Opposite</td><td>—</td><td><span class="badge sin_transicion_valida">no valid transition</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Towards q1</td><td class="mono">q0 → q1</td><td><span class="badge activado">activated</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Away from q1</td><td class="mono">q1 → q0</td><td><span class="badge desactivado">deactivated</span></td></tr>
+          <tr><td><span class="badge NT">NT</span></td><td>Away from q1</td><td class="mono">q1 → q−</td><td><span class="badge desactivado">deactivated</span></td></tr>
         </tbody>
       </table>
-      <p class="note">En las dianas NT que se alejan de q1 se evalúan dos candidatas y se conserva la de mayor probabilidad. En los genes N, el sentido contrario exigiría origen q− y se marca <span class="badge sin_transicion_valida">sin transición válida</span>.</p>
-      <p class="note">Antes de descartar una diana se normaliza el símbolo (mayúsculas, sufijos de constructo o isoforma) y se resuelve con la tabla de alias (HER2→ERBB2, HIF2A→EPAS1, SRA→SRA1, THOR→THORLNC, etc.). Si la diana no lleva signo explícito, se usa la condición del experimento (KD → −, KO → ∗, OE → +); los casos especiales están en <span class="mono">target_overrides.tsv</span>. Las dianas no codificantes o los constructos sin Ensembl quedan como <span class="badge muted">sin clasificar</span> con un motivo específico; las que se resuelven a un gen O se muestran como O.</p>
+      <p class="note">For NT targets moving away from q1, two candidate transitions are evaluated and the one with the highest probability is kept. For N genes, the opposite direction would require origin q− and is marked <span class="badge sin_transicion_valida">no valid transition</span>.</p>
+      <p class="note">Before discarding a target, its symbol is normalised (upper case, construct or isoform suffixes) and resolved with the alias table (HER2→ERBB2, HIF2A→EPAS1, SRA→SRA1, THOR→THORLNC, etc.). If the target has no explicit sign, the experiment condition is used (KD → −, KO → ∗, OE → +); special cases are in <span class="mono">target_overrides.tsv</span>. Non-coding targets or constructs without an Ensembl remain <span class="badge muted">unclassified</span> with a specific reason; targets resolved to an O gene are shown as O.</p>
     </section>
 
     <section class="section card">
-      <h2>3. Umbral y estado de la diana</h2>
-      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado del <strong>modelo</strong> es <span class="badge sin_cambio">sin cambio</span>. El <strong>estado observado</strong> de la diana (activado/desactivado) se toma del signo del log2FC tras la corrección de signo: positivo = activado, negativo = desactivado. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
-      <p class="note">La probabilidad se consulta en el modelo de transición construido a partir de los pares de muestras tumorales/normales de TCGA.</p>
+      <h2>3. Threshold and target state</h2>
+      <p>If the transition probability is below <strong>0.6</strong>, or the log2fold is zero, the <strong>model</strong> state is <span class="badge sin_cambio">no change</span>. The <strong>observed</strong> target state (activated/deactivated) is taken from the log2FC sign after sign correction: positive = activated, negative = deactivated. The probability is read from the <span class="mono">q0→q1</span> curve (or <span class="mono">q0→q−</span> for N) evaluated at |L|, which is equivalent by symmetry.</p>
+      <p class="note">The probability comes from the transition model built from pairs of TCGA tumour/normal samples.</p>
     </section>
 
     <section class="section card">
-      <h2>4. Recuentos de genes y cascada</h2>
-      <p>Para cada experimento se cuenta el estado de los demás genes de la misma categoría que la diana, separándolos en dos grupos según su frecuencia sea <strong>menor</strong> o <strong>mayor</strong> que la de la diana. En cada grupo se indica el número de genes activados y desactivados; los genes sin cambio y el grupo de frecuencia igual no se muestran.</p>
-      <p>En las dianas T se añaden los conjuntos de <strong>cascada</strong>: <em>posibles</em> (tamaño de <span class="mono">R</span> en la dirección predicha), <em>observados</em> (eventos confirmatorios en <span class="mono">R</span>), <em>activados</em> y <em>desactivados</em> (eventos de cada tipo en <span class="mono">R</span>). Los tests de Fisher y las tasas regionales se describen en la sección 7.</p>
+      <h2>4. Gene counts and cascade</h2>
+      <p>For each experiment, the state of the other genes of the same category as the target is counted, split into two groups according to whether their frequency is <strong>lower</strong> or <strong>higher</strong> than the target. Each group shows the number of activated and deactivated genes; no-change genes and the equal-frequency group are not shown.</p>
+      <p>For T targets, the <strong>cascade</strong> sets are added: <em>possible</em> (size of <span class="mono">R</span> in the predicted direction), <em>observed</em> (confirmatory events in <span class="mono">R</span>), <em>activated</em> and <em>deactivated</em> (events of each type in <span class="mono">R</span>). The Fisher tests and regional rates are described in section 7.</p>
     </section>
 
     <section class="section card">
-      <h2>5. Métricas de expresión</h2>
-      <p>Para cada gen se calcula la expresión diferencial como
-      <span class="mono">log2(media geométrica T / media geométrica N)</span>, sumando
-      <strong>0.1</strong> a la FPKM de cada muestra antes de la media geométrica.</p>
-      <p>También se guardan los porcentajes brutos de muestras fuera del rango:
-      <strong>T↓</strong> (T &lt; mín(N) − 0,1), <strong>T↑</strong> (T &gt; máx(N) + 0,1),
-      <strong>N↓</strong> (N &lt; mín(T) − 0,1) y <strong>N↑</strong> (N &gt; máx(T) + 0,1).
-      Se guardan aunque no alcancen el umbral de activación (10 % en T, 5 % en N), para
-      identificar los casos “casi activados”.</p>
-      <p class="note">El umbral se aplica con <span class="mono">ceil</span>: por ejemplo,
-      50 de 499 muestras tumorales (10,02 %) y 3 de 52 normales (5,77 %) en PRAD. Se
-      considera “casi activado” cuando el porcentaje alcanza al menos el <strong>80 %</strong>
-      del umbral (configurable al 80/90/95 % en la página <a href="genes.html">Genes</a>).</p>
+      <h2>5. Expression metrics</h2>
+      <p>For each gene, differential expression is <span class="mono">log2(geometric mean T / geometric mean N)</span>, adding <strong>0.1</strong> to each sample FPKM before the geometric mean.</p>
+      <p>Raw percentages of samples outside the range are also stored:
+      <strong>T↓</strong> (T &lt; min(N) − 0.1), <strong>T↑</strong> (T &gt; max(N) + 0.1),
+      <strong>N↓</strong> (N &lt; min(T) − 0.1) and <strong>N↑</strong> (N &gt; max(T) + 0.1).
+      They are kept even when they do not reach the activation threshold (10% in T, 5% in N), to identify near-activated cases.</p>
+      <p class="note">The threshold is applied with <span class="mono">ceil</span>: for example, 50 of 499 tumour samples (10.02%) and 3 of 52 normal samples (5.77%) in PRAD. A gene is considered “near activated” when the percentage reaches at least <strong>80%</strong> of the threshold (configurable at 80/90/95% on the <a href="genes.html">Genes</a> page).</p>
     </section>
 
     <section class="section card">
-      <h2>6. Resúmenes por experimento</h2>
-      <p>Cada experimento tiene un resumen centrado en las dos preguntas del
-      tutor: <strong>1)</strong> si los niveles o la actividad del target
-      cambiaron apreciablemente (perturbación efectiva) y <strong>2)</strong> si
-      los autores consideran el experimento exitoso (resultado). El texto se
-      construye a partir del <strong>abstract</strong> y, cuando está disponible, del
-      <strong>texto completo</strong> del artículo (PMC, vía NCBI E-utilities).</p>
-      <p>Se buscan frases que mencionen la diana y se aplican patrones explícitos:
-      para la perturbación, <span class="mono">knockdown/knockout/overexpression</span>
-      confirmado por <span class="mono">qPCR</span>, <span class="mono">western blot</span>,
-      eficiencia de silenciamiento o reducción de la expresión; para el resultado,
-      una perturbación de la diana acompañada de un efecto fenotípico o molecular
-      (proliferación, apoptosis, crecimiento tumoral, splicing, etc.).</p>
+      <h2>6. Experiment summaries</h2>
+      <p>Each experiment has a summary focused on the tutor's two questions:
+      <strong>1)</strong> did the target levels or activity change appreciably (effective
+      perturbation), and <strong>2)</strong> do the authors consider the experiment
+      successful (outcome). The text is built from the <strong>abstract</strong> and,
+      when available, the <strong>full text</strong> of the article (PMC, via NCBI
+      E-utilities).</p>
+      <p>Sentences mentioning the target are searched and explicit patterns are applied:
+      for the perturbation, <span class="mono">knockdown/knockout/overexpression</span>
+      confirmed by <span class="mono">qPCR</span>, <span class="mono">western blot</span>,
+      silencing efficiency or reduced expression; for the outcome, a target perturbation
+      accompanied by a phenotypic or molecular effect (proliferation, apoptosis, tumour
+      growth, splicing, etc.).</p>
       <ul>
-        <li><strong>Perturbación</strong>: <em>efectiva</em> si el artículo valida
-        el cambio del target (qPCR, western blot, reducción de la expresión o
-        eficiencia de silenciamiento); <em>no efectiva</em> si reporta ineficiencia
-        o fracaso; <em>no consta</em> si no lo detalla.</li>
-        <li><strong>Resultado</strong>: <em>favorable</em> si los autores reportan
-        un efecto claro y consideran el experimento exitoso; <em>mixto</em> si
-        combina efectos; <em>sin efecto</em> si no observa cambio; <em>no consta</em>
-        si no lo detalla.</li>
+        <li><strong>Perturbation</strong>: <em>target changed</em> if the article
+        validates the change (qPCR, western blot, reduced expression or silencing
+        efficiency); <em>not changed</em> if it reports inefficiency or failure;
+        <em>not reported</em> if it does not state it.</li>
+        <li><strong>Outcome</strong>: <em>successful</em> if the authors report a clear
+        effect and consider the experiment successful; <em>mixed</em> if it combines
+        effects; <em>no effect</em> if no change is observed; <em>not reported</em> if
+        it does not state it.</li>
       </ul>
-      <p class="note">Las etiquetas son una ayuda a la lectura, no una validación
-      experimental: las frases entre comillas son literales y permiten comprobar la
-      evidencia. «Favorable» indica que el experimento produjo un efecto claro, no
-      que el efecto sea terapéuticamente bueno. Un mismo artículo puede cubrir varios
-      experimentos (dianas, líneas o condiciones distintas) y no detallar cada uno por
-      separado.</p>
+      <p class="note">The labels are a reading aid, not an experimental validation: the
+      quoted sentences are literal and allow the evidence to be checked. “Successful”
+      means the experiment produced a clear effect, not that the effect is
+      therapeutically beneficial. A single article may cover several experiments
+      (different targets, cell lines or conditions) and may not detail each one
+      separately.</p>
     </section>
 
     <section class="section card">
-      <h2>7. Cascada: alcanzabilidad y tests</h2>
-      <p>La hipótesis de cascada se contrasta con los conjuntos alcanzables
-      <span class="mono">R<sub>&lt;</sub></span> y <span class="mono">R<sub>&gt;</sub></span>:
-      genes T con frecuencia menor o mayor que la diana y
-      <span class="mono">H<sub>ij</sub> &gt; 0,5</span> en la dirección predicha
-      (reversa para desactivación, directa para activación). El estado de la diana
-      se toma del signo del <span class="mono">log2FC</span> del experimento, tras
-      corregir el signo cuando el LFC va en contra de la condición (KD/KO hacia
-      arriba u OE hacia abajo).</p>
-      <p>Si la diana se desactiva, el test confirmatorio compara las desactivaciones
-      observadas <span class="mono">D<sub>&lt;</sub></span> dentro y fuera de
-      <span class="mono">R<sub>&lt;</sub></span> (Fisher unilateral); el test de
-      especificidad compara las activaciones <span class="mono">A<sub>&lt;</sub></span>
-      (Fisher bilateral). Si la diana se activa, se usan
-      <span class="mono">A<sub>&gt;</sub></span> y
-      <span class="mono">D<sub>&gt;</sub></span> sobre
-      <span class="mono">R<sub>&gt;</sub></span>. Se reportan las tasas regionales
+      <h2>7. Cascade: reachability and tests</h2>
+      <p>The cascade hypothesis is tested with the reachable sets
+      <span class="mono">R<sub>&lt;</sub></span> and <span class="mono">R<sub>&gt;</sub></span>:
+      T genes with frequency lower or higher than the target and
+      <span class="mono">H<sub>ij</sub> &gt; 0.5</span> in the predicted direction
+      (reverse for deactivation, direct for activation). The target state is taken from
+      the experiment log2FC sign, after correcting the sign when the LFC goes against
+      the condition (KD/KO upwards or OE downwards).</p>
+      <p>If the target is deactivated, the confirmatory test compares the observed
+      deactivations <span class="mono">D<sub>&lt;</sub></span> inside and outside
+      <span class="mono">R<sub>&lt;</sub></span> (one-sided Fisher); the specificity test
+      compares the activations <span class="mono">A<sub>&lt;</sub></span> (two-sided
+      Fisher). If the target is activated, <span class="mono">A<sub>&gt;</sub></span> and
+      <span class="mono">D<sub>&gt;</sub></span> are used on
+      <span class="mono">R<sub>&gt;</sub></span>. Regional rates
       <span class="mono">τD<sub>&lt;</sub></span>,
       <span class="mono">τA<sub>&lt;</sub></span>,
       <span class="mono">τD<sub>&gt;</sub></span>,
-      <span class="mono">τA<sub>&gt;</sub></span> y la sensibilidad con
-      <span class="mono">H = 0,3 / 0,5 / 0,7</span>.</p>
-      <p>Las categorías de la ficha son: <strong>cascada (posibles)</strong> = tamaño
-      de <span class="mono">R</span> en la dirección predicha;
-      <strong>cascada (observados)</strong> = eventos confirmatorios en
-      <span class="mono">R</span>; <strong>cascada (activados)</strong> y
-      <strong>cascada (desactivados)</strong> = eventos de cada tipo en
-      <span class="mono">R</span>.</p>
-      <p class="note">La corrección de signo se aplica a los experimentos cuyo LFC
-      de la diana va en dirección opuesta a la condición; la lista se documenta en
-      el informe. Las dianas sin signo explícito toman el signo de la condición.
-      Los alias y los casos corregidos están en
-      <span class="mono">gene_aliases.tsv</span> y
+      <span class="mono">τA<sub>&gt;</sub></span> and sensitivity at
+      <span class="mono">H = 0.3 / 0.5 / 0.7</span> are reported.</p>
+      <p>The experiment card categories are: <strong>cascade (possible)</strong> = size of
+      <span class="mono">R</span> in the predicted direction; <strong>cascade
+      (observed)</strong> = confirmatory events in <span class="mono">R</span>;
+      <strong>cascade (activated)</strong> and <strong>cascade (deactivated)</strong> =
+      events of each type in <span class="mono">R</span>.</p>
+      <p class="note">Sign correction is applied to experiments whose target LFC goes in
+      the opposite direction to the condition; the list is documented in the report.
+      Targets without an explicit sign take the sign of the condition. Aliases and
+      corrected cases are in <span class="mono">gene_aliases.tsv</span> and
       <span class="mono">target_overrides.tsv</span>.</p>
     </section>
 
     <section class="section card">
-      <h2>8. Fuentes</h2>
+      <h2>8. Sources</h2>
       <ul>
-        <li><strong>PerturbAtlas</strong>: experimentos de perturbación (KD, KO, OE), dianas, líneas celulares y archivos DEG.</li>
-        <li><strong>TCGA</strong>: matrices de expresión y frecuencias de alteración tumoral/normal.</li>
-        <li><strong>ENA, GEO, ArrayExpress y Europe PMC</strong>: identificación de la publicación original de cada experimento y recuperación de su resumen.</li>
-        <li><strong>PMC / NCBI E-utilities</strong>: texto completo de los artículos de acceso abierto para los resúmenes por experimento.</li>
+        <li><strong>PerturbAtlas</strong>: perturbation experiments (KD, KO, OE), targets, cell lines and DEG files.</li>
+        <li><strong>TCGA</strong>: expression matrices and tumour/normal alteration frequencies.</li>
+        <li><strong>ENA, GEO, ArrayExpress and Europe PMC</strong>: identification of the original publication of each experiment and retrieval of its summary.</li>
+        <li><strong>PMC / NCBI E-utilities</strong>: full text of open-access articles for the experiment summaries.</li>
       </ul>
-      <p class="note">Los resúmenes de los artículos se han redactado a partir de los abstracts indexados; los resúmenes por experimento añaden la evidencia literal del abstract o del texto completo.</p>
+      <p class="note">Paper summaries are extracted from the indexed abstracts; the experiment summaries add the literal evidence from the abstract or the full text.</p>
     </section>
   </main>
 
   <footer>
-    Datos derivados de PerturbAtlas y TCGA. Documento generado automáticamente.
+    Data derived from PerturbAtlas and TCGA. Document generated automatically.
   </footer>
 
   <script src="assets/app.js"></script>

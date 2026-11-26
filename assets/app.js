@@ -1,4 +1,4 @@
-/* Explorador de experimentos PerturbAtlas × TCGA */
+/* PerturbAtlas × TCGA explorer */
 'use strict';
 
 const state = {
@@ -20,14 +20,14 @@ const state = {
   geneSummary: null,
 };
 
-const CATEGORY_LABEL = { T: 'T', N: 'N', NT: 'NT', O: 'O', Multi: 'Multi-diana', Sin: 'Sin clasificar' };
+const CATEGORY_LABEL = { T: 'T', N: 'N', NT: 'NT', O: 'O', Multi: 'Multi-target', Sin: 'Unclassified' };
 const STATE_LABEL = {
-  activado: 'activado',
-  desactivado: 'desactivado',
-  sin_cambio: 'sin cambio',
-  sin_transicion_valida: 'sin transición válida',
-  ausente: 'ausente',
-  sin_analisis: 'sin análisis',
+  activado: 'activated',
+  desactivado: 'deactivated',
+  sin_cambio: 'no change',
+  sin_transicion_valida: 'no valid transition',
+  ausente: 'absent',
+  sin_analisis: 'no analysis',
 };
 const TRANSITION_LABEL = {
   q0_to_q1: 'q0→q1',
@@ -36,9 +36,9 @@ const TRANSITION_LABEL = {
   qminus_to_q0: 'q−→q0',
   qminus_to_q1: 'q−→q1',
   q1_to_qminus: 'q1→q−',
-  sin_cambio: 'sin cambio',
-  sin_transicion_valida: 'sin transición válida',
-  ausente: 'ausente',
+  sin_cambio: 'no change',
+  sin_transicion_valida: 'no valid transition',
+  ausente: 'absent',
 };
 const CATEGORY_COLOR = { T: '#0284c7', N: '#d97706', NT: '#7c3aed', O: '#64748b', Multi: '#64748b', Sin: '#94a3b8' };
 const STATE_COLOR = {
@@ -52,19 +52,19 @@ const STATE_COLOR = {
 const CATEGORY_ORDER = ['T', 'N', 'NT', 'O', 'Multi', 'Sin'];
 const STATE_ORDER = ['activado', 'desactivado', 'sin_cambio', 'sin_transicion_valida', 'ausente', 'sin_analisis'];
 const SOURCE_LABEL = {
-  ena: 'ENA (PubMed del estudio)',
-  geo: 'GEO (PubMed de la serie)',
+  ena: 'ENA (study PubMed)',
+  geo: 'GEO (series PubMed)',
   biostudies: 'BioStudies / ArrayExpress',
-  accession: 'Europe PMC (acceso)',
-  manual: 'Revisión manual',
+  accession: 'Europe PMC (accession)',
+  manual: 'Manual review',
 };
-const EFFECTIVE_LABEL = { si: 'efectiva', no: 'no efectiva', no_consta: 'no consta' };
+const EFFECTIVE_LABEL = { si: 'target changed', no: 'not changed', no_consta: 'not reported' };
 const EFFECTIVE_CLASS = { si: 'activado', no: 'desactivado', no_consta: 'muted' };
 const FAVOURABLE_LABEL = {
-  si: 'favorable',
-  mixto: 'mixto',
-  sin_efecto: 'sin efecto',
-  no_consta: 'no consta',
+  si: 'successful',
+  mixto: 'mixed',
+  sin_efecto: 'no effect',
+  no_consta: 'not reported',
 };
 const FAVOURABLE_CLASS = {
   si: 'activado',
@@ -84,12 +84,12 @@ function esc(value) {
 
 function fmt(value, digits = 3) {
   if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return '—';
-  return Number(value).toLocaleString('es-ES', { maximumFractionDigits: digits });
+  return Number(value).toLocaleString('en-GB', { maximumFractionDigits: digits });
 }
 
 function pct(value) {
   if (value === null || value === undefined || Number.isNaN(Number(value))) return '—';
-  return (Number(value) * 100).toLocaleString('es-ES', { maximumFractionDigits: 1 }) + '%';
+  return (Number(value) * 100).toLocaleString('en-GB', { maximumFractionDigits: 1 }) + '%';
 }
 
 function transitionLabel(value) {
@@ -161,14 +161,14 @@ function renderHome() {
   document.title = `${summary.label} · PerturbAtlas × TCGA`;
   document.getElementById('hero-title').textContent = summary.label;
   document.getElementById('hero-lead').textContent =
-    `${summary.title}. ${summary.experiments_total} experimentos de perturbación, ${summary.studies} estudios y ${summary.analyzed} experimentos con diana única analizada.`;
+    `${summary.title}. ${summary.experiments_total} perturbation experiments, ${summary.studies} studies and ${summary.analyzed} single-target experiments analysed.`;
 
   const kpis = [
-    [summary.experiments_total, 'Experimentos'],
-    [summary.studies, 'Estudios'],
-    [summary.papers, 'Publicaciones'],
-    [summary.analyzed, 'Con análisis'],
-    [summary.with_paper, 'Con paper'],
+    [summary.experiments_total, 'Experiments'],
+    [summary.studies, 'Studies'],
+    [summary.papers, 'Publications'],
+    [summary.analyzed, 'With analysis'],
+    [summary.with_paper, 'With paper'],
     [summary.genes_total, 'Genes'],
   ];
   document.getElementById('kpis').innerHTML = kpis
@@ -195,13 +195,13 @@ function renderHome() {
     document.getElementById('type-summary').innerHTML = `
       <div class="table-wrap" style="box-shadow:none;border:0">
         <table>
-          <thead><tr><th>Tipo</th><th class="num">Experimentos</th><th class="num">Genes únicos</th><th class="num">Genes en DEG</th><th class="num">Frec. tumoral (media)</th><th class="num">Frec. normal (media)</th><th class="num">Prob. calculada</th></tr></thead>
+          <thead><tr><th>Type</th><th class="num">Experiments</th><th class="num">Unique genes</th><th class="num">Genes in DEG</th><th class="num">Tumor freq. (mean)</th><th class="num">Normal freq. (mean)</th><th class="num">Computed prob.</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
-      <p class="note" style="margin:12px 0 0">La tabla usa la clasificación génica; los experimentos con archivo DEG no disponible o diana no clasificable no llegan al análisis de transición.</p>`;
+      <p class="note" style="margin:12px 0 0">The table uses the gene classification; experiments with no DEG file or an unclassified target do not reach the transition analysis.</p>`;
   } else {
-    document.getElementById('type-summary').innerHTML = '<p class="empty">Sin resumen de clasificación.</p>';
+    document.getElementById('type-summary').innerHTML = '<p class="empty">No classification summary.</p>';
   }
 
   renderBars('bars-categories', summary.categories || {}, CATEGORY_LABEL, CATEGORY_COLOR, CATEGORY_ORDER);
@@ -217,7 +217,7 @@ function renderBars(targetId, data, labels, colors, order = []) {
   const max = Math.max(1, ...entries.map(([, value]) => value));
   const container = document.getElementById(targetId);
   if (!entries.length) {
-    container.innerHTML = '<p class="empty">Sin datos.</p>';
+    container.innerHTML = '<p class="empty">No data.</p>';
     return;
   }
   container.innerHTML = entries.map(([key, value]) => {
@@ -238,9 +238,9 @@ async function loadExperiments() {
   const conditions = [...new Set(state.experiments.map(row => row.condition).filter(Boolean))].sort();
   const states = [...new Set(state.experiments.map(row => row.state).filter(Boolean))];
 
-  fillSelect('filter-category', [['', 'Todas las categorías'], ...categories.map(value => [value, CATEGORY_LABEL[value] || value])]);
-  fillSelect('filter-condition', [['', 'Todas las condiciones'], ...conditions.map(value => [value, value])]);
-  fillSelect('filter-state', [['', 'Todos los estados'], ...states.map(value => [value, STATE_LABEL[value] || value])]);
+  fillSelect('filter-category', [['', 'All categories'], ...categories.map(value => [value, CATEGORY_LABEL[value] || value])]);
+  fillSelect('filter-condition', [['', 'All conditions'], ...conditions.map(value => [value, value])]);
+  fillSelect('filter-state', [['', 'All states'], ...states.map(value => [value, STATE_LABEL[value] || value])]);
 
   document.getElementById('search').addEventListener('input', () => { state.page = 1; applyFilters(); });
   ['filter-category', 'filter-condition', 'filter-state'].forEach(id => {
@@ -312,7 +312,7 @@ function renderExperiments() {
 
   const tbody = document.getElementById('rows');
   if (!slice.length) {
-    tbody.innerHTML = '<tr><td colspan="10"><p class="empty">No hay experimentos que coincidan con los filtros.</p></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10"><p class="empty">No experiments match the filters.</p></td></tr>';
   } else {
     tbody.innerHTML = slice.map(item => {
       const category = item.category || (item.n_targets > 1 ? 'Multi' : 'Sin');
@@ -333,12 +333,12 @@ function renderExperiments() {
   }
 
   document.getElementById('page-info').textContent = total
-    ? `Mostrando ${start + 1}–${Math.min(start + state.pageSize, total)} de ${total}`
-    : '0 experimentos';
+    ? `Showing ${start + 1}–${Math.min(start + state.pageSize, total)} of ${total}`
+    : '0 experiments';
   document.getElementById('prev').disabled = state.page <= 1;
   document.getElementById('next').disabled = state.page >= pages;
   document.getElementById('experiments-lead').textContent =
-    `${state.cancer.label}: ${state.experiments.length} experimentos descargados; ${state.summary.analyzed} con diana única analizada y ${state.summary.papers} publicaciones identificadas.`;
+    `${state.cancer.label}: ${state.experiments.length} experiments downloaded; ${state.summary.analyzed} single-target analyses and ${state.summary.papers} publications identified.`;
 }
 
 function detailItem(label, value) {
@@ -346,13 +346,13 @@ function detailItem(label, value) {
 }
 
 function countTable(block) {
-  if (!block) return '<p class="note">Sin recuentos.</p>';
+  if (!block) return '<p class="note">No counts.</p>';
   return `<div class="table-wrap" style="box-shadow:none;border:0">
     <table>
-      <thead><tr><th>Grupo</th><th class="num">n</th><th class="num">Activados</th><th class="num">Desactivados</th></tr></thead>
+      <thead><tr><th>Group</th><th class="num">n</th><th class="num">Activated</th><th class="num">Deactivated</th></tr></thead>
       <tbody>
-        <tr><td>Frecuencia menor</td><td class="num">${fmt(block.minor.n, 0)}</td><td class="num">${fmt(block.minor.activated, 0)}</td><td class="num">${fmt(block.minor.deactivated, 0)}</td></tr>
-        <tr><td>Frecuencia mayor</td><td class="num">${fmt(block.major.n, 0)}</td><td class="num">${fmt(block.major.activated, 0)}</td><td class="num">${fmt(block.major.deactivated, 0)}</td></tr>
+        <tr><td>Lower frequency</td><td class="num">${fmt(block.minor.n, 0)}</td><td class="num">${fmt(block.minor.activated, 0)}</td><td class="num">${fmt(block.minor.deactivated, 0)}</td></tr>
+        <tr><td>Higher frequency</td><td class="num">${fmt(block.major.n, 0)}</td><td class="num">${fmt(block.major.activated, 0)}</td><td class="num">${fmt(block.major.deactivated, 0)}</td></tr>
       </tbody>
     </table>
   </div>`;
@@ -361,30 +361,30 @@ function countTable(block) {
 function cascadeSection(item) {
   const reach = item.reachability;
   if (!reach) return '';
-  const event = reach.event === 'activation' ? 'activación de la diana' : 'desactivación de la diana';
+  const event = reach.event === 'activation' ? 'target activation' : 'target deactivation';
   const rate = value => (value === null || value === undefined) ? '—'
-    : (Number(value) * 100).toLocaleString('es-ES', { maximumFractionDigits: 2 }) + '%';
+    : (Number(value) * 100).toLocaleString('en-GB', { maximumFractionDigits: 2 }) + '%';
   const pval = value => (value === null || value === undefined) ? '—'
-    : Number(value).toLocaleString('es-ES', { maximumSignificantDigits: 3 });
-  return `<div class="subhead">Cascada · H &gt; 0,5</div>
+    : Number(value).toLocaleString('en-GB', { maximumSignificantDigits: 3 });
+  return `<div class="subhead">Cascade · H &gt; 0.5</div>
     <div class="detail-grid">
-      ${detailItem('Evento de la diana', esc(event))}
-      ${detailItem('N inferior / superior', `${fmt(reach.n_lower, 0)} / ${fmt(reach.n_upper, 0)}`)}
-      ${detailItem('Cascada (posibles)', fmt(reach.cascade_possible, 0))}
-      ${detailItem('Cascada (observados)', fmt(reach.cascade_observed, 0))}
-      ${detailItem('Cascada (activados)', fmt(reach.cascade_activated, 0))}
-      ${detailItem('Cascada (desactivados)', fmt(reach.cascade_deactivated, 0))}
+      ${detailItem('Target event', esc(event))}
+      ${detailItem('N lower / upper', `${fmt(reach.n_lower, 0)} / ${fmt(reach.n_upper, 0)}`)}
+      ${detailItem('Cascade (possible)', fmt(reach.cascade_possible, 0))}
+      ${detailItem('Cascade (observed)', fmt(reach.cascade_observed, 0))}
+      ${detailItem('Cascade (activated)', fmt(reach.cascade_activated, 0))}
+      ${detailItem('Cascade (deactivated)', fmt(reach.cascade_deactivated, 0))}
     </div>
     <div class="table-wrap" style="box-shadow:none;border:0;margin-top:10px">
       <table>
-        <thead><tr><th>Test</th><th class="num">n (R)</th><th class="num">Eventos en R</th><th class="num">Tasa en R</th><th class="num">Tasa fuera</th><th class="num">p</th></tr></thead>
+        <thead><tr><th>Test</th><th class="num">n (R)</th><th class="num">Events in R</th><th class="num">Rate in R</th><th class="num">Rate outside</th><th class="num">p</th></tr></thead>
         <tbody>
-          <tr><td>Confirmatorio</td><td class="num">${fmt(reach.confirm_n, 0)}</td><td class="num">${fmt(reach.confirm_x, 0)}</td><td class="num">${rate(reach.confirm_rate_in)}</td><td class="num">${rate(reach.confirm_rate_out)}</td><td class="num">${pval(reach.confirm_p)}</td></tr>
-          <tr><td>Especificidad</td><td class="num">${fmt(reach.specificity_n, 0)}</td><td class="num">${fmt(reach.specificity_x, 0)}</td><td class="num">${rate(reach.specificity_rate_in)}</td><td class="num">${rate(reach.specificity_rate_out)}</td><td class="num">${pval(reach.specificity_p)}</td></tr>
+          <tr><td>Confirmatory</td><td class="num">${fmt(reach.confirm_n, 0)}</td><td class="num">${fmt(reach.confirm_x, 0)}</td><td class="num">${rate(reach.confirm_rate_in)}</td><td class="num">${rate(reach.confirm_rate_out)}</td><td class="num">${pval(reach.confirm_p)}</td></tr>
+          <tr><td>Specificity</td><td class="num">${fmt(reach.specificity_n, 0)}</td><td class="num">${fmt(reach.specificity_x, 0)}</td><td class="num">${rate(reach.specificity_rate_in)}</td><td class="num">${rate(reach.specificity_rate_out)}</td><td class="num">${pval(reach.specificity_p)}</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">Tasas regionales: τD&lt; = ${rate(reach.tau_d_lower)}, τA&lt; = ${rate(reach.tau_a_lower)}, τD&gt; = ${rate(reach.tau_d_upper)}, τA&gt; = ${rate(reach.tau_a_upper)}. Sensibilidad H=0,3: p confirmatorio = ${pval(reach.p_confirm_030)}, p especificidad = ${pval(reach.p_specificity_030)}; H=0,7: ${pval(reach.p_confirm_070)} / ${pval(reach.p_specificity_070)}.</p>`;
+    <p class="note">Regional rates: τD&lt; = ${rate(reach.tau_d_lower)}, τA&lt; = ${rate(reach.tau_a_lower)}, τD&gt; = ${rate(reach.tau_d_upper)}, τA&gt; = ${rate(reach.tau_a_upper)}. Sensitivity H=0.3: p confirmatory = ${pval(reach.p_confirm_030)}, p specificity = ${pval(reach.p_specificity_030)}; H=0,7: ${pval(reach.p_confirm_070)} / ${pval(reach.p_specificity_070)}.</p>`;
 }
 
 function targetEffectBadge(item) {
@@ -396,7 +396,7 @@ function targetEffectBadge(item) {
   const up = condition.includes('OE');
   if (!down && !up) return '<span class="badge muted">no consta</span>';
   const coherent = down ? item.lfc < 0 : item.lfc > 0;
-  return `<span class="badge ${coherent ? 'activado' : 'desactivado'}">${coherent ? 'coherente' : 'no coherente'}</span>
+  return `<span class="badge ${coherent ? 'activado' : 'desactivado'}">${coherent ? 'consistent' : 'not consistent'}</span>
     <span class="note">LFC = ${fmt(item.lfc, 3)}</span>`;
 }
 
@@ -409,59 +409,59 @@ function renderExperimentSummary(item) {
   const favourableClass = FAVOURABLE_CLASS[favourable] || 'muted';
   const condition = item.condition || '';
   const specific = summary.condition_specific === false && favourable === 'si'
-    ? `<span class="note">frase del estudio, no específica de ${esc(condition || 'esta condición')}</span>`
+    ? `<span class="note">study sentence, not specific to the ${esc(condition || 'this condition')}</span>`
     : '';
   const source = summary.fulltext
-    ? 'resumen (abstract) y texto completo del artículo'
-    : 'resumen (abstract) del artículo';
-  return `<div class="subhead">Resumen del experimento</div>
+    ? 'abstract and full text of the article'
+    : 'abstract of the article';
+  return `<div class="subhead">Experiment summary</div>
     <div class="card summary-card">
       <p class="summary-text">${esc(summary.summary || '')}</p>
       <div class="summary-row">
-        <span class="summary-label">Perturbación de la diana</span>
+        <span class="summary-label">Target perturbation</span>
         <span class="badge ${effectiveClass}">${esc(EFFECTIVE_LABEL[effective] || effective)}</span>
       </div>
       <div class="summary-row">
-        <span class="summary-label">Efecto medido en la diana</span>
+        <span class="summary-label">Measured target effect</span>
         ${targetEffectBadge(item)}
       </div>
       <div class="summary-row">
-        <span class="summary-label">Resultado</span>
+        <span class="summary-label">Outcome</span>
         <span class="badge ${favourableClass}">${esc(FAVOURABLE_LABEL[favourable] || favourable)}</span>
         ${specific}
       </div>
-      <p class="summary-note">Resumen generado a partir del ${source}. Las frases entre comillas son literales. «No consta» significa que el artículo no lo detalla; «favorable» indica que el artículo reporta un efecto claro de la perturbación, no que el efecto sea terapéuticamente bueno. El efecto medido usa el LFC de la diana: KD/KO → descenso, OE → aumento.</p>
+      <p class="summary-note">Summary generated from the ${source}. Quoted sentences are literal. "Not reported" means the article does not state it; "successful" means the article reports a clear effect, not that the effect is therapeutically beneficial. The measured effect uses the target LFC: KD/KO → decrease, OE → increase.</p>
     </div>`;
 }
 
 function openDetail(item) {
   const dialog = document.getElementById('detail');
-  document.getElementById('detail-title').textContent = `${item.target || 'Experimento'} · ${item.condition || ''}`.trim();
+  document.getElementById('detail-title').textContent = `${item.target || 'Experiment'} · ${item.condition || ''}`.trim();
   document.getElementById('detail-subtitle').textContent = item.filename;
 
   const analysis = item.analysis
     ? `<div class="detail-grid">
-        ${detailItem('Categoría', categoryBadge(item.category))}
-        ${detailItem('Tipo de diana', esc(item.target_type || '—'))}
-        ${detailItem('Frecuencia', item.frequency === null ? '—' : pct(item.frequency))}
-        ${detailItem('log2FC experimento', fmt(item.lfc, 3))}
-        ${detailItem('Probabilidad', item.probability === null ? '—' : fmt(item.probability, 3))}
-        ${detailItem('Transición', `<span class="mono">${esc(transitionLabel(item.transition))}</span>`)}
-        ${detailItem('Estado', stateBadge(item.state))}
+        ${detailItem('Category', categoryBadge(item.category))}
+        ${detailItem('Target type', esc(item.target_type || '—'))}
+        ${detailItem('Frequency', item.frequency === null ? '—' : pct(item.frequency))}
+        ${detailItem('log2FC experiment', fmt(item.lfc, 3))}
+        ${detailItem('Probability', item.probability === null ? '—' : fmt(item.probability, 3))}
+        ${detailItem('Transition', `<span class="mono">${esc(transitionLabel(item.transition))}</span>`)}
+        ${detailItem('State', stateBadge(item.state))}
       </div>
-      ${item.motivo === 'gen_ausente_en_xlsx' ? '<p class="note">La diana no está en el DEG de este experimento; se muestra su referencia TCGA.</p>' : ''}`
+      ${item.motivo === 'gen_ausente_en_xlsx' ? '<p class="note">The target is not in the DEG of this experiment; its TCGA reference is shown.</p>' : ''}`
     : `<div class="detail-grid">
-        ${detailItem('Categoría', categoryBadge(item.category))}
-        ${detailItem('Tipo de diana', esc(item.target_type || '—'))}
-        ${detailItem('Nota', esc(item.reason || 'Sin análisis de diana única.'))}
+        ${detailItem('Category', categoryBadge(item.category))}
+        ${detailItem('Target type', esc(item.target_type || '—'))}
+        ${detailItem('Note', esc(item.reason || 'No single-target analysis.'))}
       </div>`;
 
   let nt = '';
   if (item.nt_candidates && item.nt_candidates.length) {
-    nt = `<div class="subhead">Transiciones candidatas</div>
+    nt = `<div class="subhead">Candidate transitions</div>
       <div class="detail-grid">
         ${item.nt_candidates.map(candidate => detailItem(
-          `Candidata ${item.nt_candidates.indexOf(candidate) + 1}`,
+          `Candidate ${item.nt_candidates.indexOf(candidate) + 1}`,
           `<span class="mono">${esc(transitionLabel(candidate.transition))}</span> · P = ${fmt(candidate.probability, 3)}`
         )).join('')}
       </div>`;
@@ -469,10 +469,10 @@ function openDetail(item) {
 
   let counts = '';
   if (item.counts && item.counts.minor) {
-    counts = `<div class="subhead">Recuento de genes</div>${countTable(item.counts)}`;
+    counts = `<div class="subhead">Gene counts</div>${countTable(item.counts)}`;
   } else if (item.counts && item.counts.T) {
-    counts = `<div class="subhead">Recuento de genes · bloque T</div>${countTable(item.counts.T)}
-      <div class="subhead">Recuento de genes · bloque N</div>${countTable(item.counts.N)}`;
+    counts = `<div class="subhead">Gene counts · T block</div>${countTable(item.counts.T)}
+      <div class="subhead">Gene counts · N block</div>${countTable(item.counts.N)}`;
   }
 
   let paper = '';
@@ -480,29 +480,29 @@ function openDetail(item) {
     const links = [];
     if (item.paper.pmid) links.push(link(`https://pubmed.ncbi.nlm.nih.gov/${item.paper.pmid}/`, `PMID ${item.paper.pmid}`));
     if (item.paper.doi) links.push(link(`https://doi.org/${item.paper.doi}`, `DOI ${item.paper.doi}`));
-    paper = `<div class="subhead">Publicación</div>
+    paper = `<div class="subhead">Publication</div>
       <div class="card" style="box-shadow:none">
-        <h3 style="margin:0 0 6px">${esc(item.paper.title || 'Sin título')}</h3>
+        <h3 style="margin:0 0 6px">${esc(item.paper.title || 'No title')}</h3>
         <div class="meta">${esc(item.paper.authors || '')}${item.paper.journal ? ` · ${esc(item.paper.journal)}` : ''}${item.paper.year ? ` (${item.paper.year})` : ''}</div>
         <div style="margin-top:8px">${links.join(' · ')}</div>
-        <div class="note" style="margin-top:6px">Fuente del enlace: ${esc(SOURCE_LABEL[item.paper.source] || item.paper.source || '—')}</div>
+        <div class="note" style="margin-top:6px">Link source: ${esc(SOURCE_LABEL[item.paper.source] || item.paper.source || '—')}</div>
         ${item.paper.summary ? `<p style="margin:12px 0 0">${esc(item.paper.summary)}</p>` : ''}
       </div>`;
   } else {
-    paper = `<div class="subhead">Publicación</div><p class="note">No se identificó una publicación asociada.</p>`;
+    paper = `<div class="subhead">Publication</div><p class="note">No associated publication found.</p>`;
   }
 
   const meta = `<div class="detail-grid">
-      ${detailItem('Línea celular', esc(item.cell_line || '—'))}
-      ${detailItem('Nº de dianas', fmt(item.n_targets, 0))}
+      ${detailItem('Cell line', esc(item.cell_line || '—'))}
+      ${detailItem('No. of targets', fmt(item.n_targets, 0))}
     </div>`;
 
   const targetGenes = (item.target_genes && item.target_genes.length)
-    ? `<div class="subhead">Diana: información de expresión</div>${renderTargetGenes(item.target_genes)}`
+    ? `<div class="subhead">Target: expression information</div>${renderTargetGenes(item.target_genes)}`
     : '';
   const cascade = cascadeSection(item);
   const experimentSummary = renderExperimentSummary(item);
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Análisis</div>${analysis}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
   dialog.showModal();
 }
 
@@ -514,22 +514,22 @@ function renderTargetGenes(targets) {
       ? target.min_normal_samples / target.n_normal : 0.05;
     const margin = 0.8;
     const conditions = [
-      ['T↓ (por debajo del mínimo normal)', target.n_t_below, target.pct_t_below,
+      ['T↓ (below the normal minimum)', target.n_t_below, target.pct_t_below,
        tThreshold, target.min_tumor_samples],
-      ['T↑ (por encima del máximo normal)', target.n_t_above, target.pct_t_above,
+      ['T↑ (above the normal maximum)', target.n_t_above, target.pct_t_above,
        tThreshold, target.min_tumor_samples],
-      ['N↓ (por debajo del mínimo tumoral)', target.n_n_below, target.pct_n_below,
+      ['N↓ (below the tumour minimum)', target.n_n_below, target.pct_n_below,
        nThreshold, target.min_normal_samples],
-      ['N↑ (por encima del máximo tumoral)', target.n_n_above, target.pct_n_above,
+      ['N↑ (above the tumour maximum)', target.n_n_above, target.pct_n_above,
        nThreshold, target.min_normal_samples],
     ];
     const rows = conditions.map(([label, count, value, threshold, minSamples]) => {
       const active = count >= minSamples;
       const near = count >= margin * minSamples && count < minSamples;
       const status = active
-        ? '<span class="badge activado">activado</span>'
-        : near ? '<span class="badge sin_cambio">casi</span>'
-        : (count > 0 ? '<span class="badge muted">subumbral</span>' : '<span class="badge muted">—</span>');
+        ? '<span class="badge activado">activated</span>'
+        : near ? '<span class="badge sin_cambio">near</span>'
+        : (count > 0 ? '<span class="badge muted">subthreshold</span>' : '<span class="badge muted">—</span>');
       return `<tr><td>${esc(label)}</td><td class="num">${fmt(count, 0)}</td>
         <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
     }).join('');
@@ -537,26 +537,26 @@ function renderTargetGenes(targets) {
     return `<div class="card" style="box-shadow:none;margin-bottom:12px">
       <div class="section-head" style="margin-bottom:10px">
         <h3 style="margin:0">${esc(target.symbol)} <span class="note mono">${esc(target.ensembl)}</span></h3>
-        <a class="btn" href="genes.html?cancer=${esc(state.cancer.id)}&gene=${esc(target.ensembl)}">Ver en Genes</a>
+        <a class="btn" href="genes.html?cancer=${esc(state.cancer.id)}&gene=${esc(target.ensembl)}">View in Genes</a>
       </div>
       <div class="detail-grid">
-        ${detailItem('Tipo', esc(target.type || '—'))}
-        ${detailItem('Categoría', categoryBadge(target.category))}
+        ${detailItem('Type', esc(target.type || '—'))}
+        ${detailItem('Category', categoryBadge(target.category))}
         ${detailItem('log2FC TCGA (T/N)', fmt(target.log2fc, 3))}
-        ${detailItem('Media geométrica T', fmt(target.geo_t, 3))}
-        ${detailItem('Media geométrica N', fmt(target.geo_n, 3))}
-        ${detailItem('Mín. T / Máx. T', `${fmt(target.t_min, 3)} / ${fmt(target.t_max, 3)}`)}
-        ${detailItem('Mín. N / Máx. N', `${fmt(target.n_min, 3)} / ${fmt(target.n_max, 3)}`)}
+        ${detailItem('Geometric mean T', fmt(target.geo_t, 3))}
+        ${detailItem('Geometric mean N', fmt(target.geo_n, 3))}
+        ${detailItem('Min T / Max T', `${fmt(target.t_min, 3)} / ${fmt(target.t_max, 3)}`)}
+        ${detailItem('Min N / Max N', `${fmt(target.n_min, 3)} / ${fmt(target.n_max, 3)}`)}
       </div>
-      <div class="subhead">Muestras fuera del rango</div>
+      <div class="subhead">Samples outside the range</div>
       <div class="table-wrap" style="box-shadow:none;border:0">
         <table>
-          <thead><tr><th>Condición</th><th class="num">Muestras</th><th class="num">%</th><th class="num">Umbral</th><th>Estado</th></tr></thead>
+          <thead><tr><th>Condition</th><th class="num">Samples</th><th class="num">%</th><th class="num">Threshold</th><th>State</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
-      <p class="note">Umbral efectivo T: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} de ${fmt(target.n_tumor, 0)} muestras).
-      Umbral efectivo N: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} de ${fmt(target.n_normal, 0)} muestras).</p>
+      <p class="note">Effective T threshold: ${pct(tThreshold)} (${fmt(target.min_tumor_samples, 0)} de ${fmt(target.n_tumor, 0)} samples).
+      Effective N threshold: ${pct(nThreshold)} (${fmt(target.min_normal_samples, 0)} de ${fmt(target.n_normal, 0)} samples).</p>
     </div>`;
   }).join('');
 }
@@ -602,10 +602,10 @@ async function loadGenes() {
     getJson(`data/${state.cancer.id}/genes_${category}.json`)));
   state.genes = datasets.flatMap(data => rowsToObjects(data));
 
-  fillSelect('gene-category', [['', 'Todas las categorías'],
+  fillSelect('gene-category', [['', 'All categories'],
     ...categories.map(category => [category, category])]);
   const types = [...new Set(state.genes.map(gene => gene.type))].sort();
-  fillSelect('gene-type', [['', 'Todos los tipos'],
+  fillSelect('gene-type', [['', 'All types'],
     ...types.map(type => [type, type])]);
 
   document.getElementById('gene-search').addEventListener('input', () => {
@@ -642,7 +642,7 @@ async function loadGenes() {
   const counts = {};
   state.genes.forEach(gene => { counts[gene.category] = (counts[gene.category] || 0) + 1; });
   document.getElementById('genes-lead').textContent =
-    `${state.cancer.label}: ${fmt(state.genes.length, 0)} genes clasificados (T ${fmt(counts.T || 0, 0)}, N ${fmt(counts.N || 0, 0)}, NT ${fmt(counts.NT || 0, 0)}, O ${fmt(counts.O || 0, 0)}).`;
+    `${state.cancer.label}: ${fmt(state.genes.length, 0)} genes classified (T ${fmt(counts.T || 0, 0)}, N ${fmt(counts.N || 0, 0)}, NT ${fmt(counts.NT || 0, 0)}, O ${fmt(counts.O || 0, 0)}).`;
 
   const params = new URLSearchParams(location.search);
   if (params.get('near') === '1') {
@@ -710,7 +710,7 @@ function renderGenes() {
   const tbody = document.getElementById('gene-rows');
 
   if (!slice.length) {
-    tbody.innerHTML = '<tr><td colspan="9"><p class="empty">No hay genes que coincidan.</p></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="9"><p class="empty">No genes match.</p></td></tr>';
   } else {
     tbody.innerHTML = slice.map(gene => `<tr>
         <td><strong>${esc(gene.symbol)}</strong><div class="note mono">${esc(gene.ensembl)}</div></td>
@@ -726,7 +726,7 @@ function renderGenes() {
   }
 
   document.getElementById('gene-page-info').textContent = total
-    ? `Mostrando ${start + 1}–${Math.min(start + state.genePageSize, total)} de ${fmt(total, 0)} genes`
+    ? `Showing ${start + 1}–${Math.min(start + state.genePageSize, total)} of ${fmt(total, 0)} genes`
     : '0 genes';
   document.getElementById('gene-prev').disabled = state.genePage <= 1;
   document.getElementById('gene-next').disabled = state.genePage >= pages;
@@ -742,41 +742,41 @@ function openGene(gene) {
   document.getElementById('gene-detail-subtitle').textContent = `${gene.ensembl} · ${gene.type}`;
 
   const conditions = [
-    ['T↓ (por debajo del mínimo normal)', gene.n_t_below, gene.pct_t_below, thresholds.t, limits.t],
-    ['T↑ (por encima del máximo normal)', gene.n_t_above, gene.pct_t_above, thresholds.t, limits.t],
-    ['N↓ (por debajo del mínimo tumoral)', gene.n_n_below, gene.pct_n_below, thresholds.n, limits.n],
-    ['N↑ (por encima del máximo tumoral)', gene.n_n_above, gene.pct_n_above, thresholds.n, limits.n],
+    ['T↓ (below the normal minimum)', gene.n_t_below, gene.pct_t_below, thresholds.t, limits.t],
+    ['T↑ (above the normal maximum)', gene.n_t_above, gene.pct_t_above, thresholds.t, limits.t],
+    ['N↓ (below the tumour minimum)', gene.n_n_below, gene.pct_n_below, thresholds.n, limits.n],
+    ['N↑ (above the tumour maximum)', gene.n_n_above, gene.pct_n_above, thresholds.n, limits.n],
   ];
   const rows = conditions.map(([label, count, value, threshold, limit]) => {
     const active = count >= limit;
     const near = count >= margin * limit && count < limit;
     const status = active
-      ? '<span class="badge activado">activado</span>'
-      : near ? '<span class="badge sin_cambio">casi</span>'
-      : (count > 0 ? '<span class="badge muted">subumbral</span>' : '<span class="badge muted">—</span>');
+      ? '<span class="badge activado">activated</span>'
+      : near ? '<span class="badge sin_cambio">near</span>'
+      : (count > 0 ? '<span class="badge muted">subthreshold</span>' : '<span class="badge muted">—</span>');
     return `<tr><td>${esc(label)}</td><td class="num">${fmt(count, 0)}</td>
       <td class="num">${pct(value)}</td><td class="num">${pct(threshold)}</td><td>${status}</td></tr>`;
   }).join('');
 
   document.getElementById('gene-detail-body').innerHTML = `
     <div class="detail-grid">
-      ${detailItem('Categoría', categoryBadge(gene.category))}
-      ${detailItem('Tipo', esc(gene.type))}
+      ${detailItem('Category', categoryBadge(gene.category))}
+      ${detailItem('Type', esc(gene.type))}
       ${detailItem('log2FC TCGA (T/N)', fmt(gene.log2fc, 3))}
-      ${detailItem('Media geométrica T', fmt(gene.geo_t, 3))}
-      ${detailItem('Media geométrica N', fmt(gene.geo_n, 3))}
-      ${detailItem('Mín. T / Máx. T', `${fmt(gene.t_min, 3)} / ${fmt(gene.t_max, 3)}`)}
-      ${detailItem('Mín. N / Máx. N', `${fmt(gene.n_min, 3)} / ${fmt(gene.n_max, 3)}`)}
+      ${detailItem('Geometric mean T', fmt(gene.geo_t, 3))}
+      ${detailItem('Geometric mean N', fmt(gene.geo_n, 3))}
+      ${detailItem('Min T / Max T', `${fmt(gene.t_min, 3)} / ${fmt(gene.t_max, 3)}`)}
+      ${detailItem('Min N / Max N', `${fmt(gene.n_min, 3)} / ${fmt(gene.n_max, 3)}`)}
     </div>
-    <div class="subhead">Muestras fuera del rango</div>
+    <div class="subhead">Samples outside the range</div>
     <div class="table-wrap" style="box-shadow:none;border:0">
       <table>
-        <thead><tr><th>Condición</th><th class="num">Muestras</th><th class="num">%</th><th class="num">Umbral</th><th>Estado</th></tr></thead>
+        <thead><tr><th>Condition</th><th class="num">Samples</th><th class="num">%</th><th class="num">Threshold</th><th>State</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <p class="note">Umbral efectivo T: ${pct(thresholds.t)} (${fmt(params.min_tumor_samples, 0)} de ${fmt(params.num_tumor, 0)} muestras).
-    Umbral efectivo N: ${pct(thresholds.n)} (${fmt(params.min_normal_samples, 0)} de ${fmt(params.num_normal, 0)} muestras).</p>`;
+    <p class="note">Effective T threshold: ${pct(thresholds.t)} (${fmt(params.min_tumor_samples, 0)} de ${fmt(params.num_tumor, 0)} samples).
+    Effective N threshold: ${pct(thresholds.n)} (${fmt(params.min_normal_samples, 0)} de ${fmt(params.num_normal, 0)} samples).</p>`;
   dialog.showModal();
 }
 
@@ -794,12 +794,12 @@ async function loadPapers() {
 function renderPapers() {
   if (!state.papers.length) {
     document.getElementById('paper-list').innerHTML =
-      `<div class="card"><p class="note">Las publicaciones de ${esc(state.cancer.label)} todavía no están curadas. Los experimentos sí incluyen su análisis y su metadata.</p></div>`;
-    document.getElementById('paper-page-info').textContent = '0 publicaciones';
+      `<div class="card"><p class="note">Publications for ${esc(state.cancer.label)} are not curated yet. Experiments still include their analysis and metadata.</p></div>`;
+    document.getElementById('paper-page-info').textContent = '0 publications';
     document.getElementById('paper-prev').disabled = true;
     document.getElementById('paper-next').disabled = true;
     document.getElementById('papers-lead').textContent =
-      `${state.cancer.label}: publicaciones pendientes de curación.`;
+      `${state.cancer.label}: publications pending curation.`;
     return;
   }
   const query = document.getElementById('paper-search').value.trim().toLowerCase();
@@ -818,38 +818,38 @@ function renderPapers() {
 
   const list = document.getElementById('paper-list');
   if (!slice.length) {
-    list.innerHTML = '<p class="empty">No hay publicaciones que coincidan.</p>';
+    list.innerHTML = '<p class="empty">No publications match.</p>';
   } else {
     list.innerHTML = slice.map(paper => {
       const chips = (paper.experiments || []).slice(0, 8).map(name => `<span class="chip">${esc(name)}</span>`).join('');
       const extra = (paper.experiments || []).length > 8
-        ? `<span class="chip">+${paper.experiments.length - 8} más</span>` : '';
+        ? `<span class="chip">+${paper.experiments.length - 8} more</span>` : '';
       const links = [];
       if (paper.pmid) links.push(link(`https://pubmed.ncbi.nlm.nih.gov/${paper.pmid}/`, `PMID ${paper.pmid}`));
       if (paper.doi) links.push(link(`https://doi.org/${paper.doi}`, `DOI ${paper.doi}`));
       return `<article class="card paper-card">
-        <h3>${esc(paper.title || 'Sin título')}</h3>
+        <h3>${esc(paper.title || 'No title')}</h3>
         <div class="meta">${esc(paper.authors || '')}${paper.journal ? ` · ${esc(paper.journal)}` : ''}${paper.year ? ` (${paper.year})` : ''}</div>
         <div>${links.join(' · ')}</div>
-        <div class="note">Fuente del enlace: ${esc(SOURCE_LABEL[paper.source] || paper.source || '—')}</div>
-        ${paper.summary ? `<p style="margin:0">${esc(paper.summary)}</p>` : '<p class="note">Sin resumen.</p>'}
+        <div class="note">Link source: ${esc(SOURCE_LABEL[paper.source] || paper.source || '—')}</div>
+        ${paper.summary ? `<p style="margin:0">${esc(paper.summary)}</p>` : '<p class="note">No summary.</p>'}
         <div class="chips">${chips}${extra}</div>
-        <div class="note">${paper.n_experiments} experimento${paper.n_experiments === 1 ? '' : 's'} · ${(paper.studies || []).join(', ')}</div>
+        <div class="note">${paper.n_experiments} experiment${paper.n_experiments === 1 ? '' : 's'} · ${(paper.studies || []).join(', ')}</div>
       </article>`;
     }).join('');
   }
 
   document.getElementById('paper-page-info').textContent = total
-    ? `Mostrando ${start + 1}–${Math.min(start + state.paperPageSize, total)} de ${total}`
-    : '0 publicaciones';
+    ? `Showing ${start + 1}–${Math.min(start + state.paperPageSize, total)} of ${total}`
+    : '0 publications';
   document.getElementById('paper-prev').disabled = state.paperPage <= 1;
   document.getElementById('paper-next').disabled = state.paperPage >= pages;
   document.getElementById('papers-lead').textContent =
-    `${state.cancer.label}: ${total} publicaciones identificadas. Cada ficha enlaza el artículo original y los experimentos que lo usan.`;
+    `${state.cancer.label}: ${total} publications identified. Each card links the original article and the experiments that use it.`;
 }
 
 function fillMethodology() {
-  document.title = `Metodología · ${state.cancer.label} · PerturbAtlas × TCGA`;
+  document.title = `Methodology · ${state.cancer.label} · PerturbAtlas × TCGA`;
 }
 
 boot().catch(error => {

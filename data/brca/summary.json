@@ -1,8 +1,8 @@
 {
   "cancer": "brca",
   "label": "BRCA",
-  "title": "Cáncer de mama",
-  "generated": "2026-11-25",
+  "title": "Breast cancer",
+  "generated": "2026-11-26",
   "experiments_total": 625,
   "studies": 233,
   "papers": 174,

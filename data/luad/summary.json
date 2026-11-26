@@ -1,8 +1,8 @@
 {
   "cancer": "luad",
   "label": "LUAD",
-  "title": "Adenocarcinoma de pulmón",
-  "generated": "2026-11-25",
+  "title": "Lung adenocarcinoma",
+  "generated": "2026-11-26",
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,

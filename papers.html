@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publicaciones · PerturbAtlas × TCGA</title>
+  <title>Publications · PerturbAtlas × TCGA</title>
   <link rel="stylesheet" href="assets/style.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
@@ -11,39 +11,39 @@
   <header class="topbar">
     <a class="brand" href="index.html">PerturbAtlas<span>×</span>TCGA</a>
     <nav class="nav">
-      <a href="index.html" data-nav="home">Inicio</a>
-      <a href="experiments.html" data-nav="experiments">Experimentos</a>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="experiments.html" data-nav="experiments">Experiments</a>
       <a href="genes.html" data-nav="genes">Genes</a>
-      <a href="papers.html" data-nav="papers">Publicaciones</a>
-      <a href="methodology.html" data-nav="methodology">Metodología</a>
+      <a href="papers.html" data-nav="papers">Publications</a>
+      <a href="methodology.html" data-nav="methodology">Methodology</a>
     </nav>
     <div class="spacer"></div>
-    <select class="select" id="cancer-select" aria-label="Seleccionar cáncer"></select>
+    <select class="select" id="cancer-select" aria-label="Select cancer"></select>
   </header>
 
   <main>
     <section class="hero">
-      <span class="eyebrow">Publicaciones</span>
-      <h1>Artículos originales</h1>
-      <p class="lead" id="papers-lead">Cada publicación enlaza el experimento de PerturbAtlas con el artículo donde se describen los datos, con un resumen breve.</p>
+      <span class="eyebrow">Publications</span>
+      <h1>Original articles</h1>
+      <p class="lead" id="papers-lead">Each publication links the PerturbAtlas experiment to the article describing the data, with a brief summary.</p>
     </section>
 
     <div class="toolbar">
-      <input id="paper-search" class="input" type="search" placeholder="Buscar por título, autor, revista, PMID o diana…" aria-label="Buscar publicación">
+      <input id="paper-search" class="input" type="search" placeholder="Search by title, author, journal, PMID or target…" aria-label="Buscar publicación">
     </div>
 
     <div class="cards" id="paper-list"></div>
     <div class="pager">
       <span id="paper-page-info"></span>
       <span class="buttons">
-        <button id="paper-prev" type="button">← Anterior</button>
-        <button id="paper-next" type="button">Siguiente →</button>
+        <button id="paper-prev" type="button">← Previous</button>
+        <button id="paper-next" type="button">Next →</button>
       </span>
     </div>
   </main>
 
   <footer>
-    Datos derivados de PerturbAtlas y TCGA. Enlaces a PubMed, DOI y ENA/GEO en cada ficha.
+    Data derived from PerturbAtlas and TCGA. PubMed, DOI and ENA/GEO links in each card.
   </footer>
 
   <script src="assets/app.js"></script>
