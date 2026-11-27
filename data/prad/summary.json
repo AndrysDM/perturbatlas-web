@@ -2,12 +2,14 @@
   "cancer": "prad",
   "label": "PRAD",
   "title": "Prostate adenocarcinoma",
-  "generated": "2026-11-26",
+  "generated": "2026-11-27",
   "experiments_total": 195,
   "studies": 95,
   "papers": 89,
   "analyzed": 82,
   "with_paper": 191,
+  "documented_inversions": 0,
+  "sign_discordant": 6,
   "categories": {
     "N": 11,
     "O": 105,
@@ -17,8 +19,8 @@
     "Multi": 5
   },
   "states": {
-    "activado": 9,
-    "desactivado": 35,
+    "activado": 15,
+    "desactivado": 29,
     "sin_analisis": 113,
     "ausente": 37,
     "sin_cambio": 1
@@ -31,7 +33,7 @@
   },
   "type_summary": {
     "T": {
-      "experimentos": 64,
+      "experimentos": 63,
       "genes_unicos_en_experimentos": 29,
       "genes_en_targets_freq": 29,
       "total_genes_df_results": 5822,
@@ -51,7 +53,7 @@
       },
       "prob_calculada": 36,
       "errores": {
-        "gen_ausente_en_xlsx": 28,
+        "gen_ausente_en_xlsx": 27,
         "tipo_sin_transicion": 1
       }
     },
@@ -74,9 +76,8 @@
         "min": 0.0576923076923076,
         "max": 0.1538461538461538
       },
-      "prob_calculada": 4,
+      "prob_calculada": 8,
       "errores": {
-        "archivo_xlsx_invalido": 4,
         "gen_ausente_en_xlsx": 3
       }
     },
@@ -105,8 +106,8 @@
       }
     },
     "Multi_mixto": {
-      "experimentos": 3,
-      "genes_unicos_en_experimentos": 5,
+      "experimentos": 4,
+      "genes_unicos_en_experimentos": 6,
       "genes_en_targets_freq": null,
       "total_genes_df_results": null,
       "stats_frecuencia_tumoral": {
@@ -125,8 +126,8 @@
       },
       "prob_calculada": 4,
       "errores": {
-        "gen_ausente_en_xlsx": 3,
-        "tipo_sin_transicion": 2
+        "gen_ausente_en_xlsx": 4,
+        "tipo_sin_transicion": 3
       }
     },
     "Sin_clasificar": {
@@ -137,25 +138,16 @@
         "Perturb_15571_circCSPP1+_OE.xlsx"
       ]
     },
-    "archivos_xlsx_corruptos": [
-      "Perturb_15448_MIR214__KO.xlsx",
-      "Perturb_15449_OVOL1+_OE.xlsx",
-      "Perturb_15450_OVOL2+_OE.xlsx",
-      "Perturb_15467_TCEAL1-_KD.xlsx",
-      "Perturb_15468_TCEAL1-_KD.xlsx",
-      "Perturb_15497_SPOP+_OE.xlsx",
-      "Perturb_15500_HNF1B(_1)-_KD.xlsx",
-      "Perturb_15501_HNF1B(_2)-_KD.xlsx"
-    ],
+    "archivos_xlsx_corruptos": [],
     "total_metadata": 195,
     "total_targets": 195,
     "T_genes_repetidos": {
       "SLFN11": 8,
       "KLF5": 6,
       "KDM3B": 5,
-      "RB1": 4,
       "ERG": 4,
       "CSN5": 3,
+      "RB1": 3,
       "REST": 3,
       "POM121": 2,
       "TRIB1": 2,

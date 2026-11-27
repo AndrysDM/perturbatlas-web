@@ -96,8 +96,9 @@ const ES = {
   'Experiments with a single T, N or NT target; the rest are multi-target or not analysed.':
     'Experimentos con una única diana T, N o NT; el resto son multi-diana o sin análisis.',
   'Target states': 'Estados de la diana',
-  'Observed target state (sign of the log2FC after sign correction).':
-    'Estado observado de la diana (signo del log2FC, tras la corrección de signo).',
+  'Observed target state (sign of the log2FC).':
+    'Estado observado de la diana (signo del log2FC).',
+  'Raw log2FC': 'log2FC bruto',
   'Explore': 'Explorar',
   'Full table with search, filters, transition probability, target state and associated publication.':
     'Tabla completa con búsqueda, filtros, probabilidad de transición, estado de la diana y publicación asociada.',
@@ -651,6 +652,7 @@ function openDetail(item) {
         ${detailItem('Target type', esc(item.target_type || '—'))}
         ${detailItem('Frequency', item.frequency === null ? '—' : pct(item.frequency))}
         ${detailItem('log2FC experiment', fmt(item.lfc, 3))}
+        ${item.flip_documented ? detailItem('Raw log2FC', fmt(item.lfc_raw, 3)) : ''}
         ${detailItem('Probability', item.probability === null ? '—' : fmt(item.probability, 3))}
         ${detailItem('Transition', `<span class="mono">${esc(transitionLabel(item.transition))}</span>`)}
         ${detailItem('State', stateBadge(item.state))}
@@ -661,6 +663,20 @@ function openDetail(item) {
         ${detailItem('Target type', esc(item.target_type || '—'))}
         ${detailItem('Note', esc(item.reason || 'No single-target analysis.'))}
       </div>`;
+
+  let signNote = '';
+  if (item.flip_documented) {
+    const evidence = state.lang === 'es' && item.flip_evidence
+      ? ` ${esc(item.flip_evidence)}` : '';
+    const pmid = item.flip_pmid ? ` PMID ${esc(item.flip_pmid)}.` : '';
+    signNote = state.lang === 'es'
+      ? `<p class="note"><strong>Inversión de signo documentada.</strong> El paper usa el estado final como referencia; se invirtió toda la columna log2FC.${pmid}${evidence}</p>`
+      : `<p class="note"><strong>Documented sign inversion.</strong> The source paper uses the final state as reference, so the whole LFC column was inverted.${pmid}${evidence}</p>`;
+  } else if (item.sign_discordant) {
+    signNote = state.lang === 'es'
+      ? `<p class="note"><strong>Diana con signo discordante.</strong> El LFC de la diana va en dirección opuesta a la condición; no se invirtió la tabla. Revisar la perturbación o el paper.</p>`
+      : `<p class="note"><strong>Target sign discordant.</strong> The target LFC goes against the perturbation condition; no inversion was applied. Check the perturbation or the paper.</p>`;
+  }
 
   let nt = '';
   if (item.nt_candidates && item.nt_candidates.length) {
@@ -708,7 +724,7 @@ function openDetail(item) {
     : '';
   const cascade = cascadeSection(item);
   const experimentSummary = renderExperimentSummary(item);
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${signNote}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
   translateDom(dialog);
   dialog.showModal();
 }

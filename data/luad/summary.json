@@ -2,12 +2,14 @@
   "cancer": "luad",
   "label": "LUAD",
   "title": "Lung adenocarcinoma",
-  "generated": "2026-11-26",
+  "generated": "2026-11-27",
   "experiments_total": 61,
   "studies": 37,
   "papers": 34,
   "analyzed": 48,
   "with_paper": 58,
+  "documented_inversions": 0,
+  "sign_discordant": 7,
   "categories": {
     "T": 48,
     "O": 8,
@@ -15,8 +17,8 @@
     "Sin": 3
   },
   "states": {
-    "activado": 7,
-    "desactivado": 24,
+    "activado": 9,
+    "desactivado": 22,
     "ausente": 17,
     "sin_analisis": 13
   },
@@ -27,14 +29,14 @@
   },
   "type_summary": {
     "T": {
-      "experimentos": 45,
-      "genes_unicos_en_experimentos": 32,
-      "genes_en_targets_freq": 32,
+      "experimentos": 48,
+      "genes_unicos_en_experimentos": 34,
+      "genes_en_targets_freq": 34,
       "total_genes_df_results": 16650,
       "stats_frecuencia_tumoral": {
-        "media": 0.40169392523364483,
+        "media": 0.4047278724573941,
         "mediana": 0.3289719626168224,
-        "std": 0.22079483516807252,
+        "std": 0.22336690816967683,
         "min": 0.1009345794392523,
         "max": 0.8485981308411215
       },
@@ -45,10 +47,9 @@
         "min": null,
         "max": null
       },
-      "prob_calculada": 16,
+      "prob_calculada": 23,
       "errores": {
-        "archivo_xlsx_invalido": 5,
-        "gen_ausente_en_xlsx": 16,
+        "gen_ausente_en_xlsx": 17,
         "tipo_sin_transicion": 8
       }
     },
@@ -122,39 +123,26 @@
       "errores": {}
     },
     "Sin_clasificar": {
-      "experimentos": 9,
+      "experimentos": 3,
       "filenames": [
-        "Perturb_11534_THOR-_KD.xlsx",
-        "Perturb_11531_THOR(_2)-_KD.xlsx",
-        "Perturb_11530_THOR(_1)-_KD.xlsx",
-        "Perturb_11573_AC093323.3-_KD.xlsx",
         "Perturb_11506_tsRNA-5001a-_KD.xlsx",
         "Perturb_11508_circZFR-_KD.xlsx",
-        "Perturb_11498_AS-tDR-007333+_OE.xlsx",
-        "Perturb_6377_lncRNAHUMT(_1)-_KD.xlsx",
-        "Perturb_6378_lncRNAHUMT(_2)-_KD.xlsx"
+        "Perturb_11498_AS-tDR-007333+_OE.xlsx"
       ]
     },
-    "archivos_xlsx_corruptos": [
-      "Perturb_11501_EHF-_KD.xlsx",
-      "Perturb_11516_L1CAM-_KD.xlsx",
-      "Perturb_11517_L1CAM-_KD.xlsx",
-      "Perturb_11522_RNF20-_KD.xlsx",
-      "Perturb_11537_RNF20-_KD.xlsx",
-      "Perturb_9004_C19orf12-_KD.xlsx",
-      "Perturb_9005_GATA6-_KD.xlsx"
-    ],
+    "archivos_xlsx_corruptos": [],
     "total_metadata": 61,
     "total_targets": 61,
     "T_genes_repetidos": {
       "CHUK": 6,
       "BUD23": 3,
-      "L1CAM": 2,
-      "NGFR": 2,
-      "TOLLIP": 2,
       "TP53": 2,
+      "NGFR": 2,
+      "ATAC1": 2,
+      "L1CAM": 2,
       "CFTR": 2,
-      "ATAC1": 2
+      "TOLLIP": 2,
+      "LINC00857": 2
     },
     "O": {
       "experimentos": 8
