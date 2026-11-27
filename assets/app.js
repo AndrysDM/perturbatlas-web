@@ -180,6 +180,7 @@ const ES = {
   'Measured target effect': 'Efecto medido en la diana', 'Outcome': 'Resultado',
   'consistent': 'coherente', 'not consistent': 'no coherente',
   'Cascade · H > 0.5': 'Cascada · H > 0,5', 'Target event': 'Evento de la diana',
+  'Target event (observed LFC)': 'Evento de la diana (LFC observado)',
   'target deactivation': 'desactivación de la diana', 'target activation': 'activación de la diana',
   'N lower / upper': 'N inferior / superior',
   'Cascade (possible)': 'Cascada (posibles)', 'Cascade (observed)': 'Cascada (observados)',
@@ -568,15 +569,22 @@ function cascadeSection(item) {
     : (Number(value) * 100).toLocaleString(locale(), { maximumFractionDigits: 2 }) + '%';
   const pval = value => (value === null || value === undefined) ? '—'
     : Number(value).toLocaleString(locale(), { maximumSignificantDigits: 3 });
+  const eventNote = (item.state === 'sin_cambio' && item.observed_state &&
+                     item.observed_state !== 'sin_cambio')
+    ? (state.lang === 'es'
+       ? '<p class="note">El evento de cascada usa el signo del LFC observado; el estado del modelo es sin cambio.</p>'
+       : '<p class="note">The cascade event uses the observed LFC sign; the model state is no change.</p>')
+    : '';
   return `<div class="subhead">Cascade · H &gt; 0.5</div>
     <div class="detail-grid">
-      ${detailItem('Target event', esc(event))}
+      ${detailItem('Target event (observed LFC)', esc(event))}
       ${detailItem('N lower / upper', `${fmt(reach.n_lower, 0)} / ${fmt(reach.n_upper, 0)}`)}
       ${detailItem('Cascade (possible)', fmt(reach.cascade_possible, 0))}
       ${detailItem('Cascade (observed)', fmt(reach.cascade_observed, 0))}
       ${detailItem('Cascade (activated)', fmt(reach.cascade_activated, 0))}
       ${detailItem('Cascade (deactivated)', fmt(reach.cascade_deactivated, 0))}
     </div>
+    ${eventNote}
     <div class="table-wrap" style="box-shadow:none;border:0;margin-top:10px">
       <table>
         <thead><tr><th>Test</th><th class="num">n (R)</th><th class="num">Events in R</th><th class="num">Rate in R</th><th class="num">Rate outside</th><th class="num">p</th></tr></thead>
@@ -678,6 +686,19 @@ function openDetail(item) {
       : `<p class="note"><strong>Target sign discordant.</strong> The target LFC goes against the perturbation condition; no inversion was applied. Check the perturbation or the paper.</p>`;
   }
 
+  let stateNote = '';
+  if (item.state_note) {
+    if (state.lang === 'es') {
+      const p = item.probability === null ? 'NA' : fmt(item.probability, 3);
+      const lfc = fmt(item.observed_lfc, 4);
+      stateNote = item.state === 'sin_cambio'
+        ? `<p class="note">Estado del modelo: sin cambio (P=${p}). LFC observado: ${lfc}; el signo se muestra como referencia y no se usa como estado.</p>`
+        : `<p class="note">El estado del modelo y el signo del LFC no coinciden (modelo ${esc(item.state)}, LFC observado ${lfc}).</p>`;
+    } else {
+      stateNote = `<p class="note">${esc(item.state_note)}</p>`;
+    }
+  }
+
   let nt = '';
   if (item.nt_candidates && item.nt_candidates.length) {
     nt = `<div class="subhead">Candidate transitions</div>
@@ -724,7 +745,7 @@ function openDetail(item) {
     : '';
   const cascade = cascadeSection(item);
   const experimentSummary = renderExperimentSummary(item);
-  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${signNote}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
+  document.getElementById('detail-body').innerHTML = `${meta}<div class="subhead">Analysis</div>${analysis}${stateNote}${signNote}${targetGenes}${nt}${counts}${cascade}${experimentSummary}${paper}`;
   translateDom(dialog);
   dialog.showModal();
 }

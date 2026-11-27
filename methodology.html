@@ -68,7 +68,7 @@
 
     <section class="section card">
       <h2>3. Threshold and target state</h2>
-      <p>If the transition probability is below <strong>0.6</strong>, or the log2fold is zero, the <strong>model</strong> state is <span class="badge sin_cambio">no change</span>. The <strong>observed</strong> target state (activated/deactivated) is taken from the log2FC sign (after a documented inversion, if one applies): positive = activated, negative = deactivated. The probability is read from the <span class="mono">q0→q1</span> curve (or <span class="mono">q0→q−</span> for N) evaluated at |L|, which is equivalent by symmetry.</p>
+      <p>If the transition probability is below <strong>0.6</strong>, or the log2fold is zero, the <strong>model</strong> state is <span class="badge sin_cambio">no change</span>. The displayed <strong>state</strong> is the model state: <span class="badge sin_cambio">no change</span> when the probability is below 0.6 or the LFC is zero; otherwise activated/deactivated according to the gene type. The observed LFC sign is shown separately for reference and does not override the model state. The probability is read from the <span class="mono">q0→q1</span> curve (or <span class="mono">q0→q−</span> for N) evaluated at |L|, which is equivalent by symmetry.</p>
       <p class="note">The probability comes from the transition model built from pairs of TCGA tumour/normal samples.</p>
     </section>
 
@@ -146,6 +146,9 @@
       (observed)</strong> = confirmatory events in <span class="mono">R</span>;
       <strong>cascade (activated)</strong> and <strong>cascade (deactivated)</strong> =
       events of each type in <span class="mono">R</span>.</p>
+      <p class="note">The cascade event uses the observed LFC sign; the model state
+      (P≥0.6) can be no change even when the LFC sign is non-zero. The experiment
+      card shows both.</p>
       <p class="note">A sign inversion is applied only when the source paper documents an inverted
       contrast. Targets whose LFC goes against the condition but lack that evidence
       are flagged as <strong>discordant</strong> and are <strong>not</strong> inverted.
@@ -201,7 +204,7 @@
 
     <section class="section card">
       <h2>3. Umbral y estado de la diana</h2>
-      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado del <strong>modelo</strong> es <span class="badge sin_cambio">sin cambio</span>. El <strong>estado observado</strong> de la diana (activado/desactivado) se toma del signo del log2FC (tras una inversión documentada, si corresponde): positivo = activado, negativo = desactivado. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
+      <p>Si la probabilidad de la transición es menor que <strong>0.6</strong>, o el log2fold es cero, el estado del <strong>modelo</strong> es <span class="badge sin_cambio">sin cambio</span>. El <strong>estado</strong> que se muestra es el del modelo: <span class="badge sin_cambio">sin cambio</span> si la probabilidad es menor que 0,6 o el LFC es cero; en caso contrario, activado/desactivado según el tipo del gen. El signo del LFC observado se muestra aparte como referencia y no sustituye al estado del modelo. La probabilidad se lee de la curva <span class="mono">q0→q1</span> (o <span class="mono">q0→q−</span> en N) evaluada en |L|, equivalente por simetría.</p>
       <p class="note">La probabilidad se consulta en el modelo de transición construido a partir de los pares de muestras tumorales/normales de TCGA.</p>
     </section>
 
@@ -231,7 +234,7 @@
 
     <section class="section card">
       <h2>7. Cascada: alcanzabilidad y tests</h2>
-      <p>La hipótesis de cascada se contrasta con los conjuntos alcanzables <span class="mono">R<sub>&lt;</sub></span> y <span class="mono">R<sub>&gt;</sub></span>: genes T con frecuencia menor o mayor que la diana y <span class="mono">H<sub>ij</sub> &gt; 0,5</span> en la dirección predicha (reversa para desactivación, directa para activación). El estado de la diana se toma del signo del log2FC del experimento; solo se invierte cuando el paper documenta que el contraste está invertido. Si el LFC va en contra de la condición sin esa evidencia, se marca como discordante y no se invierte.</p>
+      <p>La hipótesis de cascada se contrasta con los conjuntos alcanzables <span class="mono">R<sub>&lt;</sub></span> y <span class="mono">R<sub>&gt;</sub></span>: genes T con frecuencia menor o mayor que la diana y <span class="mono">H<sub>ij</sub> &gt; 0,5</span> en la dirección predicha (reversa para desactivación, directa para activación). El evento de cascada usa el signo del LFC observado (tras una inversión documentada, si corresponde); el estado del modelo (P≥0,6) puede ser sin cambio aunque el LFC tenga signo. La ficha muestra ambos. Si el LFC va en contra de la condición sin evidencia documental, se marca como discordante y no se invierte.</p>
       <p>Si la diana se desactiva, el test confirmatorio compara las desactivaciones observadas <span class="mono">D<sub>&lt;</sub></span> dentro y fuera de <span class="mono">R<sub>&lt;</sub></span> (Fisher unilateral); el test de especificidad compara las activaciones <span class="mono">A<sub>&lt;</sub></span> (Fisher bilateral). Si la diana se activa, se usan <span class="mono">A<sub>&gt;</sub></span> y <span class="mono">D<sub>&gt;</sub></span> sobre <span class="mono">R<sub>&gt;</sub></span>. Se reportan las tasas regionales <span class="mono">τD<sub>&lt;</sub></span>, <span class="mono">τA<sub>&lt;</sub></span>, <span class="mono">τD<sub>&gt;</sub></span>, <span class="mono">τA<sub>&gt;</sub></span> y la sensibilidad con <span class="mono">H = 0,3 / 0,5 / 0,7</span>.</p>
       <p>Las categorías de la ficha son: <strong>cascada (posibles)</strong> = tamaño de <span class="mono">R</span> en la dirección predicha; <strong>cascada (observados)</strong> = eventos confirmatorios en <span class="mono">R</span>; <strong>cascada (activados)</strong> y <strong>cascada (desactivados)</strong> = eventos de cada tipo en <span class="mono">R</span>.</p>
       <p class="note">La inversión de signo se aplica solo cuando el paper documenta un contraste invertido. Las dianas cuyo LFC va en dirección opuesta a la condición pero sin esa evidencia se marcan como <strong>discordantes</strong> y no se invierten; están en <span class="mono">sign_discordant.tsv</span>. Las inversiones documentadas están en <span class="mono">sign_inversions.tsv</span>; los alias y signos, en <span class="mono">gene_aliases.tsv</span> y <span class="mono">target_overrides.tsv</span>.</p>

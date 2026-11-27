@@ -18,11 +18,11 @@
     "Sin": 5
   },
   "states": {
-    "desactivado": 98,
-    "activado": 42,
+    "activado": 17,
+    "desactivado": 38,
+    "sin_cambio": 82,
     "sin_analisis": 323,
-    "ausente": 161,
-    "sin_cambio": 1
+    "ausente": 165
   },
   "conditions": {
     "KD": 475,

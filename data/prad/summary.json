@@ -19,11 +19,12 @@
     "Multi": 5
   },
   "states": {
-    "activado": 15,
-    "desactivado": 29,
+    "activado": 11,
+    "sin_transicion_valida": 5,
     "sin_analisis": 113,
-    "ausente": 37,
-    "sin_cambio": 1
+    "desactivado": 7,
+    "sin_cambio": 22,
+    "ausente": 37
   },
   "conditions": {
     "OE": 24,

@@ -17,10 +17,11 @@
     "Sin": 3
   },
   "states": {
-    "activado": 9,
-    "desactivado": 22,
-    "ausente": 17,
-    "sin_analisis": 13
+    "sin_cambio": 14,
+    "ausente": 25,
+    "sin_analisis": 13,
+    "desactivado": 5,
+    "activado": 4
   },
   "conditions": {
     "KD": 47,
