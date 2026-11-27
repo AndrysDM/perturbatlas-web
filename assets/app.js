@@ -96,8 +96,8 @@ const ES = {
   'Experiments with a single T, N or NT target; the rest are multi-target or not analysed.':
     'Experimentos con una única diana T, N o NT; el resto son multi-diana o sin análisis.',
   'Target states': 'Estados de la diana',
-  'Observed target state (sign of the log2FC).':
-    'Estado observado de la diana (signo del log2FC).',
+  'Target state from the model (P ≥ 0.6); the observed LFC is shown separately.':
+    'Estado de la diana según el modelo (P ≥ 0,6); el LFC observado se muestra aparte.',
   'Raw log2FC': 'log2FC bruto',
   'Explore': 'Explorar',
   'Full table with search, filters, transition probability, target state and associated publication.':
